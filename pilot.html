@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilot Plan — Pestria</title>
+    <link rel="icon" type="image/png" href="PESTREN.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#0a0d0c',
+                        'ink-2': '#0f1413',
+                        paper: '#f5f3ec',
+                        bone: '#b8b3a0',
+                        'green-bright': '#7eb648',
+                    },
+                    fontFamily: {
+                        display: ['Fraunces', 'serif'],
+                        body: ['Geist', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-ink text-paper font-body antialiased; }
+        }
+    </style>
+</head>
+<body class="p-6 md:p-24 max-w-4xl mx-auto">
+    <nav class="mb-16">
+        <a href="index.html" class="font-mono text-[11px] uppercase tracking-widest text-green-bright">← Back to Thesis</a>
+    </nav>
+    <h1 class="font-display text-4xl md:text-7xl mb-12 tracking-tight">The Pilot <em class="italic text-green-bright not-italic">Plan.</em></h1>
+    <div class="space-y-12">
+        <section>
+            <h2 class="font-mono text-xs uppercase tracking-widest text-green-bright mb-4">Phase 01: Eastern India</h2>
+            <p class="text-xl text-bone leading-relaxed font-light">
+                Starting with 12 districts across Odisha, West Bengal, and Bihar. 
+                Focusing on paddy and maize systems where pest pressure is highest.
+            </p>
+        </section>
+        <section>
+            <h2 class="font-mono text-xs uppercase tracking-widest text-green-bright mb-4">Execution Model</h2>
+            <ul class="space-y-4 text-paper">
+                <li class="border-t border-white/10 pt-4 flex gap-4">
+                    <span class="font-mono text-green-bright">01</span>
+                    <span>Direct FPO onboarding for ground-truth data collection.</span>
+                </li>
+                <li class="border-t border-white/10 pt-4 flex gap-4">
+                    <span class="font-mono text-green-bright">02</span>
+                    <span>Localized model training using 10 years of historical surveillance.</span>
+                </li>
+                <li class="border-t border-white/10 pt-4 flex gap-4">
+                    <span class="font-mono text-green-bright">03</span>
+                    <span>WhatsApp-based advisory for individual farmers.</span>
+                </li>
+            </ul>
+        </section>
+    </div>
+    <footer class="mt-24 pt-12 border-t border-white/10">
+        <p class="font-mono text-[11px] text-bone-dim uppercase tracking-widest">© 2026 Pestria, Inc.</p>
+    </footer>
+</body>
+</html>
