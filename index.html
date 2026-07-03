@@ -3,1149 +3,1264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pestren — Predictive modelling. Integrated pest management. Every spray, a decision.</title>
+<title>Pestren — The agricultural intelligence layer for AI</title>
 <link rel="icon" type="image/png" href="PESTREN.png">
-<meta name="description" content="Pestren is a localized AI system for the full pest lifecycle — pre-outbreak prediction, integrated management during, post-outbreak restoration. Built for India first. Pesticides used when needed, only as much as needed.">
+<meta name="description" content="Plug Pestren into any LLM and build farm intelligence for any crop, anywhere — grounded, cited answers about soil, water, pests, yield, and the exact next action. API, skills, MCP, plus a benchmarking playground.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0a0d0c;
-    --ink-2: #0f1413;
-    --ink-3: #161b1a;
-    --paper: #f5f3ec;
-    --paper-2: #ebe7da;
-    --bone: #b8b3a0;
-    --bone-dim: #7a7565;
-    --green: #5a8a3a;
-    --green-bright: #7eb648;
-    --green-deep: #2d4a1e;
-    --green-tint: rgba(126, 182, 72, 0.08);
-    --red: #b8473a;
-    --rule: rgba(245, 243, 236, 0.10);
-    --rule-strong: rgba(245, 243, 236, 0.2);
-    --display: 'Fraunces', Georgia, serif;
-    --body: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+    --lime:#DEF24B; --lime-pale:#F3F7CB; --lime-soft:#EAF29A;
+    --peri:#93A8F4; --peri-2:#8299f0; --peri-light:#C9D2FB; --peri-pale:#E6EAFD;
+    --forest:#173F2E; --forest-2:#20563c; --forest-line:rgba(255,255,255,0.12);
+    --ink:#161616; --ink-soft:#54544c; --ink-mute:#8a8a80;
+    --page:#EFF0E9; --white:#ffffff; --cream:#F6F6F0;
+    --amber:#F2A94B; --pink:#FF6FA9;
+    --line:rgba(22,22,22,0.10); --line-2:rgba(22,22,22,0.06);
+    --display:'Fredoka', system-ui, sans-serif;
+    --body:'Poppins', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+    --shadow: 0 18px 44px rgba(22,22,22,0.09);
+    --shadow-sm: 0 8px 22px rgba(22,22,22,0.08);
+    --r-xl:40px; --r-lg:30px; --r:24px; --r-sm:16px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
   body {
-    background: var(--ink);
-    color: var(--paper);
-    font-family: var(--body);
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
+    font-family:var(--body); color:var(--ink); background:var(--page);
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip;
   }
-  ::selection { background: var(--green-bright); color: var(--ink); }
+  ::selection { background:var(--lime); color:var(--ink); }
+  a { color:inherit; text-decoration:none; }
+  h1,h2,h3,h4 { font-family:var(--display); font-weight:600; letter-spacing:-0.01em; line-height:1.05; }
 
-  .grain {
-    position: fixed; inset: 0; pointer-events: none; z-index: 100;
-    opacity: 0.035; mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+  .shell {
+    max-width:1300px; margin:16px auto; background:var(--white);
+    border-radius:var(--r-xl); box-shadow:0 30px 80px rgba(22,22,22,0.08);
+    overflow:clip;
   }
+  .pad { padding:0 44px; }
+  @media (max-width:640px){ .shell{ margin:8px; border-radius:28px; } .pad{ padding:0 18px; } }
 
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    padding: 24px 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: linear-gradient(to bottom, rgba(10,13,12,0.96), rgba(10,13,12,0.7));
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--rule);
+  .mono { font-family:var(--mono); }
+  /* mixed-weight chip label */
+  .chip {
+    display:inline-flex; align-items:center; gap:5px; background:var(--white);
+    border-radius:999px; padding:7px 13px; font-size:12.5px; box-shadow:var(--shadow-sm);
+    border:1px solid var(--line-2); white-space:nowrap;
   }
-  .logo {
-    font-family: var(--display); font-weight: 500; font-size: 22px;
-    letter-spacing: -0.02em; color: var(--paper); text-decoration: none;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .logo-mark {
-    width: 10px; height: 10px; background: var(--green-bright);
-    border-radius: 50%; box-shadow: 0 0 12px var(--green-bright);
-    animation: pulse-mark 3s ease-in-out infinite;
-  }
-  @keyframes pulse-mark {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; box-shadow: 0 0 20px var(--green-bright); }
-  }
-  .nav-links {
-    display: flex; gap: 36px; align-items: center;
-    font-family: var(--mono); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  .nav-links a { color: var(--bone); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--green-bright); }
-  .nav-cta {
-    background: var(--green-bright); color: var(--ink) !important;
-    padding: 10px 20px; font-weight: 600; transition: all 0.2s;
-  }
-  .nav-cta:hover { background: var(--paper); transform: translateY(-1px); }
-  @media (max-width: 768px) {
-    nav { padding: 16px 20px; }
-    .nav-links a:not(.nav-cta) { display: none; }
-    .logo { font-size: 18px; }
-    .nav-cta { padding: 8px 14px; font-size: 10px; }
+  .chip .pre { color:var(--ink-mute); font-weight:400; }
+  .chip .noun { color:var(--ink); font-weight:600; }
+
+  /* highlight-pill */
+  .hp {
+    display:inline-block; border:2.5px solid var(--lime); background:var(--lime-pale);
+    border-radius:16px; padding:0 .2em; line-height:1.02;
   }
 
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 140px 8vw 100px;
-    position: relative; max-width: 1600px; margin: 0 auto;
-  }
-  @media (max-width: 768px) {
-    .hero { padding: 100px 24px 60px; }
-  }
-  .hero-eyebrow {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--green-bright);
-    margin-bottom: 48px; display: flex; align-items: center; gap: 14px;
-    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-  @media (max-width: 768px) {
-    .hero-eyebrow { margin-bottom: 24px; font-size: 10px; }
-  }
-  .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--green-bright); }
+  /* buttons */
+  .btn { display:inline-flex; align-items:center; gap:9px; cursor:pointer; border:none;
+    font-family:var(--body); font-weight:600; font-size:15px; border-radius:999px; padding:14px 24px;
+    transition:transform .18s, box-shadow .18s, background .18s; }
+  .btn-peri { background:linear-gradient(135deg,#aabcf8,#8299f0); color:#fff; }
+  .btn-peri:hover { transform:translateY(-2px); box-shadow:0 12px 26px rgba(130,153,240,0.4); }
+  .btn-white { background:var(--white); color:var(--ink); border:1.6px solid var(--line); }
+  .btn-white:hover { border-color:var(--ink); }
+  .btn-ink { background:var(--ink); color:#fff; }
+  .btn-ink:hover { transform:translateY(-2px); }
+  .tdot { width:7px; height:7px; border-radius:50%; background:currentColor; }
 
-  h1.hero-title {
-    font-family: var(--display); font-weight: 300;
-    font-size: clamp(42px, 8.5vw, 132px);
-    line-height: 0.94; letter-spacing: -0.04em;
-    color: var(--paper); margin-bottom: 56px; max-width: 1400px;
-    opacity: 0; animation: fadeUp 1s ease 0.4s forwards;
-  }
-  @media (max-width: 768px) {
-    h1.hero-title { margin-bottom: 32px; }
-  }
-  h1.hero-title em { font-style: italic; font-weight: 300; color: var(--green-bright); }
+  /* ===================== NAV ===================== */
+  .nav { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 26px; }
+  .logo { display:flex; align-items:center; gap:9px; font-family:var(--display); font-weight:700; font-size:24px; }
+  .logo-mark { width:24px; height:24px; border-radius:8px; background:var(--forest); display:grid; place-items:center; }
+  .logo-mark svg { width:14px; height:14px; }
+  .logo-img { width:44px; height:44px; border-radius:12px; object-fit:cover; display:block; box-shadow:0 4px 12px rgba(22,22,22,0.14); }
+  .nav-pills { display:flex; gap:4px; background:var(--page); border-radius:999px; padding:6px; }
+  .nav-pill { display:flex; align-items:center; gap:7px; padding:9px 15px; border-radius:999px;
+    font-weight:500; font-size:14px; color:var(--ink); transition:background .18s; }
+  .nav-pill svg { width:15px; height:15px; opacity:.75; }
+  .nav-pill:hover { background:#e6e7df; }
+  .nav-pill.active { background:var(--peri-light); box-shadow:0 0 0 3px rgba(147,168,244,0.28); }
+  .nav-right { display:flex; align-items:center; gap:10px; }
+  .nav-toggle { display:none; width:44px; height:44px; border:none; background:var(--page); border-radius:14px; cursor:pointer; }
+  .nav-toggle span { display:block; width:18px; height:2px; background:var(--ink); margin:3px auto; border-radius:2px; }
+  @media (max-width:1080px){ .nav-pills{ display:none; } .nav-toggle{ display:block; } }
+  @media (max-width:520px){ .nav-right .btn-peri{ display:none; } }
 
-  .hero-sub {
-    font-size: clamp(17px, 1.6vw, 22px);
-    line-height: 1.5; color: var(--bone);
-    margin-bottom: 56px; max-width: 720px; font-weight: 300;
-    opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards;
-  }
-  @media (max-width: 768px) {
-    .hero-sub { margin-bottom: 40px; }
-  }
+  .mobile-menu { position:fixed; inset:0; z-index:99; background:var(--white); padding:40px;
+    display:flex; flex-direction:column; justify-content:center; gap:6px;
+    transform:translateY(-102%); transition:transform .4s cubic-bezier(.7,0,.2,1); }
+  .mobile-menu.open { transform:translateY(0); }
+  .mobile-menu a { font-family:var(--display); font-weight:600; font-size:32px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .mobile-menu a:last-child { border:none; margin-top:16px; }
 
-  .cta-row {
-    display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
-    opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards;
-  }
-  @media (max-width: 480px) {
-    .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; }
-    .btn-primary { width: 100%; justify-content: center; }
-  }
+  /* ===================== HERO ===================== */
+  .hero { padding:20px 0 70px; }
+  .hero-head { max-width:820px; margin-bottom:34px; }
+  .hero h1 { font-size:clamp(38px,6vw,74px); font-weight:700; }
+  .hero-docs { font-family:var(--body); font-style:italic; font-weight:500; font-size:clamp(15px,1.6vw,20px);
+    color:var(--peri-2); white-space:nowrap; margin-left:10px; }
+  .hero-sub { margin-top:20px; font-size:clamp(16px,1.5vw,19px); color:var(--ink-soft); max-width:640px; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .bento { display:grid; grid-template-columns:1.15fr 0.95fr; gap:20px; }
+  @media (max-width:940px){ .bento{ grid-template-columns:1fr; } }
 
-  .btn-primary {
-    background: var(--green-bright); color: var(--ink); border: none;
-    padding: 20px 36px; font-family: var(--body); font-weight: 600;
-    font-size: 16px; cursor: pointer; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 10px;
-    transition: all 0.25s;
-  }
-  @media (max-width: 768px) {
-    .btn-primary { padding: 16px 28px; font-size: 15px; }
-  }
-  .btn-primary:hover {
-    background: var(--paper); transform: translateY(-2px);
-    box-shadow: 0 12px 36px rgba(126, 182, 72, 0.25);
-  }
-  .btn-secondary {
-    color: var(--paper); text-decoration: none;
-    font-family: var(--mono); font-size: 13px;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    border-bottom: 1px solid var(--rule-strong); padding-bottom: 6px;
-    transition: all 0.2s;
-  }
-  .btn-secondary:hover { color: var(--green-bright); border-color: var(--green-bright); }
+  /* big image card */
+  .big-card { position:relative; border-radius:var(--r-lg); overflow:hidden; min-height:460px;
+    background:linear-gradient(180deg,#cdd7f7 0%, #bcd39a 46%, #8bbf6a 100%); box-shadow:var(--shadow); }
+  .big-card .scene { position:absolute; inset:0; width:100%; height:100%; }
+  .big-overlay { position:absolute; top:22px; left:22px; right:22px; z-index:3;
+    background:rgba(255,255,255,0.78); backdrop-filter:blur(6px); border-radius:20px; padding:20px 22px; max-width:74%; }
+  .big-overlay h2 { font-size:clamp(24px,2.6vw,34px); font-weight:700; line-height:1.06; }
+  .big-chips { position:absolute; top:20px; right:20px; z-index:4; display:flex; flex-direction:column; gap:9px; align-items:flex-end; }
+  @media (max-width:520px){ .big-overlay{ max-width:88%; } .big-chips{ position:static; flex-direction:row; flex-wrap:wrap; padding:14px 16px 0; } }
 
-  .scroll-cue {
-    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-    font-family: var(--mono); font-size: 10px; color: var(--bone-dim);
-    text-transform: uppercase; letter-spacing: 0.2em;
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
-    opacity: 0; animation: fadeUp 0.8s ease 1.4s forwards;
-  }
-  @media (max-width: 768px) { .scroll-cue { display: none; } }
-  .scroll-cue::after {
-    content: ''; width: 1px; height: 40px;
-    background: linear-gradient(to bottom, var(--green-bright), transparent);
-  }
+  /* stat card overlapping */
+  .stat-card { position:absolute; left:20px; bottom:20px; z-index:5; width:290px; max-width:calc(100% - 40px);
+    background:var(--white); border-radius:22px; padding:20px; box-shadow:0 16px 40px rgba(22,22,22,0.18); }
+  .stat-num { font-family:var(--display); font-weight:700; font-size:52px; line-height:1; color:var(--ink); }
+  .stat-num .u { font-size:24px; color:var(--ink-mute); font-weight:600; }
+  .stat-label { font-weight:600; font-size:15px; margin:4px 0 14px; }
+  .bar { height:12px; border-radius:999px; background:#ECEDE4; position:relative; overflow:hidden; }
+  .bar-fill { position:absolute; inset:0 28% 0 0; border-radius:999px; background:linear-gradient(90deg,var(--lime),var(--amber)); }
+  .bar-fill::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(90deg, rgba(255,255,255,0.6) 0 2px, transparent 2px 9px); }
+  .stat-cap { font-size:12px; color:var(--ink-mute); margin-top:12px; line-height:1.4; }
+  .stat-ctrls { display:flex; align-items:center; gap:8px; margin-top:14px; }
+  .plus { width:34px; height:34px; border-radius:50%; border:none; background:var(--page); font-size:20px; color:var(--ink); cursor:pointer; line-height:1; }
+  .toggle { margin-left:auto; background:var(--forest); border-radius:999px; padding:7px 10px; display:flex; gap:8px; align-items:center; }
+  .toggle svg { width:13px; height:13px; stroke:var(--lime); }
 
-  section.content {
-    padding: 140px 8vw; max-width: 1600px; margin: 0 auto; position: relative;
-  }
-  @media (max-width: 768px) { section.content { padding: 80px 24px; } }
+  /* right app panel */
+  .app-panel { background:var(--lime); border-radius:var(--r-lg); padding:22px; box-shadow:var(--shadow); }
+  .app-card { background:var(--white); border-radius:22px; padding:22px; height:100%; display:flex; flex-direction:column; }
+  .app-head { font-family:var(--display); font-weight:700; font-size:22px; }
+  .car-ticks { display:flex; align-items:center; gap:6px; margin:16px 0 20px; }
+  .car-ticks i { height:4px; width:26px; border-radius:2px; background:#e2e3da; display:block; }
+  .car-ticks i.on { background:var(--ink); width:34px; }
+  .car-play { margin-left:6px; width:30px; height:30px; border-radius:50%; background:var(--forest); display:grid; place-items:center; }
+  .car-play svg { width:11px; height:11px; fill:var(--lime); }
+  .app-pair { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:auto; }
+  @media (max-width:400px){ .app-pair{ grid-template-columns:1fr; } }
+  .mini { border-radius:20px; padding:18px; min-height:170px; display:flex; flex-direction:column; }
+  .mini.peri { background:var(--peri); color:#12224e; }
+  .mini.forest { background:var(--forest); color:#fff; }
+  .mini-top { font-family:var(--display); font-weight:600; font-size:17px; line-height:1.1; }
+  .mini-bot { margin-top:auto; font-size:12.5px; font-weight:500; opacity:.9; }
+  .mini-pill { align-self:flex-start; margin-top:12px; background:rgba(255,255,255,0.85); color:var(--ink);
+    border-radius:999px; padding:5px 12px; font-size:12px; font-weight:600; }
+  .mini-pill.lime { background:var(--lime); }
 
-  .section-num {
-    font-family: var(--mono); font-size: 12px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.2em;
-    margin-bottom: 32px; display: flex; align-items: center; gap: 14px;
-  }
-  .section-num::after { content: ''; flex: 1; height: 1px; background: var(--rule); max-width: 120px; }
+  .hero-cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:26px; }
 
-  h2.section-title {
-    font-family: var(--display); font-weight: 300;
-    font-size: clamp(36px, 5.5vw, 88px); line-height: 1.02; letter-spacing: -0.03em;
-    color: var(--paper); margin-bottom: 32px; max-width: 1200px;
-  }
-  h2.section-title em { font-style: italic; color: var(--green-bright); font-weight: 300; }
+  /* ===================== SECTION SCAFFOLD ===================== */
+  .sec { padding:64px 0; }
+  @media (max-width:640px){ .sec{ padding:48px 0; } }
+  .sec-eyebrow { font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--forest); display:inline-flex; align-items:center; gap:8px; margin-bottom:16px; }
+  .sec-eyebrow::before { content:''; width:20px; height:2px; background:var(--lime); border-radius:2px; }
+  .sec-title { font-size:clamp(28px,4vw,48px); font-weight:700; max-width:900px; }
+  .sec-lead { margin-top:16px; font-size:clamp(15px,1.4vw,18px); color:var(--ink-soft); max-width:620px; }
+  .sec-head { margin-bottom:38px; }
 
-  .lead-text {
-    font-size: clamp(18px, 1.8vw, 24px); color: var(--bone);
-    max-width: 900px; line-height: 1.5; font-weight: 300;
-  }
+  /* ===================== WITHOUT / WITH ===================== */
+  .proof-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:860px){ .proof-grid{ grid-template-columns:1fr; } }
+  .proof { border-radius:var(--r-lg); padding:30px; }
+  .proof.without { background:var(--white); border:1.5px solid var(--line); }
+  .proof.with { background:var(--forest); color:#fff; }
+  .proof-tag { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px;
+    text-transform:uppercase; letter-spacing:0.12em; padding:6px 12px; border-radius:999px; margin-bottom:18px; }
+  .proof.without .proof-tag { background:var(--page); color:var(--ink-soft); }
+  .proof.with .proof-tag { background:rgba(222,242,75,0.16); color:var(--lime); }
+  .proof-top { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .live { font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--pink);
+    display:inline-flex; align-items:center; gap:7px; }
+  .live .dot { width:8px; height:8px; border-radius:50%; background:var(--pink); box-shadow:0 0 0 0 rgba(255,111,169,.5); animation:pulse 1.8s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,111,169,.5);} 70%{box-shadow:0 0 0 8px rgba(255,111,169,0);} 100%{box-shadow:0 0 0 0 rgba(255,111,169,0);} }
+  .ask, .call { font-family:var(--mono); font-size:12.5px; line-height:1.5; border-radius:14px; padding:13px 15px; margin-bottom:16px; }
+  .ask { background:var(--page); color:var(--ink-soft); }
+  .ask .who { color:var(--ink); font-weight:600; }
+  .call { background:rgba(255,255,255,0.06); border:1px solid var(--forest-line); }
+  .call .fn { color:#d9b6ea; } .call .str { color:var(--lime); }
+  .ans-generic { color:var(--ink-soft); font-size:15px; line-height:1.6; border-left:3px solid var(--line); padding-left:15px; }
+  .ans-generic .fu { display:block; margin-top:10px; color:var(--ink-mute); font-style:italic; }
+  .ans-grounded { font-size:15px; line-height:1.6; margin-bottom:18px; }
+  .ans-grounded b { color:var(--lime); }
+  /* structured receipts card — stays mono + crisp */
+  .receipts { background:var(--white); color:var(--ink); border-radius:16px; padding:16px 18px; font-family:var(--mono); font-size:12.5px; line-height:1.9; }
+  .receipts .k { color:var(--ink-mute); } .receipts .n { color:var(--forest); font-weight:600; } .receipts a { color:var(--forest); border-bottom:1px solid var(--line); }
+  .cap-chip { display:inline-block; margin-top:16px; font-family:var(--mono); font-size:11px; padding:6px 12px; border-radius:999px; }
+  .proof.without .cap-chip { background:var(--page); color:var(--ink-mute); }
+  .proof.with .cap-chip { background:rgba(222,242,75,0.16); color:var(--lime); }
 
-  /* TRAP */
-  .trap-section { background: var(--ink-2); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  .manifesto-prose { max-width: 800px; margin-top: 60px; }
-  @media (max-width: 768px) { .manifesto-prose { margin-top: 40px; } }
-  .manifesto-prose p {
-    font-family: var(--display); font-weight: 300;
-    font-size: clamp(20px, 2vw, 30px); line-height: 1.4;
-    color: var(--paper); margin-bottom: 32px; letter-spacing: -0.01em;
-  }
-  .manifesto-prose p.muted { color: var(--bone); }
-  .manifesto-prose p.emphasis { color: var(--green-bright); font-style: italic; }
-  .manifesto-prose strong { color: var(--paper); font-weight: 400; }
+  /* ===================== SECTORS BENTO ===================== */
+  .bento-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  @media (max-width:960px){ .bento-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .bento-grid{ grid-template-columns:1fr; } }
+  .scard { border-radius:var(--r); padding:24px; display:flex; flex-direction:column; min-height:300px; transition:transform .25s, box-shadow .25s; }
+  .scard:hover { transform:translateY(-6px); box-shadow:var(--shadow); }
+  .scard.lime { background:var(--lime); } .scard.peri { background:var(--peri); }
+  .scard.forest { background:var(--forest); color:#fff; } .scard.white { background:var(--white); border:1.5px solid var(--line); }
+  .scard-top { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; }
+  .aq-label { font-family:var(--mono); font-size:11px; }
+  .aq-label .pre { opacity:.6; font-weight:400; } .aq-label .noun { font-weight:600; }
+  .loc { font-family:var(--mono); font-size:10.5px; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,0.6); white-space:nowrap; }
+  .scard.white .loc, .scard.lime .loc { background:rgba(22,22,22,0.06); }
+  .scard.forest .loc, .scard.peri .loc { background:rgba(255,255,255,0.18); }
+  .aq-q { font-family:var(--mono); font-size:12.5px; line-height:1.5; background:rgba(255,255,255,0.55); border-radius:12px; padding:12px 13px; margin-bottom:16px; }
+  .scard.forest .aq-q, .scard.peri .aq-q { background:rgba(255,255,255,0.14); }
+  .scard.white .aq-q, .scard.lime .aq-q { background:rgba(22,22,22,0.05); }
+  .scard h3 { font-size:21px; font-weight:600; margin-bottom:8px; }
+  .scard p { font-size:14px; line-height:1.5; opacity:.9; margin-bottom:16px; }
+  .tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:auto; }
+  .tags span { font-family:var(--mono); font-size:11px; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,0.65); }
+  .scard.white .tags span, .scard.lime .tags span { background:rgba(22,22,22,0.06); }
+  .scard.forest .tags span, .scard.peri .tags span { background:rgba(255,255,255,0.18); }
 
-  .trap-loop {
-    margin-top: 80px; padding: 48px;
-    border: 1px solid var(--red); background: rgba(184, 71, 58, 0.04);
-  }
-  @media (max-width: 768px) {
-    .trap-loop { margin-top: 40px; padding: 32px 24px; }
-  }
-  .trap-loop-label {
-    font-family: var(--mono); font-size: 11px; color: var(--red);
-    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;
-  }
-  .trap-loop-text {
-    font-family: var(--display); font-weight: 300; font-style: italic;
-    font-size: clamp(20px, 2.4vw, 36px); line-height: 1.3;
-    color: var(--paper); letter-spacing: -0.01em;
-  }
-  .trap-loop-text .arrow { color: var(--red); margin: 0 8px; }
-
-  /* SHIFT */
-  .shift-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 80px;
-  }
-  @media (max-width: 968px) { .shift-grid { grid-template-columns: 1fr; gap: 40px; margin-top: 60px; } }
-  .shift-card { border-top: 2px solid var(--green-bright); padding-top: 32px; }
-  .shift-card-label {
-    font-family: var(--mono); font-size: 11px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px;
-  }
-  .shift-card h3 {
-    font-family: var(--display); font-weight: 400;
-    font-size: clamp(26px, 2.4vw, 36px); color: var(--paper);
-    margin-bottom: 16px; letter-spacing: -0.02em; line-height: 1.15;
-  }
-  .shift-card h3 em { font-style: italic; color: var(--green-bright); font-weight: 300; }
-  .shift-card p { color: var(--bone); font-size: 16px; line-height: 1.65; }
-
-  /* PRECEDENT */
-  .precedent-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 60px;
-  }
-  @media (max-width: 968px) {
-    .precedent-grid { grid-template-columns: 1fr; gap: 20px; }
-  }
-  .precedent-card {
-    background: var(--ink); border: 1px solid var(--rule); padding: 40px; position: relative;
-  }
-  @media (max-width: 768px) {
-    .precedent-card { padding: 32px 24px; }
-  }
-  .precedent-card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--green-bright);
-  }
-  .precedent-card-label {
-    font-family: var(--mono); font-size: 11px; color: var(--green-bright); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px;
-  }
-  .precedent-card h3 {
-    font-family: var(--display); font-weight: 400; font-size: clamp(24px, 2.2vw, 32px); color: var(--paper); margin-bottom: 6px; letter-spacing: -0.02em;
-  }
-  .precedent-card-sub {
-    font-family: var(--mono); font-size: 10px; color: var(--bone-dim); margin-bottom: 20px; letter-spacing: 0.05em;
-  }
-  .precedent-card p {
-    color: var(--bone); font-size: 14px; line-height: 1.65; margin-bottom: 16px;
-  }
-  .precedent-card-gap {
-    font-family: var(--mono); font-size: 10px; color: var(--bone-dim); text-transform: uppercase; letter-spacing: 0.1em; padding-top: 20px; border-top: 1px solid var(--rule);
-  }
-  .precedent-card-gap span {
-    color: var(--green-bright); font-weight: 500;
+  /* ===================== INTEGRATE ===================== */
+  /* scroll-pinned: section is tall, inner content sticks and each of the 4
+     endpoints activates one-after-another as you scroll through it */
+  .sec-int { padding:0; }
+  .int-scroll { position:relative; height:280vh; }
+  .int-sticky { position:sticky; top:0; min-height:100vh; display:flex; flex-direction:column;
+    justify-content:center; padding:72px 0; }
+  @media (max-width:920px){
+    .sec-int { padding:48px 0; }
+    .int-scroll { height:auto; }
+    .int-sticky { position:static; min-height:0; padding:0; display:block; }
   }
 
-  /* LIFECYCLE - paper section */
-  .lifecycle-section { background: var(--paper); color: var(--ink); }
-  .lifecycle-section .section-num { color: var(--green-deep); }
-  .lifecycle-section .section-num::after { background: rgba(10,13,12,0.15); }
-  .lifecycle-section h2.section-title { color: var(--ink); }
-  .lifecycle-section h2.section-title em { color: var(--green-deep); }
-  .lifecycle-section .lead-text { color: #4a4a3e; }
+  .int-layout { display:grid; grid-template-columns:330px 1fr; gap:20px; align-items:start; }
+  @media (max-width:920px){ .int-layout{ grid-template-columns:1fr; } }
+  .int-sel { display:flex; flex-direction:column; gap:10px; position:relative; padding-left:16px; }
+  .int-rail { position:absolute; left:0; top:0; width:3px; border-radius:3px; background:var(--forest);
+    height:38px; transform:translateY(0); opacity:0;
+    transition:transform .55s cubic-bezier(.5,0,.15,1), height .3s ease, opacity .3s; }
+  .int-rail.on { opacity:1; }
+  @media (max-width:920px){ .int-sel{ flex-direction:row; overflow-x:auto; scrollbar-width:none; padding-left:0; } .int-sel::-webkit-scrollbar{display:none;} .int-rail{display:none;} }
+  .int-opt { display:flex; gap:12px; align-items:center; text-align:left; cursor:pointer; font-family:var(--body);
+    background:var(--white); border:1.6px solid var(--line); border-radius:var(--r-sm); padding:16px; transition:all .2s; flex-shrink:0; color:var(--ink); }
+  .int-opt:hover { border-color:var(--forest); }
+  .int-opt.active { background:var(--lime); border-color:var(--lime); }
+  .int-ic { width:38px; height:38px; border-radius:12px; background:var(--page); display:grid; place-items:center; flex-shrink:0; }
+  .int-opt.active .int-ic { background:rgba(22,22,22,0.1); }
+  .int-ic svg { width:18px; height:18px; stroke:var(--forest); }
+  .int-opt .ot { font-weight:600; font-size:14.5px; }
+  .int-opt .oe { font-family:var(--mono); font-size:12px; color:var(--forest); margin-top:2px; }
+  @media (max-width:920px){ .int-opt{ min-width:250px; } }
 
-  .lifecycle-diagram {
-    margin: 60px 0 80px; padding: 56px 40px;
-    background: var(--paper-2); border: 1px solid rgba(10,13,12,0.12);
-    overflow-x: auto;
-  }
-  @media (max-width: 768px) {
-    .lifecycle-diagram { margin: 40px 0; padding: 32px 12px; }
-  }
-  .lifecycle-diagram svg { min-width: 800px; width: 100%; height: auto; }
+  .int-detail { background:var(--white); border:1.5px solid var(--line); border-radius:var(--r-lg); overflow:hidden; }
+  .int-detail.swap { animation:intSwap .5s cubic-bezier(.2,.7,.2,1); }
+  @keyframes intSwap { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+  .int-opt { transition:all .25s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
+  .int-opt.active { transform:translateX(4px); }
+  @media (max-width:920px){ .int-opt.active{ transform:none; } .int-detail.swap{ animation:none; } }
+  .int-dtop { padding:26px 28px 20px; }
+  .mrow { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .mbadge { font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.08em; padding:5px 11px; border-radius:999px; }
+  .m-post { background:var(--lime); color:var(--forest); }
+  .m-mcp { background:var(--peri-light); color:#2b3d78; }
+  .m-chat { background:#ffd7e8; color:#a1265f; }
+  .endpoint { font-family:var(--mono); font-size:19px; font-weight:600; }
+  @media (max-width:480px){ .endpoint{ font-size:15px; } }
+  .int-summary { font-size:16px; font-weight:600; color:var(--ink); }
+  .int-body { padding:0 28px; color:var(--ink-soft); font-size:14.5px; line-height:1.6; max-width:580px; }
+  .rb { display:flex; gap:10px; flex-wrap:wrap; padding:20px 28px 22px; }
+  .rb-chip { font-family:var(--mono); font-size:11.5px; background:var(--page); border-radius:999px; padding:8px 13px; }
+  .rb-chip b { color:var(--forest); font-weight:600; }
+  /* forest code block */
+  .term { background:var(--forest); color:#e7ecdd; font-family:var(--mono); font-size:13px; line-height:1.7; }
+  .term-bar { display:flex; align-items:center; gap:12px; padding:12px 18px; border-bottom:1px solid var(--forest-line); }
+  .lights { display:flex; gap:6px; } .lights i { width:11px; height:11px; border-radius:50%; display:block; }
+  .lights .r{background:#ef6a5c;} .lights .y{background:#e6bd53;} .lights .g{background:var(--lime);}
+  .term-file { color:rgba(231,236,221,0.55); font-size:12px; }
+  .term-copy { margin-left:auto; background:none; border:1px solid var(--forest-line); color:rgba(231,236,221,0.7);
+    font-family:var(--mono); font-size:11px; padding:5px 11px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+  .term-copy:hover { color:#fff; }
+  .term-body { padding:20px 22px; overflow-x:auto; }
+  .term-body pre { margin:0; white-space:pre; }
+  .t-key{color:var(--peri-light);} .t-str{color:var(--lime);} .t-num{color:var(--amber);} .t-com{color:rgba(231,236,221,0.5);} .t-fn{color:#e3b6f0;}
 
-  .lifecycle-phases {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
-    background: rgba(10,13,12,0.15); border: 1px solid rgba(10,13,12,0.15);
-  }
-  @media (max-width: 968px) { .lifecycle-phases { grid-template-columns: 1fr; } }
-  .phase { background: var(--paper); padding: 48px 40px; }
-  @media (max-width: 768px) { .phase { padding: 36px 24px; } }
-  .phase-tag {
-    font-family: var(--mono); font-size: 11px; color: var(--green-deep);
-    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .phase-tag-dot { width: 8px; height: 8px; background: var(--green-deep); border-radius: 50%; }
-  .phase h3 {
-    font-family: var(--display); font-weight: 400;
-    font-size: clamp(28px, 2.6vw, 44px); color: var(--ink);
-    margin-bottom: 4px; letter-spacing: -0.025em;
-  }
-  .phase h3 em { font-style: italic; color: var(--green-deep); font-weight: 300; }
-  .phase-when {
-    font-family: var(--mono); font-size: 12px; color: #6a6a5e;
-    margin-bottom: 24px; letter-spacing: 0.05em;
-  }
-  .phase-desc { color: #4a4a3e; font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
-  .phase-capabilities { list-style: none; }
-  .phase-capabilities li {
-    padding: 10px 0; border-top: 1px solid rgba(10,13,12,0.1);
-    font-size: 14px; color: var(--ink);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .phase-capabilities li::before { content: '◆'; color: var(--green-deep); font-size: 8px; }
+  /* ===================== FAQ ===================== */
+  .faq { max-width:920px; }
+  .faq-item { border-radius:20px; margin-bottom:10px; padding:4px 22px; transition:background .2s; }
+  .faq-item:nth-child(odd) { background:var(--white); border:1.5px solid var(--line); }
+  .faq-item:nth-child(even) { background:var(--lime-pale); }
+  .faq-q { width:100%; background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:18px;
+    padding:22px 0; text-align:left; font-family:var(--display); font-weight:600; font-size:clamp(17px,2vw,21px); color:var(--ink); }
+  .faq-plus { margin-left:auto; flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--forest); position:relative; transition:transform .3s; }
+  .faq-plus::before, .faq-plus::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--lime); border-radius:2px; }
+  .faq-plus::before { width:14px; height:2px; } .faq-plus::after { width:2px; height:14px; transition:transform .3s; }
+  .faq-item.open .faq-plus { transform:rotate(90deg); } .faq-item.open .faq-plus::after { transform:translate(-50%,-50%) scaleY(0); }
+  .faq-a { max-height:0; overflow:hidden; transition:max-height .35s ease; }
+  .faq-a-in { padding:0 52px 24px 0; color:var(--ink-soft); font-size:15px; line-height:1.6; max-width:720px; }
+  .faq-a-in code { font-family:var(--mono); font-size:13px; background:rgba(22,22,22,0.06); padding:1px 6px; border-radius:5px; }
 
-  /* INDIA */
-  .india-section { background: var(--ink); border-top: 1px solid var(--rule); }
-  .india-layout {
-    display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px;
-    align-items: start; margin-top: 60px;
-  }
-  @media (max-width: 1100px) { .india-layout { grid-template-columns: 1fr; gap: 40px; } }
+  /* ===================== FOOTER ===================== */
+  .footer { background:var(--forest); color:#fff; padding:60px 44px 52px; margin:36px 0 0; }
+  @media (max-width:640px){ .footer{ padding:40px 24px 34px; } }
+  .footer-top { display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; align-items:flex-start; }
+  .footer h2 { font-size:clamp(28px,4vw,46px); font-weight:700; max-width:560px; }
+  .footer h2 .hp { border-color:var(--lime); background:rgba(222,242,75,0.14); color:var(--lime); }
+  .footer-contact { display:flex; flex-direction:column; gap:12px; align-items:flex-start; }
+  .footer-mail { font-family:var(--mono); font-size:15px; color:var(--lime); }
+  .footer-links { display:flex; gap:22px; flex-wrap:wrap; margin-top:40px; padding-top:26px; border-top:1px solid var(--forest-line); font-size:14px; }
+  .footer-links a { opacity:.8; } .footer-links a:hover { opacity:1; color:var(--lime); }
+  .footer-bottom { margin-top:22px; font-family:var(--mono); font-size:11px; opacity:.55; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 
-  .india-map-wrap {
-    background: var(--ink-2); border: 1px solid var(--rule);
-    padding: 40px; position: sticky; top: 100px;
-  }
-  @media (max-width: 1100px) { .india-map-wrap { position: relative; top: 0; } }
-  @media (max-width: 768px) { .india-map-wrap { padding: 24px 16px; } }
-  .india-map-header {
-    font-family: var(--mono); font-size: 11px; color: var(--bone);
-    text-transform: uppercase; letter-spacing: 0.15em;
-    margin-bottom: 24px; display: flex; justify-content: space-between;
-  }
-  .india-map-header span:last-child { color: var(--green-bright); }
+  .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.vis { opacity:1; transform:translateY(0); }
 
-  .state-list { display: flex; flex-direction: column; }
-  .state-row {
-    display: grid; grid-template-columns: 32px 1fr 1.4fr; gap: 16px;
-    padding: 18px 0; border-top: 1px solid var(--rule);
-    cursor: default; transition: background 0.2s; align-items: center;
-  }
-  @media (max-width: 600px) {
-    .state-row { grid-template-columns: 32px 1fr; gap: 8px; }
-    .state-issue { grid-column: 2; padding-top: 4px; }
-  }
-  .state-row:hover { background: var(--green-tint); }
-  .state-row:hover .state-name { color: var(--green-bright); }
-  .state-row:last-child { border-bottom: 1px solid var(--rule); }
-  .state-num { font-family: var(--mono); font-size: 11px; color: var(--bone-dim); letter-spacing: 0.05em; }
-  .state-name {
-    font-family: var(--display); font-size: clamp(18px, 2vw, 22px); color: var(--paper);
-    letter-spacing: -0.01em; transition: color 0.2s;
-  }
-  .state-issue { font-size: 13px; color: var(--bone); line-height: 1.45; }
+  .toast { position:fixed; bottom:26px; left:50%; transform:translate(-50%,20px); background:var(--forest); color:#fff;
+    font-family:var(--mono); font-size:12px; padding:12px 20px; border-radius:999px; z-index:300; opacity:0; pointer-events:none; transition:all .3s; }
+  .toast.show { opacity:1; transform:translate(-50%,0); }
 
-  .india-callout {
-    margin-top: 60px; padding: 40px 48px;
-    background: var(--green-tint); border-left: 3px solid var(--green-bright);
-  }
-  @media (max-width: 768px) { .india-callout { padding: 32px 24px; margin-top: 40px; } }
-  .india-callout-label {
-    font-family: var(--mono); font-size: 11px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 12px;
-  }
-  .india-callout-text {
-    font-family: var(--display); font-weight: 300;
-    font-size: clamp(20px, 2vw, 30px); line-height: 1.35;
-    color: var(--paper); letter-spacing: -0.01em;
-  }
-  .india-callout-text em { font-style: italic; color: var(--green-bright); }
+  /* ===================== HERO EXTRAS (global) ===================== */
+  .hero-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+  .model-panel { margin-top:16px; }
+  .model-head { font-family:var(--display); font-weight:700; font-size:20px; margin-bottom:12px; }
+  .model-chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .mchip { font-family:var(--mono); font-size:12px; font-weight:500; padding:7px 13px; border-radius:999px;
+    background:rgba(22,22,22,0.06); color:var(--ink); border:1px solid var(--line-2); }
+  .mchip.on { background:var(--forest); color:var(--lime); border-color:var(--forest); }
 
-  /* LOCALIZATION */
-  .localization-section { background: var(--ink-2); border-top: 1px solid var(--rule); }
-  .loc-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 60px;
-  }
-  @media (max-width: 968px) { .loc-grid { grid-template-columns: 1fr; } }
-  .loc-card {
-    background: var(--ink); border: 1px solid var(--rule);
-    padding: 48px; position: relative;
-  }
-  @media (max-width: 768px) { .loc-card { padding: 36px 24px; } }
-  .loc-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 2px; background: var(--green-bright);
-  }
-  .loc-card-tag {
-    font-family: var(--mono); font-size: 11px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px;
-  }
-  .loc-card h3 {
-    font-family: var(--display); font-weight: 400;
-    font-size: clamp(26px, 2.4vw, 36px); color: var(--paper);
-    margin-bottom: 16px; letter-spacing: -0.02em; line-height: 1.2;
-  }
-  .loc-card h3 em { font-style: italic; color: var(--green-bright); font-weight: 300; }
-  .loc-card p { color: var(--bone); font-size: 15px; line-height: 1.65; margin-bottom: 20px; }
-  .loc-card-stat {
-    font-family: var(--display); font-weight: 400; font-size: clamp(40px, 5vw, 56px);
-    color: var(--green-bright); line-height: 1; margin-top: 32px; letter-spacing: -0.02em;
-  }
-  .loc-card-stat em { font-style: italic; font-weight: 300; }
-  .loc-card-stat-label {
-    font-family: var(--mono); font-size: 10px; color: var(--bone);
-    text-transform: uppercase; letter-spacing: 0.15em; margin-top: 8px;
-  }
+  /* ===================== INTEGRATE — badges + feature strips ===================== */
+  .m-skill { background:var(--peri); color:#12224e; }
+  .int-feats { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:26px; }
+  @media (max-width:860px){ .int-feats{ grid-template-columns:1fr; } }
+  .feat-strip { border-radius:var(--r); padding:26px 28px; }
+  .feat-strip.lime { background:var(--lime); }
+  .feat-strip.peri { background:var(--peri); color:#12224e; }
+  .feat-strip .fs-eyebrow { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.12em; opacity:.7; }
+  .feat-strip h3 { font-size:23px; font-weight:600; margin:10px 0 8px; }
+  .feat-strip p { font-size:14.5px; line-height:1.6; opacity:.92; }
+  .feat-strip .fs-note { display:block; margin-top:12px; font-family:var(--mono); font-size:11.5px; opacity:.7; }
 
-  /* BET */
-  .bet-section {
-    text-align: center; padding: 160px 8vw;
-    background: radial-gradient(ellipse at top, var(--green-tint), transparent 60%);
-    position: relative; overflow: hidden;
-  }
-  @media (max-width: 768px) { .bet-section { padding: 100px 24px; } }
-  .bet-eyebrow {
-    font-family: var(--mono); font-size: 12px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 40px;
-  }
-  .bet-headline {
-    font-family: var(--display); font-weight: 300;
-    font-size: clamp(34px, 6vw, 96px); line-height: 1.05;
-    color: var(--paper); max-width: 1200px; margin: 0 auto 32px;
-    letter-spacing: -0.035em;
-  }
-  .bet-headline em { font-style: italic; color: var(--green-bright); font-weight: 300; }
-  .bet-sub {
-    font-family: var(--display); font-weight: 300; font-style: italic;
-    font-size: clamp(18px, 1.8vw, 28px); color: var(--bone);
-    max-width: 700px; margin: 0 auto 56px; line-height: 1.4;
-  }
+  /* ===================== BENCHMARK PLAYGROUND ===================== */
+  .bench { background:var(--forest); color:#e7ecdd; border-radius:var(--r-lg); padding:30px; box-shadow:var(--shadow); }
+  @media (max-width:640px){ .bench{ padding:22px; } }
+  .bench-q { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:22px; }
+  .bench-qlabel { font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(231,236,221,0.55); }
+  .bench-qbox { flex:1; min-width:240px; font-family:var(--mono); font-size:13px; background:rgba(255,255,255,0.06);
+    border:1px solid var(--forest-line); border-radius:12px; padding:12px 15px; color:#fff; }
+  .bench-run { background:var(--lime); color:var(--forest); font-family:var(--body); font-weight:600; font-size:14px;
+    border:none; border-radius:999px; padding:12px 22px; cursor:pointer; }
+  .bench-run:hover { filter:brightness(1.05); }
+  .bench-tablewrap { overflow-x:auto; border-radius:16px; border:1px solid var(--forest-line); }
+  table.bench-table { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:13px; min-width:520px; }
+  .bench-table th, .bench-table td { text-align:center; padding:13px 10px; border-bottom:1px solid var(--forest-line); }
+  .bench-table th { color:rgba(231,236,221,0.55); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; }
+  .bench-table td:first-child, .bench-table th:first-child { text-align:left; padding-left:18px; font-weight:600; color:#fff; }
+  .bench-table tr.pest td { background:rgba(222,242,75,0.08); }
+  .bench-table tr.pest td:first-child { color:var(--lime); }
+  .bench-table tr:last-child td { border-bottom:none; }
+  .bx-y { color:var(--lime); } .bx-n { color:rgba(231,236,221,0.4); } .bx-p { color:var(--amber); }
+  .bench-score { font-weight:600; }
+  .bench-foot { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-top:22px; }
+  .bench-cap { font-family:var(--mono); font-size:11.5px; color:rgba(231,236,221,0.6); background:rgba(255,255,255,0.06);
+    border:1px solid var(--forest-line); border-radius:999px; padding:7px 13px; }
 
-  .roadmap-strip {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-    background: var(--rule); border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule); margin-top: 80px;
-  }
-  @media (max-width: 968px) { .roadmap-strip { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px) { .roadmap-strip { grid-template-columns: 1fr; } }
-  .road-cell { background: var(--ink); padding: 36px 32px; text-align: left; }
-  @media (max-width: 768px) { .road-cell { padding: 28px 24px; } }
-  .road-cell .phase-num {
-    font-family: var(--mono); font-size: 10px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 16px;
-  }
-  .road-cell h4 {
-    font-family: var(--display); font-weight: 400;
-    font-size: clamp(20px, 1.8vw, 28px); color: var(--paper);
-    margin-bottom: 12px; letter-spacing: -0.02em; line-height: 1.15;
-  }
-  .road-cell p { color: var(--bone); font-size: 13px; line-height: 1.55; }
+  /* ===================== TRUST STRIP ===================== */
+  .trust-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px; }
+  @media (max-width:900px){ .trust-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .trust-grid{ grid-template-columns:1fr; } }
+  .trust-card { background:var(--white); border:1.5px solid var(--line); border-radius:var(--r); padding:22px 24px; }
+  .trust-card:nth-child(3n+2) { background:var(--lime-pale); border-color:transparent; }
+  .trust-card h4 { display:flex; align-items:center; gap:9px; font-size:16px; font-weight:600; margin-bottom:9px; }
+  .trust-card h4 .ti { width:22px; height:22px; border-radius:7px; background:var(--forest); display:grid; place-items:center; flex-shrink:0; }
+  .trust-card h4 .ti svg { width:13px; height:13px; stroke:var(--lime); }
+  .trust-card p { font-size:13.5px; line-height:1.6; color:var(--ink-soft); }
+  .trust-card p code { font-family:var(--mono); font-size:12px; background:rgba(22,22,22,0.06); padding:1px 6px; border-radius:5px; }
 
-  /* CTA */
-  .cta-section {
-    text-align: center; padding: 140px 8vw 80px;
-    background: var(--ink); border-top: 1px solid var(--rule);
-  }
-  @media (max-width: 768px) { .cta-section { padding: 100px 24px 60px; } }
-  .cta-headline {
-    font-family: var(--display); font-weight: 300;
-    font-size: clamp(32px, 4.5vw, 64px); line-height: 1.1;
-    color: var(--paper); max-width: 900px; margin: 0 auto 48px;
-    letter-spacing: -0.025em;
-  }
-  .cta-headline em { font-style: italic; color: var(--green-bright); font-weight: 300; }
-  .cta-mega {
-    display: inline-flex; background: var(--green-bright); color: var(--ink);
-    padding: 26px 52px; font-family: var(--body); font-weight: 600;
-    font-size: clamp(16px, 2vw, 18px); text-decoration: none;
-    align-items: center; gap: 14px; transition: all 0.3s; margin-bottom: 32px;
-  }
-  @media (max-width: 768px) { .cta-mega { padding: 20px 32px; width: 100%; justify-content: center; } }
-  .cta-mega:hover {
-    background: var(--paper); transform: translateY(-3px);
-    box-shadow: 0 24px 60px rgba(126, 182, 72, 0.3);
-  }
-  .cta-meta {
-    font-family: var(--mono); font-size: 11px; color: var(--bone);
-    text-transform: uppercase; letter-spacing: 0.12em;
-    line-height: 1.6;
-  }
-  .cta-meta span { color: var(--green-bright); }
+  /* ===================== ANIMATION (GPU-cheap: opacity + transform only) ===================== */
+  /* staggered child reveal — children rise in sequence when parent enters view */
+  .stagger > * { opacity:0; transform:translateY(20px); will-change:opacity, transform;
+    transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .stagger.vis > * { opacity:1; transform:translateY(0); }
+  .stagger.vis > *:nth-child(1){ transition-delay:.03s; }
+  .stagger.vis > *:nth-child(2){ transition-delay:.09s; }
+  .stagger.vis > *:nth-child(3){ transition-delay:.15s; }
+  .stagger.vis > *:nth-child(4){ transition-delay:.21s; }
+  .stagger.vis > *:nth-child(5){ transition-delay:.27s; }
+  .stagger.vis > *:nth-child(6){ transition-delay:.33s; }
+  .stagger.vis > *:nth-child(7){ transition-delay:.39s; }
+  .stagger.vis > *:nth-child(8){ transition-delay:.45s; }
+  .stagger.vis > *:nth-child(9){ transition-delay:.51s; }
+  .stagger.vis > *:nth-child(10){ transition-delay:.57s; }
+  .stagger.vis > * { will-change:auto; }
 
-  /* FOOTER */
-  footer { border-top: 1px solid var(--rule); padding: 80px 8vw 48px; background: var(--ink-2); }
-  @media (max-width: 768px) { footer { padding: 60px 24px 40px; } }
-  .footer-grid {
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
-    max-width: 1400px; margin: 0 auto;
-  }
-  @media (max-width: 968px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } }
-  @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
-  .footer-brand {
-    font-family: var(--display); font-size: 32px; color: var(--paper);
-    margin-bottom: 16px; letter-spacing: -0.02em; font-weight: 400;
-  }
-  .footer-tag {
-    color: var(--bone); font-size: 14px; max-width: 320px;
-    line-height: 1.55; font-style: italic; font-family: var(--display); font-weight: 300;
-  }
-  .footer-col h5 {
-    font-family: var(--mono); font-size: 11px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 20px;
-  }
-  .footer-col a {
-    display: block; color: var(--bone); text-decoration: none;
-    padding: 6px 0; font-size: 14px; transition: color 0.2s;
-  }
-  .footer-col a:hover { color: var(--green-bright); }
-  .footer-bottom {
-    max-width: 1400px; margin: 60px auto 0; padding-top: 32px;
-    border-top: 1px solid var(--rule);
-    display: flex; justify-content: space-between;
-    font-family: var(--mono); font-size: 11px; color: var(--bone-dim);
-    text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  @media (max-width: 768px) { .footer-bottom { flex-direction: column; gap: 16px; margin-top: 40px; } }
-  .footer-brand {
-    font-family: var(--display); font-size: 32px; color: var(--paper);
-    margin-bottom: 16px; letter-spacing: -0.02em; font-weight: 400;
-  }
-  .footer-tag {
-    color: var(--bone); font-size: 14px; max-width: 320px;
-    line-height: 1.55; font-style: italic; font-family: var(--display); font-weight: 300;
-  }
-  .footer-col h5 {
-    font-family: var(--mono); font-size: 11px; color: var(--green-bright);
-    text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 20px;
-  }
-  .footer-col a {
-    display: block; color: var(--bone); text-decoration: none;
-    padding: 6px 0; font-size: 14px; transition: color 0.2s;
-  }
-  .footer-col a:hover { color: var(--green-bright); }
-  .footer-bottom {
-    max-width: 1400px; margin: 60px auto 0; padding-top: 32px;
-    border-top: 1px solid var(--rule);
-    display: flex; justify-content: space-between;
-    font-family: var(--mono); font-size: 11px; color: var(--bone-dim);
-    text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  @media (max-width: 768px) { .footer-bottom { flex-direction: column; gap: 12px; } }
+  /* hover micro-interactions */
+  .trust-card, .feat-strip { transition:transform .28s cubic-bezier(.2,.7,.2,1), box-shadow .28s; }
+  .trust-card:hover { transform:translateY(-5px); box-shadow:var(--shadow); }
+  .feat-strip:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
+  .chip { transition:transform .2s ease, box-shadow .2s ease; }
+  .chip:hover { transform:translateY(-2px); box-shadow:var(--shadow-sm); }
+  .mchip { transition:transform .2s ease, background .2s ease, color .2s ease; }
+  .mchip:hover { transform:translateY(-2px); background:var(--forest); color:var(--lime); border-color:var(--forest); }
+  .bench-run { transition:transform .2s ease, filter .2s ease; }
+  .bench-run:hover { transform:translateY(-2px); }
+  .bench-table tbody tr { transition:background .2s ease; }
+  .bench-table tbody tr:hover td { background:rgba(255,255,255,0.05); }
 
-  .reveal {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 1s ease, transform 1s ease;
+  /* soft ambient float for hero source chips (transform-only, paused off-screen is negligible) */
+  @keyframes floaty { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-5px); } }
+  .big-chips .chip { animation:floaty 5s ease-in-out infinite; }
+  .big-chips .chip:nth-child(2){ animation-delay:.6s; }
+  .big-chips .chip:nth-child(3){ animation-delay:1.2s; }
+  .big-chips .chip:nth-child(4){ animation-delay:1.8s; }
+
+  /* ---- HERO: field card ---- */
+  .big-card { transition:box-shadow .35s ease; }
+  .big-card:hover { box-shadow:0 26px 60px rgba(22,22,22,0.18); }
+  .scene, .big-chips, .stat-card { transition:transform .35s cubic-bezier(.2,.7,.2,1); will-change:transform; }
+  .scene .sun { transform-box:fill-box; transform-origin:center; animation:sunPulse 6s ease-in-out infinite; }
+  @keyframes sunPulse { 0%,100%{ transform:scale(1); opacity:.95; } 50%{ transform:scale(1.08); opacity:1; } }
+
+  /* animated stat bar (grows once when hero loads) */
+  .bar-fill { position:absolute; top:0; bottom:0; left:0; right:auto; width:72%;
+    border-radius:999px; background:linear-gradient(90deg,var(--lime),var(--amber));
+    transform:scaleX(0); transform-origin:left center; transition:transform 1.1s cubic-bezier(.4,0,.1,1) .25s; }
+  .bar.go .bar-fill { transform:scaleX(1); }
+
+  /* ---- HERO: app panel ---- */
+  .app-panel, .mini { transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s; }
+  .mini:hover { transform:translateY(-4px); }
+  .mchip { cursor:pointer; font-family:var(--mono); }
+  .model-live { margin-top:14px; font-size:12.5px; color:var(--ink-mute); }
+  .model-live b { color:var(--forest); font-weight:600; }
+  /* per-model unaided answer (changes) */
+  .model-answer { border:1.4px dashed var(--line); border-radius:14px; padding:12px 14px; margin:12px 0 10px;
+    background:var(--page); min-height:82px; }
+  .model-answer.swap { animation:intSwap .4s cubic-bezier(.2,.7,.2,1); }
+  .ma-lbl { font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:6px; }
+  .ma-text { margin:0; font-size:12.5px; line-height:1.5; color:var(--ink-soft); }
+  .ma-flag { margin-top:8px; font-family:var(--mono); font-size:11px; color:#b23b3b; }
+  .model-pointer { font-size:12px; color:var(--ink-mute); text-align:center; margin:0 0 12px; }
+  .model-pointer b { color:var(--forest); font-weight:600; }
+  .car-ticks i { cursor:pointer; transition:width .25s ease, background .25s ease; }
+  .car-play { margin-left:auto; border:none; cursor:pointer; position:relative; }
+  .car-play .ic-pause { display:none; }
+  .car-play.playing .ic-play { display:none; }
+  .car-play.playing .ic-pause { display:block; }
+  .car-play svg { width:11px; height:11px; fill:var(--lime); }
+
+  /* highlighter sweep on the "verified" pill (scaleX, fires once) */
+  .big-overlay .hp.sweep { position:relative; z-index:0; border:none; background:transparent; padding:0 .2em; }
+  .big-overlay .hp.sweep::before { content:''; position:absolute; inset:-2px -3px; z-index:-1;
+    border:2.5px solid var(--lime); background:var(--lime-pale); border-radius:16px;
+    transform:scaleX(0); transform-origin:left center; transition:transform .55s cubic-bezier(.22,1,.36,1) .35s; }
+  .big-overlay .hp.sweep.go::before { transform:scaleX(1); }
+
+  /* sliding model pill — the layoutId equivalent (transform + occasional width, one element) */
+  #modelChips { position:relative; }
+  .mchip-pill { position:absolute; top:0; left:0; width:0; height:0; z-index:0; border-radius:999px; background:var(--forest);
+    opacity:0; pointer-events:none; transform:translate(0,0);
+    transition:transform .42s cubic-bezier(.34,1.25,.5,1), width .42s cubic-bezier(.34,1.25,.5,1), height .42s ease, opacity .3s; }
+  .mchip-pill.on { opacity:1; }
+  #modelChips .mchip { position:relative; z-index:1; background:rgba(22,22,22,0.06); }
+  #modelChips .mchip.on { background:transparent; border-color:transparent; color:var(--lime); }
+  #modelChips .mchip.on:hover { background:transparent; }
+
+  /* CTA — lift on hover, spring on tap (transform only; shadow via CSS transition) */
+  .hero-cta .btn { transition:transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s ease, border-color .2s ease, background .18s ease; }
+  .hero-cta .btn:hover { transform:translateY(-2px); }
+  .hero-cta .btn:active { transform:scale(.97); }
+
+  /* ===================== VIBE RADIAL ===================== */
+  .vibe-card { background:var(--white); border:1.5px solid var(--line); border-radius:var(--r-lg);
+    padding:44px 32px 30px; box-shadow:var(--shadow-sm); }
+  @media (max-width:560px){ .vibe-card{ padding:30px 16px 24px; } }
+  .vibe-radial { position:relative; width:min(520px,90vw); aspect-ratio:1; margin:0 auto; }
+  .vibe-web { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .vibe-web .ring { fill:none; stroke:var(--line-2); }
+  .vibe-web .spoke { stroke:var(--line-2); stroke-width:1; transition:stroke .35s, stroke-width .35s; }
+  .vibe-web .spoke.on { stroke:var(--forest); stroke-width:2.4; }
+  .vibe-web .tip { fill:var(--forest); opacity:0; transition:opacity .35s; }
+  .vibe-web .tip.on { opacity:1; }
+  .vibe-label { position:absolute; transform:translate(-50%,-50%); background:none; border:none; cursor:pointer;
+    font-family:var(--body); font-weight:500; font-size:14.5px; color:var(--ink-mute);
+    padding:6px 9px; white-space:nowrap; transition:color .25s, transform .25s; }
+  .vibe-label:hover { color:var(--ink); }
+  .vibe-label.on { color:var(--forest); font-weight:700; transform:translate(-50%,-50%) scale(1.1); }
+  .vibe-label.p0{left:50%;top:0%;} .vibe-label.p1{left:88%;top:12%;} .vibe-label.p2{left:99%;top:50%;}
+  .vibe-label.p3{left:88%;top:88%;} .vibe-label.p4{left:50%;top:100%;} .vibe-label.p5{left:12%;top:88%;}
+  .vibe-label.p6{left:1%;top:50%;} .vibe-label.p7{left:12%;top:12%;}
+  .vibe-face { position:absolute; left:50%; top:50%; width:44%; aspect-ratio:1; transform:translate(-50%,-50%);
+    border-radius:50%; overflow:hidden; background:radial-gradient(circle at 50% 42%, var(--lime-pale), var(--cream) 78%);
+    box-shadow:0 16px 38px rgba(22,22,22,.16), inset 0 0 0 1px var(--line-2); pointer-events:none; }
+  .vibe-face img { position:relative; width:100%; height:100%; object-fit:cover; object-position:50% 42%; }
+  .vibe-face img.swap { animation:intSwap .5s cubic-bezier(.2,.7,.2,1); }
+  .vibe-foot { display:flex; justify-content:space-between; align-items:flex-end; gap:22px; margin-top:24px;
+    padding-top:22px; border-top:1px solid var(--line); flex-wrap:wrap; }
+  .vibe-result { max-width:610px; }
+  .vibe-brand { font-family:var(--display); font-weight:700; font-size:26px; letter-spacing:-.01em; line-height:1; }
+  .vibe-brand span { color:var(--forest); }
+  .vibe-res { font-family:var(--mono); font-size:12px; color:var(--ink-mute); margin-top:8px; }
+  .vibe-res b { color:var(--forest); font-weight:600; }
+  .vibe-desc { margin-top:12px; font-size:14px; line-height:1.65; color:var(--ink-soft); }
+  .vibe-desc.swap { animation:intSwap .45s cubic-bezier(.2,.7,.2,1); }
+  .vibe-thumb { width:104px; height:78px; border-radius:14px; overflow:hidden; border:1px solid var(--line);
+    background:var(--page); flex-shrink:0; display:grid; place-items:center; }
+  .vibe-thumb img { width:100%; height:100%; object-fit:cover; }
+  @media (max-width:560px){ .vibe-label{ font-size:12px; padding:5px 6px; } .vibe-brand{ font-size:22px; }
+    .vibe-thumb{ width:80px; height:60px; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+    .reveal, .stagger > * { opacity:1 !important; transform:none !important; }
+    .bar-fill { transform:scaleX(1) !important; }
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 
-<div class="grain"></div>
-
-<nav>
-  <a href="#" class="logo">
-    <span class="logo-mark"></span>
-    Pestren
-  </a>
-  <div class="nav-links">
-    <a href="#trap">The trap</a>
-    <a href="#shift">The shift</a>
-    <a href="#system">The system</a>
-    <a href="pilot.html">Pilot</a>
-    <!-- <a href="mailto:founders@Pestren.ai" class="nav-cta">Talk to us →</a> -->
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-eyebrow">A generational bet on agriculture's next century</div>
-  <h1 class="hero-title">
-    Predictive modelling.<br>
-    Integrated pest management.<br>
-    <em>Every spray, a decision.</em>
-  </h1>
-  <p class="hero-sub">
-    Pestren is a localized AI system for pest management —
-    prediction before outbreaks, integrated management during them,
-    and restoration after. Pesticides used when needed, where needed,
-    only as much as needed. Built for India first. Designed for the world.
-  </p>
-  <div class="cta-row">
-    <!-- <a href="mailto:founders@Pestren.ai" class="btn-primary">Talk to the founders →</a> -->
-    <a href="#trap" class="btn-secondary">Read the thesis ↓</a>
-  </div>
-  <div class="scroll-cue">Scroll</div>
-</section>
-
-<!-- TRAP -->
-<section class="content trap-section" id="trap">
-  <div class="section-num">01 / The Trap</div>
-  <h2 class="section-title">
-    Modern agriculture worked. <em>For a while.</em><br>
-    Now the cracks are obvious.
-  </h2>
-
-  <div class="manifesto-prose">
-    <p class="muted">
-      Pesticide residues are <strong>everywhere</strong> — in food, in water,
-      in soil and mother's womb. People worldwide are worrying about long-term health risks and the chemistries that came after it.
-    </p>
-    <p class="muted">
-      At the same time, <strong>nature is adapting, and condusive climatic conditions are changing</strong> for worse. Pests
-      evolve. What used to work stops working. So farmers spray more. Costs
-      go up. Productions go down. The pipeline for new chemicals?
-      <strong>Slower and more expensive than ever.</strong>
-    </p>
-    <p class="emphasis">
-      Farmers are stuck in a bad loop.
-    </p>
-  </div>
-
-  <div class="trap-loop reveal">
-    <div class="trap-loop-label">⬣ The bad loop</div>
-    <div class="trap-loop-text">
-      Use more chemicals <span class="arrow">→</span>
-      get stagnant/reduced production <span class="arrow">→</span>
-      pay more <span class="arrow">→</span>
-      take on more risk, with poison on our plate.
+<div class="shell">
+  <!-- ===================== NAV ===================== -->
+  <div class="nav">
+    <a href="#" class="logo" aria-label="Pestren">
+      <img class="logo-img" src="PESTREN.png" alt="Pestren">
+    </a>
+    <nav class="nav-pills">
+      <a class="nav-pill active" href="#compare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Platform</a>
+      <a class="nav-pill" href="#sectors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M3 6h18M3 18h18"/></svg>Sectors</a>
+      <a class="nav-pill" href="#integrate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2v6M15 2v6M7 8h10v4a5 5 0 0 1-10 0V8ZM12 17v5"/></svg>Integrate</a>
+      <a class="nav-pill" href="#benchmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l-3 5h6L5 8ZM19 8l-3 5h6l-3-5Z"/></svg>Benchmark</a>
+      <a class="nav-pill" href="docs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"/><path d="M14 4v5h5"/></svg>Docs</a>
+      <a class="nav-pill" href="feedback.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Feedback</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-peri" href="#contact">Get API key <span class="tdot"></span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
 
-  <div class="manifesto-prose">
-    <p class="muted" style="margin-top: 60px;">
-      And yet they can't just <strong>stop</strong>. If pests win, crops die.
-      Food prices go up. People starve. <strong>It's existential.</strong>
-    </p>
-    <p class="emphasis">
-      For a long time, this looked unsolvable.<br>
-      Now there is hope.
-    </p>
-  </div>
-</section>
-
-<!-- SHIFT -->
-<section class="content" id="shift">
-  <div class="section-num">02 / The Shift</div>
-  <h2 class="section-title">
-    Three things <em>changed at once.</em>
-  </h2>
-  <p class="lead-text">
-    AI vision, lightweight localized models, and farmer-reach channels
-    all became viable in the same window. Now, we can replace blanket spraying with informed
-    decisions — at smallholder scale, in local languages.
-  </p>
-
-  <div class="shift-grid reveal">
-    <div class="shift-card">
-      <div class="shift-card-label">⬢ FORCE 01</div>
-      <h3>AI can <em>see.</em></h3>
-      <p>
-        It can identify individual pests in real time. Sensors, satellite data,
-        and cameras are accessible to put everywhere.
-      </p>
-    </div>
-    <div class="shift-card">
-      <div class="shift-card-label">⬢ FORCE 02</div>
-      <h3>Models got <em>localizable.</em></h3>
-      <p>
-        Training a per-targetted district forecasting model used to cost ₹5–10 lakh
-        in compute and labeling. With modern lightweight architectures —
-        gradient-boosted trees plus small transformers for time-series —
-        it now costs under 5 lakh per district. Localization is
-        economically viable at scale.
-      </p>
-    </div>
-    <div class="shift-card">
-      <div class="shift-card-label">⬢ FORCE 03</div>
-      <h3>Channels finally <em>reach the farmer.</em></h3>
-      <p>
-        WhatsApp, IVR, FPO shareholder/producer networks, and the 10,000 FPO scheme
-        together created a distribution layer that didn't exist five years
-        ago. Insights can travel the last mile — to the small/marginal (1-2 hectare) farmer
-        who actually needs them, in the language they speak.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- INFRASTRUCTURE -->
-<section class="content" style="background: var(--ink-2); border-top: 1px solid var(--rule);">
-  <div class="section-num">03 / The Infrastructure</div>
-  <h2 class="section-title">
-    The <em>Intelligence Inside</em><br>
-    for Ag-Enterprises & Governments.
-  </h2>
-  <p class="lead-text">
-    Pestren is a model-infrastructure layer. We don't compete with farm-reach apps; we power them. We provide high-margin API access to the entities that manage agricultural risk at scale via curated domain knowledge.
-  </p>
-
-  <div class="shift-grid reveal">
-    <div class="shift-card">
-      <div class="shift-card-label">⬢ FOR ENTERPRISES</div>
-      <h3>Ag-Tech <em>APIs.</em></h3>
-      <p>
-        Input companies and Ag-retailers use our models to provide precision advisory, moving from selling generic chemicals to selling prescribed advisories.
-      </p>
-    </div>
-    <div class="shift-card">
-      <div class="shift-card-label">⬢ FOR INSURERS</div>
-      <h3>Risk <em>Underwriting.</em></h3>
-      <p>
-        Crop insurers use our predicitons data to underwrite risk accurately and trigger pre-emptive actions that reduce village-wide claim payouts.
-      </p>
-    </div>
-    <div class="shift-card">
-      <div class="shift-card-label">⬢ FOR GOVERNMENTS</div>
-      <h3>State <em>Surveillance.</em></h3>
-      <p>
-        Agriculture departments may integrate our localized weights into their surveillance systems to protect food security and manage pest outbreak load.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- PRECEDENT -->
-<section class="content" style="background: var(--ink); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);">
-  <div class="section-num">04 / The Precedent</div>
-  <h2 class="section-title">
-    The approach is <em>proven.</em><br>
-    The localization is <em>missing.</em>
-  </h2>
-  <p class="lead-text">
-    Four of the world's most credible agri-AI programs have validated
-    the two pillars Pestren is built on — predictive pest modelling
-    and AI-driven IPM. Each works in its own geography and crop.
-    None of them is built for the Indian smallholder of varied agro-climatic conditions, end to end,
-    state by state.
-  </p>
-
-  <div class="precedent-grid reveal">
-    <!-- Climate Corp -->
-    <div class="precedent-card">
-      <div class="precedent-card-label">⬢ PRECEDENT 01 · USA</div>
-      <h3>Climate Corporation</h3>
-      <div class="precedent-card-sub">PREDICTIVE PEST MODELLING · ACQUIRED BY BAYER · $1B+</div>
-      <p>
-        Pioneered weather + crop + pest data fusion for outbreak forecasting
-        across the US corn and soy belt. Proved that predictive modelling
-        materially reduces yield loss when models are calibrated to local
-        agroclimatic data.
-      </p>
-      <div class="precedent-card-gap">
-        Gap: <span>trained on broadacre US data — not Indian smallholders, not monsoon-fed paddy</span>
+  <div class="pad">
+    <!-- ===================== HERO ===================== -->
+    <header class="hero">
+      <div class="hero-head">
+        <h1>Farm intelligence for <span class="hp">any crop, anywhere</span> <a href="docs.html" class="hero-docs">Read the docs →</a></h1>
+        <p class="hero-sub">Pestren gives any LLM grounded, cited answers about real fields — soil, water, pests, yield, and what to do next. Plug in the API, the skills, or the MCP server and build your own farm app for any crop, in any country. Then prove it on our playground against every other model.</p>
+        <div class="hero-chips stagger">
+          <span class="chip"><span class="noun">any crop</span></span>
+          <span class="chip"><span class="noun">any geography</span></span>
+          <span class="chip"><span class="noun">any LLM</span></span>
+          <span class="chip"><span class="pre">sourced &amp;</span><span class="noun">timestamped</span></span>
+          <span class="chip"><span class="noun">benchmarked</span></span>
+        </div>
       </div>
-    </div>
 
-    <!-- Wadhwani AI -->
-    <div class="precedent-card">
-      <div class="precedent-card-label">⬢ PRECEDENT 02 · INDIA</div>
-      <h3>Wadhwani AI</h3>
-      <div class="precedent-card-sub">COTTON PEST PROGRAM · GOVT OF INDIA PARTNER</div>
-      <p>
-        Showed that AI pest identification works in Indian field conditions —
-        farmers photograph traps, the model identifies pink bollworm pressure,
-        advisory follows. Demonstrated viability in 5 cotton states.
-      </p>
-      <div class="precedent-card-gap">
-        Gap: <span>one crop, one pest, ad-hoc deployment — no replicable district playbook</span>
+      <div class="bento stagger">
+        <!-- big image / field card -->
+        <div class="big-card">
+          <svg class="scene" viewBox="0 0 600 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cdd7f7"/><stop offset="1" stop-color="#e6efd0"/></linearGradient>
+            </defs>
+            <rect width="600" height="460" fill="url(#sky)"/>
+            <circle class="sun" cx="470" cy="120" r="46" fill="#DEF24B"/>
+            <path class="hill h1" d="M0 250 Q150 210 300 245 T600 240 V460 H0 Z" fill="#9fc873"/>
+            <path class="hill h2" d="M0 300 Q150 265 300 300 T600 295 V460 H0 Z" fill="#7bb45c"/>
+            <path class="hill h3" d="M0 350 Q150 322 300 352 T600 348 V460 H0 Z" fill="#4f8f43"/>
+            <g stroke="#173F2E" stroke-width="3" opacity="0.5" fill="none">
+              <path d="M60 460 L150 360"/><path d="M180 460 L250 360"/><path d="M300 460 L345 360"/><path d="M420 460 L440 360"/><path d="M540 460 L535 360"/>
+            </g>
+            <g fill="#2f6b34">
+              <ellipse cx="150" cy="358" rx="14" ry="7"/><ellipse cx="250" cy="358" rx="14" ry="7"/><ellipse cx="345" cy="358" rx="14" ry="7"/><ellipse cx="440" cy="358" rx="14" ry="7"/>
+            </g>
+          </svg>
+          <div class="big-overlay">
+            <h2>Any crop, any field.<br>Get a <span class="hp sweep">verified</span> answer.</h2>
+          </div>
+          <div class="big-chips">
+            <span class="chip"><span class="pre">FAO/</span><span class="noun">sourced</span></span>
+            <span class="chip"><span class="pre">Sentinel/</span><span class="noun">satellite</span></span>
+            <span class="chip"><span class="pre">NASA/</span><span class="noun">weather</span></span>
+            <span class="chip"><span class="pre">field/</span><span class="noun">verified</span></span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">1<span class="u"> API</span></div>
+            <div class="stat-label">answers, sources, actions, products</div>
+            <div class="bar"><div class="bar-fill"></div></div>
+            <div class="stat-cap">one call — grounded field intelligence, anywhere</div>
+            <div class="stat-ctrls">
+              <button class="plus" aria-label="more">+</button>
+              <div class="toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- right lime app panel -->
+        <div class="app-panel">
+          <div class="app-card">
+            <div class="app-head">Plug into any model</div>
+            <div class="car-ticks" id="carTicks">
+              <button class="car-play" id="carPlay" aria-label="Play/pause"><svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="ic-pause" viewBox="0 0 24 24"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg></button>
+            </div>
+            <div class="model-panel">
+              <div class="model-chips" id="modelChips">
+                <span class="mchip-pill" id="mchipPill" aria-hidden="true"></span>
+                <button class="mchip on">GPT</button>
+                <button class="mchip">Claude</button>
+                <button class="mchip">Gemini</button>
+                <button class="mchip">Llama</button>
+                <button class="mchip">your own</button>
+              </div>
+              <div class="model-live" id="modelLive">Same call, answered with <b>GPT</b></div>
+            </div>
+            <!-- CHANGES per model: the model's own unaided answer -->
+            <div class="model-answer" id="modelAnswer" aria-live="polite">
+              <div class="ma-lbl" id="maLbl">GPT, on its own</div>
+              <p class="ma-text" id="maText"></p>
+              <div class="ma-flag" id="maFlag"></div>
+            </div>
+            <p class="model-pointer">The model changes. <b>Pestren's grounded answer doesn't.</b></p>
+            <!-- STAYS constant: the payoff -->
+            <div class="app-pair">
+              <div class="mini peri">
+                <span class="mini-top">Cited to source</span>
+                <span class="mini-pill">Explore</span>
+                <span class="mini-bot">FAO · NASA · Sentinel</span>
+              </div>
+              <div class="mini forest">
+                <span class="mini-top">Ground-truthed</span>
+                <span class="mini-pill lime">field-verified</span>
+                <span class="mini-bot">real fields, real growers</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- Bayer Crop Science -->
-    <div class="precedent-card">
-      <div class="precedent-card-label">⬢ PRECEDENT 03 · GLOBAL</div>
-      <h3>Bayer Crop Science</h3>
-      <div class="precedent-card-sub">AI-DRIVEN IPM · CLIMATE FIELDVIEW · $20B+ DIVISION</div>
-      <p>
-        Built the global benchmark for AI-driven integrated pest management —
-        pest lifecycle modelling, natural-predator analysis, minimum-effective
-        chemical recommendations. Reduced input costs in pilots across Latin
-        America and Europe.
-      </p>
-      <div class="precedent-card-gap">
-        Gap: <span>priced for agribusinesses, not 1-2 hectare farmers and FPOs</span>
+      <div class="hero-cta stagger">
+        <a href="#contact" class="btn btn-peri">Get API key →</a>
+        <a href="#benchmark" class="btn btn-white">Open the playground ↗</a>
+        <a href="docs.html" class="btn btn-white">Read the docs</a>
+        <a href="feedback.html" class="btn btn-white">Share feedback 🌱</a>
+        <button class="btn btn-white" id="copySkill" type="button">Copy Skill ⧉</button>
       </div>
-    </div>
+    </header>
 
-    <!-- BioCrop -->
-    <div class="precedent-card">
-      <div class="precedent-card-label">⬢ PRECEDENT 04 · INDIA</div>
-      <h3>BioCrop</h3>
-      <div class="precedent-card-sub">BIO-IPM · INDIAN FARMER CHANNEL</div>
-      <p>
-        Proved that biological controls and minimal-pesticide protocols
-        can be delivered through Indian extension channels at smallholder
-        scale. Validated the demand side — farmers will adopt IPM when
-        advisory is local, trusted, and timely.
-      </p>
-      <div class="precedent-card-gap">
-        Gap: <span>no predictive AI layer — reactive, not pre-emptive</span>
+    <!-- ===================== WITHOUT / WITH ===================== -->
+    <section class="sec" id="compare">
+      <div class="sec-head reveal">
+        <div class="sec-eyebrow">01 · The proof</div>
+        <h2 class="sec-title">Stop guessing. Get answers that <span class="hp">cite their sources</span>.</h2>
+        <p class="sec-lead">A general model reasons in the abstract. Pestren resolves the field, cites the sources, and returns an answer your agent can act on — for any crop, anywhere.</p>
       </div>
-    </div>
-  </div>
 
-  <div style="margin-top: 60px; padding: 40px 48px; background: var(--green-tint); border-left: 3px solid var(--green-bright);">
-    <div style="font-family: var(--mono); font-size: 11px; color: var(--green-bright); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 12px;">⬡ The unfilled space</div>
-    <div style="font-family: var(--display); font-weight: 300; font-size: clamp(22px, 2vw, 30px); line-height: 1.35; color: var(--paper); letter-spacing: -0.01em;">
-      Predictive modelling <em>and</em> IPM. Localized district by district.
-      Delivered to Indian smallholders through FPOs and localized stakeholders. <em>That's the gap.</em>
-    </div>
-  </div>
-</section>
+      <div class="proof-grid stagger">
+        <div class="proof without">
+          <div class="proof-top"><span class="proof-tag">A plain LLM</span></div>
+          <div class="ask"><span class="who">Q:</span> Is the maize at 0.52, 35.27 at risk of fall armyworm this week?</div>
+          <div class="ans-generic">
+            I don't have real-time access to weather or field data. Fall armyworm risk generally rises in warm, humid conditions… you may want to scout your fields.
+            <span class="fu">Would you like general prevention tips?</span>
+          </div>
+          <span class="cap-chip">no source / no date / generic</span>
+        </div>
 
-<!-- LIFECYCLE -->
-<section class="content lifecycle-section" id="system">
-  <div class="section-num">04 / The System</div>
-  <h2 class="section-title">
-    Pestren isn't a notification.<br>
-    It's the <em>improved pest management</em>, instrumented.
-  </h2>
-  <p class="lead-text">
-    Three phases. One system. Pre-outbreak prediction. During-outbreak
-    integrated management. Post-outbreak restoration. Each phase runs on
-    locally-trained models because pests don't respect averages —
-    and neither do the right interventions.
-  </p>
-
-  <div class="lifecycle-diagram reveal">
-    <svg viewBox="0 0 1000 220" xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <rect x="20" y="50" width="280" height="120" fill="#ebe7da" stroke="#2d4a1e" stroke-width="2"/>
-        <text x="160" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#2d4a1e" letter-spacing="2">PRE-OUTBREAK</text>
-        <text x="160" y="125" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="32" fill="#0a0d0c" font-weight="400">predict</text>
-        <text x="160" y="148" text-anchor="middle" font-family="Geist, sans-serif" font-size="11" fill="#4a4a3e">7-21 days ahead</text>
-      </g>
-      <g stroke="#2d4a1e" stroke-width="1.5" fill="#2d4a1e">
-        <line x1="310" y1="110" x2="350" y2="110"/>
-        <polygon points="345,105 355,110 345,115"/>
-      </g>
-      <g>
-        <rect x="360" y="50" width="280" height="120" fill="#2d4a1e" stroke="#2d4a1e" stroke-width="2"/>
-        <text x="500" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#7eb648" letter-spacing="2">DURING-OUTBREAK</text>
-        <text x="500" y="125" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="32" fill="#f5f3ec" font-weight="400">manage</text>
-        <text x="500" y="148" text-anchor="middle" font-family="Geist, sans-serif" font-size="11" fill="#bccbb0">IPM · decisioned intervention</text>
-      </g>
-      <g stroke="#2d4a1e" stroke-width="1.5" fill="#2d4a1e">
-        <line x1="650" y1="110" x2="690" y2="110"/>
-        <polygon points="685,105 695,110 685,115"/>
-      </g>
-      <g>
-        <rect x="700" y="50" width="280" height="120" fill="#ebe7da" stroke="#2d4a1e" stroke-width="2"/>
-        <text x="840" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#2d4a1e" letter-spacing="2">POST-OUTBREAK</text>
-        <text x="840" y="125" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="32" fill="#0a0d0c" font-weight="400">restore</text>
-        <text x="840" y="148" text-anchor="middle" font-family="Geist, sans-serif" font-size="11" fill="#4a4a3e">soil, yield, supply chain</text>
-      </g>
-      <path d="M 840 170 Q 840 200 500 200 Q 160 200 160 170" fill="none" stroke="#2d4a1e" stroke-width="1" stroke-dasharray="4,4"/>
-      <text x="500" y="218" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#4a4a3e" letter-spacing="1">FEEDBACK ↑ MODEL LEARNS EACH CROPPING SEASON</text>
-    </svg>
-  </div>
-
-  <div class="lifecycle-phases reveal">
-    <div class="phase">
-      <div class="phase-tag"><span class="phase-tag-dot"></span> PHASE 01</div>
-      <h3><em>Predict.</em></h3>
-      <div class="phase-when">7-21 days before an outbreak</div>
-      <p class="phase-desc">
-        District-level outbreak forecasts from weather, soil, crop calendar,
-        and 8+ years of pest surveillance data. Get ahead of the curve, not
-        chase it.
-      </p>
-      <ul class="phase-capabilities">
-        <li>7-day & 21-day outbreak risk scoring</li>
-        <li>Per-cluster pest pressure heatmaps</li>
-        <li>Pre-emptive IPM action plans</li>
-        <li>Trap & beneficial-insect deployment</li>
-      </ul>
-    </div>
-    <div class="phase">
-      <div class="phase-tag"><span class="phase-tag-dot"></span> PHASE 02</div>
-      <h3><em>Manage.</em></h3>
-      <div class="phase-when">During an active outbreak</div>
-      <p class="phase-desc">
-        Integrated pest management in real time — biological controls first,
-        targeted spot-spray only when the threshold is crossed, scale fixation
-        across the clusters so infestation doesn't jump fields. Every
-        intervention is a decision, not a default.
-      </p>
-      <ul class="phase-capabilities">
-        <li>Image-based pest identification & threshold scoring</li>
-        <li>Biological vs. chemical decision support</li>
-        <li>Cluster-wide IPM containment protocols</li>
-      </ul>
-    </div>
-    <div class="phase">
-      <div class="phase-tag"><span class="phase-tag-dot"></span> PHASE 03</div>
-      <h3><em>Restore.</em></h3>
-      <div class="phase-when">After the outbreak passes</div>
-      <p class="phase-desc">
-        Soil restoration after chemical stress. Yield recovery planning.
-        Supply-chain damage reporting for compensation. The outbreak ends —
-        the work doesn't.
-      </p>
-      <ul class="phase-capabilities">
-        <li>Soil & microbiome recovery plans</li>
-        <li>Yield loss assessment & insurance docs</li>
-        <li>Next-cropping season prevention adjustments</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- INDIA -->
-<section class="content india-section">
-  <div class="section-num">05 / The Geography</div>
-  <h2 class="section-title">
-    10 states. <em>10 different fights.</em>
-  </h2>
-  <p class="lead-text">
-    A pan-India model fails because pests aren't pan-India. The whitefly
-    of Haryana is not the brown planthopper of West Bengal. The fall
-    armyworm in Karnataka behaves nothing like the locusts of Rajasthan.
-    Each state needs its own model, trained on its own ground.
-  </p>
-
-  <div class="india-layout">
-    <div class="state-list reveal">
-      <div class="state-row"><div class="state-num">01</div><div class="state-name">Andhra Pradesh</div><div class="state-issue">Virus outbreaks, weak smallholder monitoring</div></div>
-      <div class="state-row"><div class="state-num">02</div><div class="state-name">Telangana</div><div class="state-issue">Pest infestations, supply-chain losses</div></div>
-      <div class="state-row"><div class="state-num">03</div><div class="state-name">Karnataka</div><div class="state-issue">Fall armyworm epicenter, maize destruction</div></div>
-      <div class="state-row"><div class="state-num">04</div><div class="state-name">Madhya Pradesh</div><div class="state-issue">Locusts, armyworm, low monitoring density</div></div>
-      <div class="state-row"><div class="state-num">05</div><div class="state-name">Bihar</div><div class="state-issue">Poor pest advisory access</div></div>
-      <div class="state-row"><div class="state-num">06</div><div class="state-name">West Bengal</div><div class="state-issue">Humidity-driven fungal/pest outbreaks</div></div>
-      <div class="state-row"><div class="state-num">07</div><div class="state-name">Odisha</div><div class="state-issue">Cyclones, weak post-harvest systems</div></div>
-      <div class="state-row"><div class="state-num">08</div><div class="state-name">Chhattisgarh</div><div class="state-issue">Rice-heavy, limited digital adoption</div></div>
-      <div class="state-row"><div class="state-num">09</div><div class="state-name">Assam</div><div class="state-issue">Flood-driven pest spread</div></div>
-      <div class="state-row"><div class="state-num">10</div><div class="state-name">Jharkhand</div><div class="state-issue">Weak extension networks</div></div>
-    </div>
-
-    <div class="india-map-wrap">
-      <div class="india-map-header">
-        <span>INDIA · PEST PRESSURE BY STATE</span>
-        <span>10 / 28</span>
+        <div class="proof with">
+          <div class="proof-top"><span class="proof-tag">Pestren</span><span class="live"><span class="dot"></span>Live</span></div>
+          <div class="call"><span class="fn">pestren.ask</span>(<span class="str">"fall armyworm risk for maize at 0.52, 35.27 this week?"</span>)</div>
+          <div class="ans-grounded"><b>Elevated fall-armyworm pressure this week</b> — warm nights + recent rain on a field at whorl stage.</div>
+          <div class="receipts">risk        = <span class="n">74 / 100</span>  (elevated)
+crop        = maize  (verified · whorl stage)
+driver      = warm nights + rainfall
+field       = parcel 1.2 ha  (resolved polygon)
+source      = <a href="#">FAO FAW-Monitor + national ag dept ↗</a>
+fetched     = 2026-07-01
+confidence  = field-verified
+action      = scout now; targeted bio-control if &gt;5% damage</div>
+          <span class="cap-chip">cited / timestamped / verified / actionable</span>
+        </div>
       </div>
-      <svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="rgba(245,243,236,0.04)" stroke-width="0.5">
-          <line x1="0" y1="100" x2="500" y2="100"/>
-          <line x1="0" y1="200" x2="500" y2="200"/>
-          <line x1="0" y1="300" x2="500" y2="300"/>
-          <line x1="0" y1="400" x2="500" y2="400"/>
-          <line x1="0" y1="500" x2="500" y2="500"/>
-          <line x1="100" y1="0" x2="100" y2="600"/>
-          <line x1="200" y1="0" x2="200" y2="600"/>
-          <line x1="300" y1="0" x2="300" y2="600"/>
-          <line x1="400" y1="0" x2="400" y2="600"/>
-        </g>
-        <path d="M 200 80 L 250 65 L 310 70 L 360 95 L 400 130 L 420 175 L 425 220 L 415 265 L 400 305 L 385 345 L 370 385 L 350 425 L 320 460 L 290 490 L 260 510 L 230 520 L 205 515 L 180 500 L 165 475 L 155 445 L 145 410 L 135 375 L 125 340 L 115 305 L 110 265 L 110 225 L 120 185 L 135 150 L 160 115 L 180 95 Z"
-              fill="#0f1413" stroke="rgba(245,243,236,0.18)" stroke-width="1"/>
-        <g font-family="JetBrains Mono, monospace" font-size="8" fill="#7eb648">
-      
-          <circle cx="240" cy="225" r="3.5" fill="#7eb648"/><text x="250" y="225">MP</text>
-          <circle cx="285" cy="245" r="3.5" fill="#7eb648"/><text x="295" y="248">Chhattisgarh</text>
-          <circle cx="320" cy="200" r="3.5" fill="#7eb648"/><text x="330" y="200">Bihar</text>
-          <circle cx="325" cy="225" r="3.5" fill="#7eb648"/><text x="335" y="225">Jharkhand</text>
-          <circle cx="370" cy="225" r="3.5" fill="#7eb648"/><text x="380" y="225">W. Bengal</text>
-          <circle cx="320" cy="270" r="3.5" fill="#7eb648"/><text x="330" y="270">Odisha</text>
-          <circle cx="400" cy="195" r="3.5" fill="#7eb648" opacity="0.7"/><text x="408" y="195">Assam</text>
-          <circle cx="240" cy="360" r="3.5" fill="#7eb648"/><text x="250" y="360">Telangana</text>
-          <circle cx="250" cy="400" r="3.5" fill="#7eb648"/><text x="260" y="400">AP</text>
-          <circle cx="215" cy="395" r="3.5" fill="#7eb648"/><text x="158" y="395">Karnataka</text>
-         
-        </g>
-        <g transform="translate(20, 555)">
-          <circle cx="6" cy="0" r="3" fill="#7eb648"/>
-          <text x="16" y="3" font-family="JetBrains Mono, monospace" font-size="9" fill="#b8b3a0">HIGH PEST PRESSURE</text>
-          <circle cx="6" cy="16" r="3" fill="#7eb648" opacity="0.7"/>
-          <text x="16" y="19" font-family="JetBrains Mono, monospace" font-size="9" fill="#b8b3a0">MODERATE</text>
-        </g>
-      </svg>
-    </div>
-  </div>
+      <p class="sec-lead reveal" style="margin-top:24px;max-width:760px;"><em>Every answer ends in an action — and, when you want it, the exact product to buy and how to set it up.</em></p>
+    </section>
 
-  <div class="india-callout reveal">
-    <div class="india-callout-label">⬡ The thesis</div>
-    <div class="india-callout-text">
-      One <em>standardized methodology</em>, deployed locally to every
-      state — not one model averaged across all of them.
-    </div>
-  </div>
-</section>
+    <!-- ===================== SECTORS ===================== -->
+    <section class="sec" id="sectors">
+      <div class="sec-head reveal">
+        <div class="sec-eyebrow">02 · Sectors</div>
+        <h2 class="sec-title">Sectors we <span class="hp">power</span>.</h2>
+        <p class="sec-lead">One intelligence layer, built into any product. Every card is a real question a partner's agent can ask — from a single plot to a global supply chain.</p>
+      </div>
 
-<!-- LOCALIZATION -->
-<section class="content localization-section">
-  <div class="section-num">06 / The Edge</div>
-  <h2 class="section-title">
-    <em>Standardized</em> playbook.<br>
-    <em>Localized</em> models.
-  </h2>
-  <p class="lead-text">
-    Other AgriTech ships one model and hopes it generalizes. We ship one
-    method and train it multiple times. Lower per-district cost. Higher per-district accuracy.
-  </p>
+      <div class="bento-grid stagger">
+        <article class="scard lime">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Colombia</span></div>
+          <div class="aq-q">"Coffee at 4.57, -75.66 — irrigation this week, and early rust risk?"</div>
+          <h3>Growers &amp; precision farms</h3>
+          <p>Better results field by field: soil and irrigation management, yield maximization, pest and disease control, precision agriculture — grounded and actionable.</p>
+          <div class="tags"><span>Soil</span><span>Irrigation</span><span>Yield</span><span>Disease</span></div>
+        </article>
 
-  <div class="loc-grid reveal">
-    <div class="loc-card">
-      <div class="loc-card-tag">⬢ THE METHOD</div>
-      <h3>One <em>standardized</em> pipeline.</h3>
-      <p>
-        Same architecture, same ingestion stack, same validation
-        thresholds, same delivery layer — replicable in the same crop season per
-        district. The playbook is the IP.
-      </p>
-      <p>
-        Documented from FPO onboarding through outcome feedback.
-      </p>
-      <div class="loc-card-stat">reduced</div>
-      <div class="loc-card-stat-label">Time to deploy a new district</div>
-    </div>
+        <article class="scard peri">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Build from scratch</span></div>
+          <div class="aq-q">"I have 0.5 ha and a small budget — what should I grow, and how do I start?"</div>
+          <h3>First-time &amp; family growers</h3>
+          <p>Forward-deployed agriculture: hand Pestren a plot and a budget and it plans the crop, the method, and the setup. A family member with no experience can start — and take over.</p>
+          <div class="tags"><span>Plan</span><span>Budget</span><span>How-to</span><span>Setup</span></div>
+        </article>
 
-    <div class="loc-card">
-      <div class="loc-card-tag">⬢ THE MODEL</div>
-      <h3>Every district gets <em>its own weights.</em></h3>
-      <p>
-        Local weather pattern. Local pest history. Local soil parameters. Local crop
-        calendar. Local ground-truth from FPO partners. The model
-        knows your cluster.
-      </p>
-      <p>
-        Outcome feedback compounds — every cropping season the model gets
-        better at this specific land, not generic farmland.
-      </p>
-      <div class="loc-card-stat">reduced</div>
-      <div class="loc-card-stat-label">Training cost per district</div>
-    </div>
-  </div>
-</section>
+        <article class="scard forest">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Verify crop, sowing window, and flood exposure for this parcel to settle a claim / underwrite a loan."</div>
+          <h3>Insurance, lending &amp; consultancies</h3>
+          <p>Query verifiable field data to write reports, settle claims, underwrite loans, value collateral, and make decisions — every figure sourced and audit-trailed.</p>
+          <div class="tags"><span>Crop verify</span><span>Flood</span><span>Yield risk</span><span>Collateral</span></div>
+        </article>
 
-<!-- BET / ROADMAP -->
-<section class="bet-section">
-  <div class="bet-eyebrow">⬢ The bet</div>
-  <h1 class="bet-headline">
-    Healthier food. Safer soil.<br>
-    Lower the load on the planet.<br>
-    <em>All at once.</em>
-  </h1>
-  <p class="bet-sub">
-    Agriculture is one of the biggest markets in the world. If you can
-    cut costs and increase yields at the same time, adoption isn't slow.
-    It's explosive.
-  </p>
+        <article class="scard white">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Which fields need this input now — and where can we cut chemical use without losing yield?"</div>
+          <h3>Input, fertilizer &amp; chemical companies</h3>
+          <p>Put the right product on the right field at the right time, reduce chemical load, and map real demand — tied to verified crop, stage, and pressure.</p>
+          <div class="tags"><span>Targeting</span><span>Reduce-chem</span><span>Demand map</span><span>Stage</span></div>
+        </article>
 
-  <div class="roadmap-strip reveal">
-    <div class="road-cell">
-      <div class="phase-num">PHASE 01 · NOW</div>
-      <h4>Pilot launch</h4>
-      <p>2 states · 3 districts · 1 crop systems · the localization playbook proves itself in eastern India</p>
-    </div>
-    <div class="road-cell">
-      <div class="phase-num">PHASE 02 · 18 MO</div>
-      <h4>State scale-up</h4>
-      <p>12 districts across pilot states · first signed contract</p>
-    </div>
-    <div class="road-cell">
-      <div class="phase-num">PHASE 03 · YEAR 3</div>
-      <h4>Pan-India</h4>
-      <p>5 states active · 1000 acres under advisory · increased crop coverage</p>
-    </div>
-    <div class="road-cell">
-      <div class="phase-num">PHASE 04 · YEAR 15+</div>
-      <h4>Global south</h4>
-      <p>SE Asia · Sub-Asia · same playbook, different soils · the Stripe of pest intelligence</p>
-    </div>
-  </div>
+        <article class="scard lime">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Which regions have the crop, terrain, and drainage that fit this machine?"</div>
+          <h3>Equipment, tractor &amp; tooling companies</h3>
+          <p>Size markets and place machinery where ground conditions actually fit — parcel-level agronomy instead of guesswork.</p>
+          <div class="tags"><span>Acreage</span><span>Terrain</span><span>Suitability</span><span>Market</span></div>
+        </article>
 
-  <div style="margin-top: 80px;">
-    <a href="pilot.html" class="btn-secondary" style="font-size: 14px;">→ See the pilot plan in detail</a>
-  </div>
-</section>
+        <article class="scard peri">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Give us risk polygons to fly and sourced field data to train and calibrate our models."</div>
+          <h3>Drone, robotics &amp; sensor builders</h3>
+          <p>The data and APIs to map, train, and structure higher-accuracy products — and deploy faster. Your detections flow back as ground truth.</p>
+          <div class="tags"><span>Risk polygons</span><span>Training data</span><span>Calibration</span><span>API</span></div>
+        </article>
 
-<!-- CTA -->
-<!-- <section class="cta-section">
-  <h2 class="cta-headline">
-    If you're building toward this future —<br>
-    or want to <em>fund the people who are</em> —<br>
-    we want to talk.
-  </h2>
-  <a href="mailto:founders@Pestren.ai" class="cta-mega">Email the founders →</a>
-  <div class="cta-meta">
-    <span>founders@Pestren.ai</span> · Reply within 24 hours · Bhubaneswar, India
-  </div>
-</section> -->
+        <article class="scard forest">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Universities</span></div>
+          <div class="aq-q">"Assemble trial cohorts with matched weather-soil profiles for a pesticide-free study."</div>
+          <h3>Research &amp; education</h3>
+          <p>Students and agri-tech universities research and prototype faster on real, sourced, reproducible field data — from lab to field.</p>
+          <div class="tags"><span>Trial sites</span><span>Datasets</span><span>Reproducible</span><span>R&amp;D</span></div>
+        </article>
 
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-brand">Pestren</div>
-      <p class="footer-tag">"A localized AI system for the full pest management. Built for India first. Designed for the world."</p>
-    </div>
-    <div class="footer-col">
-      <h5>The Thesis</h5>
-      <a href="#trap">The trap</a>
-      <a href="#shift">The shift</a>
-      <a href="#system">The system</a>
-    </div>
-    <div class="footer-col">
-      <h5>The Plan</h5>
-      <a href="pilot.html">Pilot states</a>
-      <a href="#system">Lifecycle</a>
-      <a href="#">Roadmap</a>
-    </div>
-    <!-- <div class="footer-col">
-      <h5>Talk to us</h5>
-      <a href="mailto:investors@Pestren.ai">Investors</a>
-      <a href="mailto:partners@Pestren.ai">Governments</a>
-      <a href="mailto:fpo@Pestren.ai">FPOs</a>
-    </div> -->
-  </div>
-  <div class="footer-bottom">
-    <div>© 2026 Pestren, Inc. · Pestren.ai</div>
-    <!-- <div>21.49°N · 83.96°E · Bhubaneswar</div> -->
-  </div>
-</footer>
+        <article class="scard white">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Learning plots</span></div>
+          <div class="aq-q">"Turn this schoolyard plot into a season-long, measurable growing lesson."</div>
+          <h3>Schools, kids &amp; community</h3>
+          <p>A new way to engage kids: grow, measure, learn — turning schoolyards, campuses, and parks into productive learning plots that lift both produce and understanding.</p>
+          <div class="tags"><span>Learn</span><span>Measure</span><span>Grow</span><span>Community</span></div>
+        </article>
+
+        <article class="scard lime">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Agencies</span></div>
+          <div class="aq-q">"District crop map + climate-risk zones — model and test a drought-response policy."</div>
+          <h3>Government &amp; policy (incl. climate)</h3>
+          <p>Track and monitor at scale, design and implement policy on verifiable data, and — during climate hazards — analyze, model, and prototype response solutions.</p>
+          <div class="tags"><span>Crop map</span><span>Policy</span><span>Climate risk</span><span>Monitoring</span></div>
+        </article>
+
+        <article class="scard peri">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global supply</span></div>
+          <div class="aq-q">"Monitor our sourced estates and inventory — and run our farmer-support program."</div>
+          <h3>Corporate sourcing &amp; sustainability</h3>
+          <p>Global food and CPG buyers monitor sourced produce and inventories, maintain supply, and run sustainability and grower-support programs on real field data.</p>
+          <div class="tags"><span>Sourcing</span><span>Inventory</span><span>Sustainability</span><span>Support</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== INTEGRATE ===================== -->
+    <section class="sec sec-int" id="integrate">
+     <div class="int-scroll" id="intScroll">
+      <div class="int-sticky">
+      <div class="sec-head reveal">
+        <div class="sec-eyebrow">03 · Integrate</div>
+        <h2 class="sec-title">Plug into <span class="hp">any LLM</span>.</h2>
+        <p class="sec-lead">One layer, four ways in. Pick an endpoint, drop in a key, and start pulling grounded, cited field intelligence into any model — GPT, Claude, Gemini, Llama, or your own.</p>
+      </div>
+
+      <div class="int-layout reveal">
+        <div class="int-sel" id="intSel">
+          <span class="int-rail" id="intRail"></span>
+          <button class="int-opt active" data-int="0">
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V6a4 4 0 0 1 4-4h9a4 4 0 0 1 4 4Z"/></svg></span>
+            <span><span class="ot">Cited answer</span><span class="oe">/v1/ask</span></span>
+          </button>
+          <button class="int-opt" data-int="1">
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+            <span><span class="ot">Raw fields</span><span class="oe">/v1/fetch</span></span>
+          </button>
+          <button class="int-opt" data-int="2">
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
+            <span><span class="ot">Drop-in Skills</span><span class="oe">skills/</span></span>
+          </button>
+          <button class="int-opt" data-int="3">
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 9h8M8 13h5"/></svg></span>
+            <span><span class="ot">Native to my agent</span><span class="oe">pestren-mcp</span></span>
+          </button>
+        </div>
+
+        <div class="int-detail">
+          <div class="int-dtop">
+            <div class="mrow"><span class="mbadge m-post" id="mBadge">POST</span><span class="endpoint" id="mEndpoint">/v1/ask</span></div>
+            <p class="int-summary" id="mSummary"></p>
+          </div>
+          <p class="int-body" id="mBody"></p>
+          <div class="rb"><span class="rb-chip">RETURNS <b id="mReturns"></b></span><span class="rb-chip">BEST FOR <b id="mBest"></b></span></div>
+          <div class="term">
+            <div class="term-bar">
+              <div class="lights"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+              <span class="term-file" id="mFile">request.sh</span>
+              <button class="term-copy" id="mCopy"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="7" width="9" height="9" rx="1.5"/><path d="M4 13V4h9"/></svg>Copy</button>
+            </div>
+            <div class="term-body"><pre id="mCode"></pre></div>
+          </div>
+        </div>
+      </div>
+      </div><!-- /.int-sticky -->
+     </div><!-- /.int-scroll -->
+
+      <div class="int-feats stagger">
+        <div class="feat-strip lime">
+          <div class="fs-eyebrow">Build your own farm · forward-deployed</div>
+          <h3>From a plot and a budget to a running plan</h3>
+          <p>Pestren answers <em>what to grow, how to grow it, and what to set up</em> — so anyone, anywhere, can build a farm to their own whims, and hand it off when they want.</p>
+        </div>
+        <div class="feat-strip peri">
+          <div class="fs-eyebrow">Recommend &amp; earn</div>
+          <h3>Answers become actions become products</h3>
+          <p>Recommended inputs, sensors, and gear a grower can buy and install — with setup guidance built into every answer.</p>
+          <span class="fs-note">Pestren earns referral commission on recommendations — a revenue line on top of API metering.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BENCHMARK & TRUST ===================== -->
+    <section class="sec" id="benchmark">
+      <div class="sec-head reveal">
+        <div class="sec-eyebrow">04 · Benchmark</div>
+        <h2 class="sec-title">Don't take our word for it. <span class="hp">Benchmark it</span>.</h2>
+        <p class="sec-lead">Run any farm question at any coordinate and score Pestren against every other model on the axes that actually matter — grounded, cited, fresh, and actionable.</p>
+      </div>
+
+      <div class="bench reveal">
+        <div class="bench-q">
+          <span class="bench-qlabel">Question</span>
+          <span class="bench-qbox" id="benchQ">"Late-blight risk for potato at 47.3, 8.5 this week?"</span>
+          <button class="bench-run" id="benchRun">Run →</button>
+        </div>
+        <div class="bench-tablewrap">
+          <table class="bench-table">
+            <thead>
+              <tr><th>Model</th><th>grounded</th><th>cited</th><th>fresh</th><th>action</th><th>score</th></tr>
+            </thead>
+            <tbody>
+              <tr class="pest"><td>Pestren</td><td><span class="bx-y">✔</span></td><td><span class="bx-y">✔</span></td><td><span class="bx-y">✔</span></td><td><span class="bx-y">✔</span></td><td class="bench-score bx-y">9.4</td></tr>
+              <tr><td>GPT-5</td><td><span class="bx-y">✔</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td><span class="bx-p">~</span></td><td class="bench-score">5.1</td></tr>
+              <tr><td>Gemini</td><td><span class="bx-p">~</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td><span class="bx-p">~</span></td><td class="bench-score">4.7</td></tr>
+              <tr><td>Claude</td><td><span class="bx-y">✔</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td><span class="bx-p">~</span></td><td class="bench-score">5.6</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="bench-foot">
+          <span class="bench-cap">run any question · any coordinate · see the sources</span>
+          <a href="#contact" class="bench-run">Open the playground →</a>
+        </div>
+      </div>
+
+      <div class="trust-grid stagger">
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z"/></svg></span>Where the data comes from</h4>
+          <p>Global authoritative sources: FAO, national agriculture agencies, ESA Sentinel, NASA, SoilGrids, and live weather — combined with a growing field-verification network. Every answer names its sources.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>How fresh</h4>
+          <p>Weather daily, satellite on its revisit cycle, risk weekly; each value carries its own <code>timestamp</code>.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M20 6 9 17l-5-5"/></svg></span>Confidence tiers</h4>
+          <p>Every fact is tagged <code>literature-only</code>, <code>field-verified</code>, or <code>lab-confirmed</code>. You always see which.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3c2.5 2.5 4 5.6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.6-4-9s1.5-6.5 4-9Z"/></svg></span>Coverage</h4>
+          <p>Any crop, any geography; verification depth grows region by region.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>Privacy</h4>
+          <p>Your questions and coordinates are never used to train models.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 3v18M8 7h6a3 3 0 0 1 0 6H8m0 0h7"/></svg></span>Pricing</h4>
+          <p>Free tier + metered API; volume plans for enterprise; grower access kept low-friction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VIBE CHECK (RADIAL) ===================== -->
+    <section class="sec" id="vibe">
+      <div class="sec-head reveal" style="text-align:center;max-width:660px;margin-left:auto;margin-right:auto;">
+        <div class="sec-eyebrow" style="justify-content:center;">05 · Vibe check</div>
+        <h2 class="sec-title" style="margin-left:auto;margin-right:auto;">What's your vibe on <span class="hp">ungrounded answers</span>?</h2>
+        <p class="sec-lead" style="margin-left:auto;margin-right:auto;">Pause and see which face matches your energy about the answers you get today — then feel the shift a sourced, cited, field-verified one makes.</p>
+      </div>
+
+      <div class="vibe-card reveal">
+        <div class="vibe-radial" id="vibeRadial">
+          <svg class="vibe-web" viewBox="0 0 400 400" aria-hidden="true">
+            <circle class="ring" cx="200" cy="200" r="55"/>
+            <circle class="ring" cx="200" cy="200" r="105"/>
+            <circle class="ring" cx="200" cy="200" r="165"/>
+            <line class="spoke" x1="200" y1="200" x2="200"   y2="35"/>
+            <line class="spoke" x1="200" y1="200" x2="316.7" y2="83.3"/>
+            <line class="spoke" x1="200" y1="200" x2="365"   y2="200"/>
+            <line class="spoke" x1="200" y1="200" x2="316.7" y2="316.7"/>
+            <line class="spoke" x1="200" y1="200" x2="200"   y2="365"/>
+            <line class="spoke" x1="200" y1="200" x2="83.3"  y2="316.7"/>
+            <line class="spoke" x1="200" y1="200" x2="35"    y2="200"/>
+            <line class="spoke" x1="200" y1="200" x2="83.3"  y2="83.3"/>
+            <circle class="tip" cx="200"   cy="35"    r="5"/>
+            <circle class="tip" cx="316.7" cy="83.3"  r="5"/>
+            <circle class="tip" cx="365"   cy="200"   r="5"/>
+            <circle class="tip" cx="316.7" cy="316.7" r="5"/>
+            <circle class="tip" cx="200"   cy="365"   r="5"/>
+            <circle class="tip" cx="83.3"  cy="316.7" r="5"/>
+            <circle class="tip" cx="35"    cy="200"   r="5"/>
+            <circle class="tip" cx="83.3"  cy="83.3"  r="5"/>
+          </svg>
+          <button class="vibe-label p0 on" data-i="0">excited</button>
+          <button class="vibe-label p1" data-i="1">happy</button>
+          <button class="vibe-label p2" data-i="2">contented</button>
+          <button class="vibe-label p3" data-i="3">curious</button>
+          <button class="vibe-label p4" data-i="4">meh</button>
+          <button class="vibe-label p5" data-i="5">annoyed</button>
+          <button class="vibe-label p6" data-i="6">sad</button>
+          <button class="vibe-label p7" data-i="7">furious</button>
+          <div class="vibe-face"><img id="vibeImg" src="faces/excited.png" alt="excited"></div>
+        </div>
+
+        <div class="vibe-foot">
+          <div class="vibe-result">
+            <div class="vibe-brand">pe<span>🌱</span>tren</div>
+            <div class="vibe-res">results : <b id="vibeName">excited</b></div>
+            <p class="vibe-desc" id="vibeDesc"></p>
+          </div>
+          <div class="vibe-thumb"><img id="vibeThumb" src="faces/excited.png" alt=""></div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /.pad -->
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer" id="contact">
+      <div class="footer-top">
+        <h2>Forward-deployed agriculture. <span class="hp">Any crop. Anywhere.</span></h2>
+        <div class="footer-contact">
+          <a class="footer-mail" href="mailto:hello@pestren.ai">hello@pestren.ai</a>
+          <a class="btn btn-peri" href="mailto:hello@pestren.ai">Get API key <span class="tdot"></span></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#compare">Platform</a>
+        <a href="#sectors">Sectors</a>
+        <a href="#integrate">Integrate</a>
+        <a href="#benchmark">Benchmark</a>
+        <a href="#vibe">Vibe check</a>
+        <a href="docs.html">Docs</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Pestren, Inc. · pestren.ai</span>
+        <span>Any crop · any geography · any LLM</span>
+      </div>
+    </footer>
+</div>
+
+<!-- mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#compare">Platform</a>
+  <a href="#sectors">Sectors</a>
+  <a href="#integrate">Integrate</a>
+  <a href="#benchmark">Benchmark</a>
+  <a href="docs.html">Docs</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn btn-peri" style="align-self:flex-start;">Get API key ●</a>
+</div>
+
+<div class="toast" id="toast">Copied</div>
 
 <script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+  // mobile menu
+  const menu = document.getElementById('mobileMenu');
+  document.getElementById('navToggle').addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
 
+  // reveal + stagger (robust: unobserve after firing, trigger early, safety net)
+  const revealEls = Array.from(document.querySelectorAll('.reveal, .stagger'));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es, obs) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+    }), { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(el => io.observe(el));
+    // safety net: never leave content permanently hidden
+    setTimeout(() => revealEls.forEach(el => el.classList.add('vis')), 2500);
+  } else {
+    revealEls.forEach(el => el.classList.add('vis'));
+  }
+
+  // nav scrollspy — highlight the pill for the section in view (cheap, IO-driven)
+  const navPills = Array.from(document.querySelectorAll('.nav-pills .nav-pill'));
+  if ('IntersectionObserver' in window && navPills.length) {
+    const spy = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) {
+        const href = '#' + e.target.id;
+        navPills.forEach(p => p.classList.toggle('active', p.getAttribute('href') === href));
+      }
+    }), { rootMargin: '-45% 0px -45% 0px' });
+    ['compare','sectors','integrate','benchmark'].forEach(id => { const s = document.getElementById(id); if (s) spy.observe(s); });
+  }
+
+  // toast
+  const toast = document.getElementById('toast'); let tT;
+  function showToast(m){ toast.textContent = m; toast.classList.add('show'); clearTimeout(tT); tT = setTimeout(()=>toast.classList.remove('show'),1800); }
+
+  // Copy Skill
+  const skill = `{
+  "mcpServers": {
+    "pestren": { "command": "uvx", "args": ["pestren-mcp"] }
+  }
+}`;
+  document.getElementById('copySkill').addEventListener('click', () => navigator.clipboard.writeText(skill).then(()=>showToast('Skill copied ⧉')));
+
+  // integrate
+  const D = [
+    { method:'POST', mc:'m-post', ep:'/v1/ask', summary:'Natural language in, cited answer + action out.',
+      body:'Ask about any crop, pest, or field, anywhere. A planner picks the right agri-fields, fetches them with provenance, and synthesizes a grounded answer that ends in an action. Every claim carries a citation you can open.',
+      returns:'answer + citations + action', best:'agents & apps that reason in language', file:'request.sh',
+      code:`curl -X POST https://api.pestren.ai/v1/ask \\
+  -H <span class="t-str">"Authorization: Bearer $PESTREN_TOKEN"</span> \\
+  -d '{<span class="t-key">"lat"</span>:<span class="t-num">4.5700</span>,<span class="t-key">"lng"</span>:<span class="t-num">-75.6600</span>,<span class="t-key">"crop"</span>:<span class="t-str">"coffee"</span>,
+       <span class="t-key">"question"</span>:<span class="t-str">"Irrigation and rust risk this week?"</span>}'` },
+    { method:'POST', mc:'m-post', ep:'/v1/fetch', summary:'Exact fields at any coordinate.',
+      body:'Skip the language layer. Ask for named fields at a point or polygon anywhere on earth and get structured values back, each with its own source, timestamp, and confidence tier.',
+      returns:'fields + per-field provenance', best:'pipelines, scoring, training data', file:'request.sh',
+      code:`curl -X POST https://api.pestren.ai/v1/fetch \\
+  -H <span class="t-str">"Authorization: Bearer $PESTREN_TOKEN"</span> \\
+  -d '{<span class="t-key">"lat"</span>:<span class="t-num">4.5700</span>,<span class="t-key">"lng"</span>:<span class="t-num">-75.6600</span>,
+       <span class="t-key">"fields"</span>:[<span class="t-str">"crop"</span>,<span class="t-str">"soil"</span>,<span class="t-str">"rainfall_7d"</span>,<span class="t-str">"ndvi"</span>,<span class="t-str">"risk"</span>,<span class="t-str">"field_polygon"</span>]}'` },
+    { method:'SKILL', mc:'m-skill', ep:'skills/', summary:'Drop-in skill files any agent can load.',
+      body:'Reusable skill files any agent can load — crop agronomy and cross-crop practices, each with stages, thresholds, and sources baked in. Works with Claude/GPT skills and custom stacks.',
+      returns:'crop + practice skill files', best:'Claude/GPT skills, custom stacks', file:'skills/',
+      code:`skills/
+  <span class="t-key">crop.&lt;name&gt;.skill.md</span>      <span class="t-com"># agronomy, stages, thresholds, sources</span>
+  <span class="t-key">practice.irrigation.md</span>    <span class="t-com"># method skills, reusable across crops</span>` },
+    { method:'MCP', mc:'m-mcp', ep:'pestren-mcp', summary:'Same primitives, native to your agent.',
+      body:'Drop Pestren into any MCP-aware model. Two tools: pestren_ask and pestren_fetch. Zero install — uvx fetches the package on demand. Citations flow through like any other tool call.',
+      returns:'pestren_ask + pestren_fetch', best:'any MCP-aware model', file:'mcp.config.json',
+      code:`{ <span class="t-key">"mcpServers"</span>: { <span class="t-key">"pestren"</span>: { <span class="t-key">"command"</span>: <span class="t-str">"uvx"</span>, <span class="t-key">"args"</span>: [<span class="t-str">"pestren-mcp"</span>] } } }` }
+  ];
+  const sel = document.getElementById('intSel');
+  const rail = document.getElementById('intRail');
+  const intScroll = document.getElementById('intScroll');
+  const detail = document.querySelector('.int-detail');
+  const intOpts = Array.from(sel.querySelectorAll('.int-opt'));
+  const mBadge=document.getElementById('mBadge'), mEndpoint=document.getElementById('mEndpoint'), mSummary=document.getElementById('mSummary'),
+        mBody=document.getElementById('mBody'), mReturns=document.getElementById('mReturns'), mBest=document.getElementById('mBest'),
+        mFile=document.getElementById('mFile'), mCode=document.getElementById('mCode');
+  let curInt = -1;
+  function moveRail(i){
+    const b = intOpts[i]; if(!b) return;
+    rail.style.height = b.offsetHeight + 'px';
+    rail.style.transform = 'translateY(' + b.offsetTop + 'px)';
+    rail.classList.add('on');
+  }
+  function setInt(i){
+    if(i===curInt) return;
+    curInt = i;
+    const d=D[i];
+    mBadge.textContent=d.method; mBadge.className='mbadge '+d.mc;
+    mEndpoint.textContent=d.ep; mSummary.textContent=d.summary; mBody.textContent=d.body;
+    mReturns.textContent=d.returns; mBest.textContent=d.best; mFile.textContent=d.file; mCode.innerHTML=d.code;
+    intOpts.forEach((b,idx)=>b.classList.toggle('active',idx===i));
+    moveRail(i);
+    detail.classList.remove('swap'); void detail.offsetWidth; detail.classList.add('swap');
+  }
+
+  // scroll driver: while the pinned section is in view, map scroll progress -> active endpoint
+  const isPinned = () => window.matchMedia('(min-width:921px)').matches;
+  let ticking = false;
+  function onIntScroll(){
+    if(!isPinned()) return;
+    const r = intScroll.getBoundingClientRect();
+    const travel = intScroll.offsetHeight - window.innerHeight; // scrollable distance while pinned
+    const p = Math.min(1, Math.max(0, -r.top / travel));        // 0 -> 1 through the section
+    const idx = Math.min(D.length-1, Math.floor(p * D.length));
+    setInt(idx);
+  }
+  window.addEventListener('scroll', () => {
+    if(ticking) return; ticking = true;
+    requestAnimationFrame(() => { onIntScroll(); ticking = false; });
+  }, { passive:true });
+  window.addEventListener('resize', () => { onIntScroll(); moveRail(curInt<0?0:curInt); });
+
+  // clicking a tab: on desktop, scroll to that segment (which activates it); on mobile, switch directly
+  intOpts.forEach((b,idx) => b.addEventListener('click', () => {
+    if(isPinned()){
+      const travel = intScroll.offsetHeight - window.innerHeight;
+      const target = intScroll.offsetTop + (idx + 0.5) / D.length * travel;
+      window.scrollTo({ top: target, behavior:'smooth' });
+    } else {
+      setInt(idx);
+    }
+  }));
+
+  setInt(0); onIntScroll();
+  document.getElementById('mCopy').addEventListener('click',()=>navigator.clipboard.writeText(mCode.textContent).then(()=>showToast('Copied')));
+
+  // benchmark playground (demo interaction)
+  const benchRun = document.getElementById('benchRun');
+  if(benchRun){ benchRun.addEventListener('click', () => showToast('Scored — Pestren 9.4 · see the sources ↗')); }
+
+  // ===================== HERO INTERACTIONS =====================
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1) live model selector + auto-rotate carousel
+  (function(){
+    const chipsWrap = document.getElementById('modelChips');
+    const ticksWrap = document.getElementById('carTicks');
+    const play = document.getElementById('carPlay');
+    const live = document.getElementById('modelLive');
+    if(!chipsWrap || !ticksWrap || !play) return;
+    const chips = Array.from(chipsWrap.querySelectorAll('.mchip'));
+    // each model's OWN unaided answer to the same question — varied + ungrounded
+    const MODELS = [
+      { text:"I don't have live field or weather data. Coffee leaf rust generally rises in warm, humid spells — you'd want to check local conditions and scout.", flag:"no source · no date" },
+      { text:"I can't access real-time conditions for that coordinate. Rust pressure depends on humidity and temperature over recent weeks; consider consulting local extension services.", flag:"no source · no date" },
+      { text:"Estimated risk is moderate, but this is a general guess — likely somewhere between low and high depending on recent rainfall I can't see.", flag:"estimated · unverifiable" },
+      { text:"Rust risk may be elevated in humid regions. I don't have specifics for this location or season.", flag:"vague · no grounding" },
+      { text:"Whatever model you ship — without a grounding layer it answers from training data, not this field, this week.", flag:"no field grounding" },
+    ];
+    const answer = document.getElementById('modelAnswer');
+    const maLbl = document.getElementById('maLbl'), maText = document.getElementById('maText'), maFlag = document.getElementById('maFlag');
+    // build one tick per model, inserted before the play button
+    const ticks = chips.map((_,i) => {
+      const t = document.createElement('i'); if(i===0) t.className='on';
+      ticksWrap.insertBefore(t, play); return t;
+    });
+    const pill = document.getElementById('mchipPill');
+    let cur = 0, timer = null;
+    function movePill(){
+      const c = chips[cur]; if(!pill || !c) return;
+      pill.style.width  = c.offsetWidth + 'px';
+      pill.style.height = c.offsetHeight + 'px';
+      pill.style.transform = `translate(${c.offsetLeft}px, ${c.offsetTop}px)`;
+      pill.classList.add('on');
+    }
+    function set(i){
+      cur = (i + chips.length) % chips.length;
+      chips.forEach((c,idx)=>c.classList.toggle('on', idx===cur));
+      ticks.forEach((t,idx)=>t.classList.toggle('on', idx===cur));
+      movePill();
+      const name = chips[cur].textContent.trim();
+      if(live) live.innerHTML = 'Same call, answered with <b>'+name+'</b>';
+      const m = MODELS[cur];
+      if(m && maText){
+        maLbl.textContent = (name === 'your own' ? 'Your model' : name) + ', on its own';
+        maText.textContent = m.text;
+        maFlag.textContent = '⚠ ' + m.flag;
+        answer.classList.remove('swap'); void answer.offsetWidth; answer.classList.add('swap');
+      }
+    }
+    function start(){ if(reduceMotion || timer) return; play.classList.add('playing'); timer = setInterval(()=>set(cur+1), 2600); }
+    function stop(){ clearInterval(timer); timer=null; play.classList.remove('playing'); }
+    play.addEventListener('click', ()=> timer ? stop() : start());
+    chips.forEach((c,i)=> c.addEventListener('click', ()=>{ stop(); set(i); }));
+    ticks.forEach((t,i)=> t.addEventListener('click', ()=>{ stop(); set(i); }));
+    // pause when tab hidden (saves cycles)
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); });
+    window.addEventListener('resize', movePill, { passive:true });
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(movePill); // re-measure after webfont swap
+    set(0); requestAnimationFrame(movePill); start();  // rAF: measure after layout settles
+  })();
+
+  // 2b) fire the "verified" highlighter sweep once
+  requestAnimationFrame(()=>{ const hp=document.querySelector('.hp.sweep'); if(hp) hp.classList.add('go'); });
+
+  // 2) animate the stat bar in on load
+  requestAnimationFrame(()=>{ const bar=document.querySelector('.bar'); if(bar) bar.classList.add('go'); });
+
+  // 3) pointer-parallax depth on the field card (hover-capable, transform-only)
+  (function(){
+    const card = document.querySelector('.big-card');
+    const scene = card && card.querySelector('.scene');
+    const chips = card && card.querySelector('.big-chips');
+    const stat  = card && card.querySelector('.stat-card');
+    if(!card || !scene || reduceMotion || !window.matchMedia('(hover:hover)').matches) return;
+    let raf = null, nx = 0, ny = 0;
+    function apply(){
+      raf = null;
+      scene.style.transform = `translate(${nx*10}px, ${ny*7}px) scale(1.05)`;
+      if(chips) chips.style.transform = `translate(${nx*-9}px, ${ny*-6}px)`;
+      if(stat)  stat.style.transform  = `translate(${nx*-6}px, ${ny*-4}px)`;
+    }
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      nx = ((e.clientX - r.left)/r.width - .5) * 2;
+      ny = ((e.clientY - r.top)/r.height - .5) * 2;
+      if(!raf) raf = requestAnimationFrame(apply);
+    });
+    card.addEventListener('mouseleave', ()=>{
+      if(raf) cancelAnimationFrame(raf), raf=null;
+      scene.style.transform = ''; if(chips) chips.style.transform=''; if(stat) stat.style.transform='';
+    });
+  })();
+
+  // 4) vibe radial — face swaps into the center, description reads the feeling toward the product
+  (function(){
+    const wrap = document.getElementById('vibeRadial');
+    if(!wrap) return;
+    // order matches the ring, clockwise from the top
+    const V = [
+      { key:'excited',   desc:"Buzzing and all-in — excited is what it feels like the moment Pestren cites a live source mid-answer. The disclaimers vanish, the next action is right there, and suddenly the whole roadmap writes itself." },
+      { key:'happy',     desc:"Light, easy, sorted — happy is a grounded, sourced answer the first time you see one. No hedging, no 'consult a local expert,' just the field, this week, and what to do about it." },
+      { key:'contented', desc:"Calm and quietly sure — contented trusts the receipts. Every figure is timestamped and field-verified, so there's nothing left to second-guess and nothing to babysit." },
+      { key:'curious',   desc:"Leaning in, asking one more question — curious wants to open the citation, see the resolved polygon, and benchmark the answer against every other model before it commits." },
+      { key:'meh',       desc:"Unmoved, unconvinced — meh has skimmed a hundred generic replies with no source and no date. It's heard 'risk generally rises in warm, humid conditions' too many times to care. Prove it, or move on." },
+      { key:'annoyed',   desc:"Patience wearing thin — annoyed just hit 'I don't have real-time access to that field' one time too many. It doesn't want a caveat, it wants the coordinate answered." },
+      { key:'sad',       desc:"Let down again — sad trusted an ungrounded answer, acted on it, and watched a season slip. It's tired of confident guesses dressed up as agronomy." },
+      { key:'furious',   desc:"Done with the hand-waving — furious has had it with answers that are confident, uncited, and wrong. Give it grounding and provenance, or get out of the field." },
+    ];
+    const img   = document.getElementById('vibeImg');
+    const thumb = document.getElementById('vibeThumb');
+    const nameEl= document.getElementById('vibeName');
+    const descEl= document.getElementById('vibeDesc');
+    const labels= Array.from(wrap.querySelectorAll('.vibe-label'));
+    const spokes= Array.from(wrap.querySelectorAll('.spoke'));
+    const tips  = Array.from(wrap.querySelectorAll('.tip'));
+    let cur=-1, timer=null;
+    function set(i){
+      if(i===cur) return; cur=i; const v=V[i];
+      labels.forEach((l,x)=>l.classList.toggle('on',x===i));
+      spokes.forEach((s,x)=>s.classList.toggle('on',x===i));
+      tips.forEach((t,x)=>t.classList.toggle('on',x===i));
+      img.src = thumb.src = 'faces/'+v.key+'.png'; img.alt = v.key;
+      nameEl.textContent = v.key; descEl.textContent = v.desc;
+      img.classList.remove('swap'); void img.offsetWidth; img.classList.add('swap');
+      descEl.classList.remove('swap'); void descEl.offsetWidth; descEl.classList.add('swap');
+    }
+    function start(){ if(reduceMotion || timer) return; timer=setInterval(()=>set((cur+1)%V.length), 2800); }
+    function stop(){ clearInterval(timer); timer=null; }
+    labels.forEach((l,i)=>{
+      l.addEventListener('click', ()=>{ stop(); set(i); });
+      l.addEventListener('mouseenter', ()=>{ stop(); set(i); });
+    });
+    wrap.addEventListener('mouseleave', start);
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); });
+    set(0); start();
+  })();
+</script>
 </body>
 </html>

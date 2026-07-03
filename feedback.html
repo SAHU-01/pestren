@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pestren — tell us how you feel</title>
+<meta name="description" content="A quick, playful feedback + waitlist form for Pestren, an agricultural-intelligence platform." />
+<link rel="icon" type="image/png" href="PESTREN.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --lime:#DEF24B; --peri:#93A8F4; --forest:#173F2E; --ink:#161616;
+  --page:#F1F2EC; --pink:#EC4899; --err:#d64545; --white:#fff;
+  --radius:26px; --radius-sm:16px;
+  --shadow:0 20px 60px -20px rgba(23,63,46,.35), 0 4px 16px -6px rgba(0,0,0,.12);
+  --font-disp:'Fredoka','Poppins',ui-rounded,system-ui,sans-serif;
+  --font-body:'Poppins',ui-rounded,system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body); color:var(--ink); background:var(--page);
+  min-height:100dvh; display:flex; align-items:center; justify-content:center;
+  padding:20px; line-height:1.5;
+  background-image:radial-gradient(circle at 15% 10%, rgba(147,168,244,.18), transparent 40%),
+                   radial-gradient(circle at 85% 85%, rgba(222,242,75,.22), transparent 42%);
+}
+::selection{background:var(--lime)}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--forest);text-decoration:underline;text-underline-offset:2px}
+
+.card{
+  width:100%; max-width:600px; background:var(--white); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:clamp(22px,5vw,40px); position:relative; overflow:hidden;
+}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--font-disp);font-weight:600;
+  font-size:15px;color:var(--forest);margin-bottom:18px;letter-spacing:.2px}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--lime);
+  box-shadow:0 0 0 4px rgba(222,242,75,.35)}
+
+/* progress */
+.progress{height:8px;border-radius:99px;background:#e7e8e0;overflow:hidden;margin-bottom:26px}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--peri),var(--lime));
+  border-radius:99px;transform-origin:left;transform:scaleX(.25);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+
+h1.q{font-family:var(--font-disp);font-weight:600;font-size:clamp(23px,5.4vw,30px);
+  line-height:1.15;letter-spacing:-.3px;margin-bottom:8px}
+p.sub{color:#5a5f57;font-size:14.5px;margin-bottom:22px}
+
+.step{display:none;animation:fade .45s cubic-bezier(.2,.8,.2,1)}
+.step.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* globe */
+.globe-wrap{width:100%;height:210px;margin:2px 0 20px;display:flex;align-items:center;justify-content:center}
+.globe-wrap canvas{border-radius:50%;max-width:210px;max-height:210px;cursor:grab}
+.globe-wrap canvas:active{cursor:grabbing}
+
+/* fields */
+label.fld{display:block;font-weight:500;font-size:13.5px;margin-bottom:7px;color:#3c413a}
+select,input[type=email],textarea{
+  width:100%;font-family:inherit;font-size:15px;color:var(--ink);background:#fafbf6;
+  border:2px solid #e3e5dc;border-radius:var(--radius-sm);padding:13px 15px;transition:border-color .2s,box-shadow .2s;
+}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--peri);
+  box-shadow:0 0 0 4px rgba(147,168,244,.25)}
+textarea{resize:vertical;min-height:84px}
+.count{font-family:var(--font-mono);font-size:11.5px;color:#8a8f85;text-align:right;margin-top:5px}
+.err-msg{color:var(--err);font-size:13px;margin-top:8px;font-weight:500;display:none}
+.err-msg.show{display:block}
+.field-err{border-color:var(--err)!important}
+
+/* availability remark */
+.remark{margin-top:16px;border-radius:var(--radius-sm);padding:14px 16px;font-size:14px;
+  line-height:1.45;opacity:0;max-height:0;overflow:hidden;transition:opacity .4s,max-height .4s,padding .4s}
+.remark.show{opacity:1;max-height:240px}
+.remark.priority{background:rgba(222,242,75,.28);border:1.5px solid rgba(23,63,46,.15)}
+.remark.expanding{background:rgba(147,168,244,.2);border:1.5px solid rgba(147,168,244,.4)}
+.remark b{font-weight:600;color:var(--forest)}
+
+/* star checkbox */
+.star-row{display:flex;align-items:flex-start;gap:13px;background:#fafbf6;border:2px solid #e3e5dc;
+  border-radius:var(--radius-sm);padding:15px 16px;cursor:pointer;transition:border-color .2s,background .2s}
+.star-row:hover{border-color:var(--peri)}
+.star-row:focus-visible{outline:none;border-color:var(--peri);box-shadow:0 0 0 4px rgba(147,168,244,.25)}
+.star-row.checked{background:rgba(236,72,153,.07);border-color:var(--pink)}
+.star-ico{flex:0 0 auto;width:30px;height:30px;margin-top:1px}
+.star-ico path{fill:transparent;stroke:#c3c7bc;stroke-width:1.6;transition:fill .25s,stroke .25s}
+.star-row.checked .star-ico path{fill:var(--pink);stroke:var(--pink)}
+.star-ico.pop{animation:pop .42s cubic-bezier(.2,1.4,.5,1)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+.spark{position:absolute;pointer-events:none;font-size:14px;animation:spark .55s ease-out forwards}
+@keyframes spark{0%{opacity:1;transform:scale(.4)}100%{opacity:0;transform:scale(1.5) translateY(-14px)}}
+.star-label{font-weight:500;font-size:14.5px}
+.star-label small{display:block;color:#71766d;font-weight:400;font-size:12.5px;margin-top:2px}
+
+.email-reveal{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s,opacity .4s,margin .4s}
+.email-reveal.show{max-height:160px;opacity:1;margin-top:16px}
+.email-note{font-size:12.5px;color:#71766d;margin-top:7px}
+
+/* radar — one big floating head at a time */
+.radar{position:relative;width:min(360px,82vw);aspect-ratio:1;margin:10px auto 4px}
+.radar-web{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.radar-web .rr{fill:none;stroke:#dcded4;stroke-width:1;stroke-dasharray:2 6}
+.radar-web .rs{stroke:#e6e8df;stroke-width:1;transition:stroke .35s,stroke-width .35s}
+.radar-web .rs.on{stroke:var(--forest);stroke-width:2.4}
+.radar-web .rtip{fill:var(--forest);opacity:0;transition:opacity .3s}
+.radar-web .rtip.on{opacity:1}
+.radar-face{position:absolute;left:50%;top:50%;width:52%;height:52%;transform:translate(-50%,-50%);
+  display:grid;place-items:center;pointer-events:none}
+.radar-face img{width:100%;height:100%;object-fit:contain;object-position:center;
+  -webkit-mask-image:radial-gradient(circle at 50% 44%,#000 50%,transparent 70%);
+          mask-image:radial-gradient(circle at 50% 44%,#000 50%,transparent 70%);
+  filter:drop-shadow(0 14px 24px rgba(23,63,46,.22))}
+.radar-face img.swap{animation:fpop .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes fpop{from{opacity:.35;transform:scale(.9)}to{opacity:1;transform:none}}
+.rlabel{position:absolute;transform:translate(-50%,-50%);background:none;border:none;cursor:pointer;
+  font-family:var(--font-body);font-weight:500;font-size:14.5px;color:#8a8f85;white-space:nowrap;
+  padding:6px 9px;border-radius:99px;transition:color .2s,transform .2s}
+.rlabel:hover{color:var(--ink)}
+.rlabel:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(147,168,244,.35)}
+.rlabel.on{color:var(--forest);font-weight:700;transform:translate(-50%,-50%) scale(1.1)}
+.rlabel.l0{left:50%;top:1%} .rlabel.l1{left:85%;top:14%} .rlabel.l2{left:99%;top:50%}
+.rlabel.l3{left:85%;top:86%} .rlabel.l4{left:50%;top:99%} .rlabel.l5{left:15%;top:86%}
+.rlabel.l6{left:1%;top:50%} .rlabel.l7{left:15%;top:14%}
+.rdesc{text-align:center;font-family:var(--font-disp);font-weight:500;font-size:15px;color:var(--forest);
+  line-height:1.4;min-height:44px;max-width:360px;margin:2px auto 18px}
+
+/* honeypot */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* license card */
+.license{background:#fafbf6;border:2px solid #e3e5dc;border-radius:var(--radius-sm);padding:16px 18px;
+  font-size:13.5px;line-height:1.5;color:#3c413a;margin-bottom:18px}
+.license b{color:var(--forest)}
+
+/* nav */
+.nav{display:flex;gap:12px;margin-top:26px}
+.btn{border:none;border-radius:99px;font-family:var(--font-disp);font-weight:600;font-size:15.5px;
+  padding:14px 26px;transition:transform .12s,box-shadow .2s,background .2s;flex:0 0 auto}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--forest);color:#fff;flex:1;box-shadow:0 8px 20px -8px rgba(23,63,46,.6)}
+.btn-primary:hover{background:#1d4d39}
+.btn-primary[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn-ghost{background:#eceee5;color:var(--ink)}
+.btn-ghost:hover{background:#e2e4da}
+
+/* thank you */
+.thanks{display:none;text-align:center;animation:fade .5s}
+.thanks.active{display:block}
+.thanks .big-face{font-size:70px;line-height:1;margin-bottom:6px}
+.thanks .big-face img{width:88px;height:88px;object-fit:cover;border-radius:50%}
+.thanks h1{font-family:var(--font-disp);font-weight:600;font-size:26px;margin-bottom:8px}
+.thanks .lead{color:#4a4f47;font-size:15px;margin-bottom:6px}
+.thanks .note{color:#71766d;font-size:13px;margin-bottom:22px}
+.beat{text-align:left;background:#fafbf6;border:2px solid #e3e5dc;border-radius:var(--radius-sm);
+  padding:16px 18px;font-size:14px;line-height:1.5;margin-bottom:14px}
+.beat .foot-fig{font-family:var(--font-mono);font-weight:500;color:var(--forest)}
+.beat.solar{background:rgba(222,242,75,.16);border-color:rgba(23,63,46,.14)}
+.copy-btn{margin-top:12px;background:var(--forest);color:#fff;border:none;border-radius:99px;
+  font-family:var(--font-disp);font-weight:600;font-size:13.5px;padding:9px 18px}
+.copy-btn.done{background:var(--pink)}
+
+@media (max-width:460px){
+  .rlabel{font-size:12px;padding:5px 6px}
+  .rdesc{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.08s!important}
+  .globe-wrap canvas{cursor:default}
+}
+</style>
+</head>
+<body>
+<main class="card" id="card">
+  <div class="brand"><span class="dot"></span>PESTREN</div>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+  <form id="form" novalidate>
+    <!-- STEP 1 — Location -->
+    <section class="step active" data-step="1">
+      <div class="globe-wrap"><div id="globe"></div></div>
+      <h1 class="q">first — where on earth are you? 🌍</h1>
+      <p class="sub">We roll out region by region. Your country tells us where interest is and whether we can serve you — we never touch your precise location.</p>
+      <label class="fld" for="country">Your country</label>
+      <select id="country" name="country" aria-describedby="country-err">
+        <option value="" selected disabled>select a country…</option>
+      </select>
+      <div class="remark" id="remark" aria-live="polite"></div>
+      <p class="err-msg" id="country-err">please pick your country to continue.</p>
+    </section>
+
+    <!-- STEP 2 — Newsletter -->
+    <section class="step" data-step="2">
+      <h1 class="q">should we slide into your inbox? 💌</h1>
+      <p class="sub">Only product updates + our Substack, sent from core@pestren.com. Never sold, unsubscribe in one tap. Totally optional.</p>
+      <div class="star-row" id="star-news" role="checkbox" tabindex="0" aria-checked="false">
+        <svg class="star-ico" viewBox="0 0 24 24"><path d="M12 2.5l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.4l-5.81 3-1.11-6.47L.38 9.35l6.5-.95z"/></svg>
+        <span class="star-label">★ yes, email me the good stuff
+          <small>we only send the newsletter — nothing else, ever.</small>
+        </span>
+      </div>
+      <div class="email-reveal" id="email-reveal">
+        <label class="fld" for="email">Your email</label>
+        <input type="email" id="email" name="email" placeholder="drop your email here ✍️" autocomplete="email" aria-describedby="email-err" />
+        <p class="email-note">Used only for the newsletter — pinky promise 🤙</p>
+        <p class="err-msg" id="email-err">that email looks off — mind checking it?</p>
+      </div>
+    </section>
+
+    <!-- STEP 3 — Feedback -->
+    <section class="step" data-step="3">
+      <h1 class="q">how does Pestren make you feel?</h1>
+      <div class="radar" id="radar" role="radiogroup" aria-label="pick the feeling that fits">
+        <svg class="radar-web" viewBox="0 0 400 400" aria-hidden="true">
+          <circle class="rr" cx="200" cy="200" r="60"/>
+          <circle class="rr" cx="200" cy="200" r="110"/>
+          <circle class="rr" cx="200" cy="200" r="160"/>
+          <line class="rs" x1="200" y1="200" x2="200"   y2="40"/>
+          <line class="rs" x1="200" y1="200" x2="313.1" y2="86.9"/>
+          <line class="rs" x1="200" y1="200" x2="360"   y2="200"/>
+          <line class="rs" x1="200" y1="200" x2="313.1" y2="313.1"/>
+          <line class="rs" x1="200" y1="200" x2="200"   y2="360"/>
+          <line class="rs" x1="200" y1="200" x2="86.9"  y2="313.1"/>
+          <line class="rs" x1="200" y1="200" x2="40"    y2="200"/>
+          <line class="rs" x1="200" y1="200" x2="86.9"  y2="86.9"/>
+          <circle class="rtip" cx="200"   cy="40"    r="4.5"/>
+          <circle class="rtip" cx="313.1" cy="86.9"  r="4.5"/>
+          <circle class="rtip" cx="360"   cy="200"   r="4.5"/>
+          <circle class="rtip" cx="313.1" cy="313.1" r="4.5"/>
+          <circle class="rtip" cx="200"   cy="360"   r="4.5"/>
+          <circle class="rtip" cx="86.9"  cy="313.1" r="4.5"/>
+          <circle class="rtip" cx="40"    cy="200"   r="4.5"/>
+          <circle class="rtip" cx="86.9"  cy="86.9"  r="4.5"/>
+        </svg>
+        <div class="radar-face"><img id="rface" src="faces/happy.png" alt="happy"></div>
+      </div>
+      <p class="rdesc" id="rdesc" aria-live="polite"></p>
+      <label class="fld" for="feedback">The honest version</label>
+      <textarea id="feedback" name="feedback" rows="3" maxlength="800" placeholder="what's working, what's missing, what would make you actually use this?" aria-describedby="fb-err"></textarea>
+      <div class="count"><span id="fb-count">0</span>/800</div>
+      <p class="err-msg" id="fb-err">a sentence or two would really help us 🙏</p>
+      <!-- honeypot -->
+      <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" id="website" tabindex="-1" autocomplete="off" /></label></div>
+    </section>
+
+    <!-- STEP 4 — Consent -->
+    <section class="step" data-step="4">
+      <h1 class="q">last step, then you're free 🎉</h1>
+      <p class="sub">Two quick, separate things — the newsletter above was optional; this one's needed to submit.</p>
+      <div class="license">
+        By sending feedback you grant Pestren a perpetual, worldwide, royalty-free, non-exclusive license to use, modify, and build your ideas into the product — <b>no compensation or attribution owed</b>.
+      </div>
+      <div class="star-row" id="star-terms" role="checkbox" tabindex="0" aria-checked="false" aria-describedby="terms-err">
+        <svg class="star-ico" viewBox="0 0 24 24"><path d="M12 2.5l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.4l-5.81 3-1.11-6.47L.38 9.35l6.5-.95z"/></svg>
+        <span class="star-label">★ I've read &amp; agree to the Terms of Use &amp; Privacy Notice
+          <small><a href="terms.html" target="_blank" rel="noopener">open terms &amp; privacy ↗</a></small>
+        </span>
+      </div>
+      <p class="err-msg" id="terms-err">we need this one to save your feedback.</p>
+    </section>
+
+    <!-- NAV -->
+    <div class="nav">
+      <button type="button" class="btn btn-ghost" id="back" style="display:none">← back</button>
+      <button type="button" class="btn btn-primary" id="next">continue →</button>
+      <button type="submit" class="btn btn-primary" id="submit" style="display:none">send it 🚀</button>
+    </div>
+  </form>
+
+  <!-- THANK YOU -->
+  <section class="thanks" id="thanks">
+    <div class="big-face" id="ty-face">🌱</div>
+    <h1>thank you for believing in this.</h1>
+    <p class="lead">You're in — we're building Pestren so one day you can have your dream farm with us, or help you get there.</p>
+    <p class="note" id="ty-note"></p>
+
+    <div class="beat">🌍 this little form cost about <span class="foot-fig" id="foot"></span> — basically a breath. but breaths add up, so let's more than pay it back.</div>
+
+    <div class="beat">🌱 <b>plant one thing this week</b> — a native sapling if you've got ground; a pollinator herb (basil, tulsi, mint) on a windowsill if you don't. One plant offsets thousands of these little visits, and it's a real step toward a solarpunk world where farms, tech, and nature grow together.</div>
+
+    <div class="beat solar">🎨 <b>picture it first</b> — imagine the world we're growing toward.
+      <br><button type="button" class="copy-btn" id="copy-prompt">copy the image prompt</button>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ── country data ─────────────────────────────────────────── */
+  var PRIORITY = ["austria","belgium","brazil","cambodia","corsica","croatia","denmark","estonia","finland","france","germany","india","kenya","latvia","lithuania","luxembourg","netherlands","portugal","rwanda","slovakia","slovenia","south africa","spain","sweden","vietnam"];
+  var SANCTIONED = ["north korea","iran","syria","cuba","russia","belarus","myanmar","venezuela","afghanistan",
+    "burkina faso","chad","equatorial guinea","eritrea","haiti","laos","libya","mali","niger","congo",
+    "sierra leone","somalia","south sudan","sudan","yemen"]; // founder to confirm with counsel
+
+  var ALL = ["Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Corsica","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
+
+  var sel = document.getElementById("country");
+  ALL.forEach(function(c){
+    if (SANCTIONED.indexOf(c.toLowerCase()) !== -1) return; // never in the dropdown
+    var o = document.createElement("option");
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+
+  /* ── state ────────────────────────────────────────────────── */
+  var state = { country:"", availabilityTier:"", newsletter:false, email:"", sentiment:null, feedback:"" };
+  var step = 1, MAX = 4;
+
+  /* ── availability remark ──────────────────────────────────── */
+  var remark = document.getElementById("remark");
+  sel.addEventListener("change", function(){
+    state.country = sel.value;
+    document.getElementById("country-err").classList.remove("show");
+    sel.classList.remove("field-err");
+    var isP = PRIORITY.indexOf(sel.value.toLowerCase()) !== -1;
+    state.availabilityTier = isP ? "priority" : "expanding";
+    remark.className = "remark show " + state.availabilityTier;
+    remark.innerHTML = isP
+      ? "bravo! 🎉 <b>"+sel.value+"</b>'s on our radar — we're actively building to serve you. You're early, and that's the best time to be here."
+      : "oh, that's great 🌱 we're working toward <b>"+sel.value+"</b> too. Full field-level accuracy there might take us until next quarter — but you can still hop on and grow with us as we launch.";
+  });
+
+  /* ── star checkboxes ──────────────────────────────────────── */
+  function wireStar(el, onToggle){
+    function toggle(){
+      var on = el.getAttribute("aria-checked") !== "true";
+      el.setAttribute("aria-checked", on);
+      el.classList.toggle("checked", on);
+      var ico = el.querySelector(".star-ico");
+      if (on && !reduce){
+        ico.classList.remove("pop"); void ico.offsetWidth; ico.classList.add("pop");
+        var s = document.createElement("span");
+        s.className = "spark"; s.textContent = "✦";
+        s.style.left = (ico.offsetLeft+18)+"px"; s.style.top = (ico.offsetTop-2)+"px";
+        el.appendChild(s); setTimeout(function(){ s.remove(); }, 560);
+      }
+      onToggle(on);
+    }
+    el.addEventListener("click", toggle);
+    el.addEventListener("keydown", function(e){
+      if (e.key === " " || e.key === "Enter"){ e.preventDefault(); toggle(); }
+    });
+  }
+  var emailReveal = document.getElementById("email-reveal");
+  wireStar(document.getElementById("star-news"), function(on){
+    state.newsletter = on;
+    emailReveal.classList.toggle("show", on);
+    if (!on){
+      document.getElementById("email").value = "";
+      state.email = "";
+      document.getElementById("email-err").classList.remove("show");
+    }
+  });
+  var termsOk = false;
+  wireStar(document.getElementById("star-terms"), function(on){
+    termsOk = on;
+    document.getElementById("terms-err").classList.remove("show");
+  });
+
+  /* ── radar faces (one big head at a time, ~100-char read) ─── */
+  var FACES = [
+    {key:"happy",     e:"😄", label:"happy",     w:"Happy — this just works: a grounded, sourced answer with no hedging. Exactly what you asked for."},
+    {key:"excited",   e:"🤩", label:"excited",   w:"Excited — okay, take my money. It cited a live source mid-answer and the whole roadmap feels possible."},
+    {key:"curious",   e:"🤔", label:"curious",   w:"Curious — ooh, tell me more. You want to open the citation, see the polygon, poke at how it really works."},
+    {key:"contented", e:"🙂", label:"contented", w:"Contented — solid, does what it says. Every figure is timestamped and verified, nothing left to second-guess."},
+    {key:"meh",       e:"😐", label:"meh",       w:"Meh — on the fence, honestly. You've read a hundred generic answers with no source and no date. Prove it."},
+    {key:"annoyed",   e:"😒", label:"annoyed",   w:"Annoyed — close, but something's bugging me. It almost nailed it, then dodged the one field you needed."},
+    {key:"sad",       e:"😞", label:"sad",       w:"Sad — expected more, ngl. You trusted an ungrounded answer, acted on it, and quietly lost a whole season."},
+    {key:"furious",   e:"😠", label:"furious",   w:"Furious — this part frustrated me: confident, uncited, and wrong. Give me grounding, or get out of the field."}
+  ];
+  var radar = document.getElementById("radar"),
+      rface = document.getElementById("rface"),
+      rdesc = document.getElementById("rdesc");
+
+  function faceInner(f){
+    return '<img src="faces/'+f.key+'.png" alt="'+f.key+'" onerror="this.replaceWith(document.createTextNode(\''+f.e+'\'))">';
+  }
+  function indexOf(key){ for (var i=0;i<FACES.length;i++){ if (FACES[i].key===key) return i; } return 0; }
+
+  // selectable feeling labels around the ring (clockwise from the top)
+  var labelEls = FACES.map(function(f, i){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "rlabel l"+i; b.textContent = f.label;
+    b.setAttribute("role","radio"); b.setAttribute("aria-checked","false"); b.dataset.key = f.key;
+    b.addEventListener("click", function(){ lockFace(f.key); });
+    b.addEventListener("mouseenter", function(){ if (!locked){ stopCycle(); showFace(i); } });
+    radar.appendChild(b);
+    return b;
+  });
+  var spokeEls = Array.prototype.slice.call(radar.querySelectorAll(".rs"));
+  var tipEls   = Array.prototype.slice.call(radar.querySelectorAll(".rtip"));
+
+  function showFace(i){
+    var f = FACES[i];
+    rface.src = "faces/"+f.key+".png"; rface.alt = f.key;
+    rface.onerror = function(){ rface.onerror=null; }; // keep silent if a png is missing
+    rdesc.textContent = f.w;
+    rface.classList.remove("swap"); void rface.offsetWidth; rface.classList.add("swap");
+    labelEls.forEach(function(l,x){ var on=x===i; l.classList.toggle("on",on); l.setAttribute("aria-checked",on); });
+    spokeEls.forEach(function(s,x){ s.classList.toggle("on",x===i); });
+    tipEls.forEach(function(t,x){ t.classList.toggle("on",x===i); });
+  }
+
+  var cycleIdx = 0, cycleTimer = null, locked = false;
+  function startCycle(){
+    if (cycleTimer) return;
+    if (reduce || locked){ showFace(locked ? indexOf(state.sentiment) : 0); return; }
+    showFace(cycleIdx);
+    cycleTimer = setInterval(function(){
+      cycleIdx = (cycleIdx+1) % FACES.length;
+      showFace(cycleIdx);
+    }, 1900);
+  }
+  function stopCycle(){ if (cycleTimer){ clearInterval(cycleTimer); cycleTimer=null; } }
+  function lockFace(key){
+    locked = true; stopCycle();
+    state.sentiment = key;
+    cycleIdx = indexOf(key);
+    showFace(cycleIdx);
+  }
+  radar.addEventListener("mouseleave", function(){ if (!locked && step === 3) startCycle(); });
+
+  /* ── globe (three.js) ─────────────────────────────────────── */
+  var globe = { renderer:null, scene:null, cam:null, mesh:null, raf:null, running:false, dragX:0, dragging:false, vel:0.0025 };
+  function initGlobe(){
+    if (globe.renderer || typeof THREE === "undefined") return;
+    var host = document.getElementById("globe");
+    var size = Math.min(host.clientWidth || 210, 210);
+    var sc = new THREE.Scene();
+    var cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100); cam.position.z = 2.6;
+    var rnd = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+    rnd.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    rnd.setSize(size, size); host.appendChild(rnd.domElement);
+    sc.add(new THREE.AmbientLight(0xffffff, 0.85));
+    var dir = new THREE.DirectionalLight(0xffffff, 0.8); dir.position.set(5,3,5); sc.add(dir);
+
+    var geo = new THREE.SphereGeometry(1, 48, 48);
+    var mat = new THREE.MeshPhongMaterial({ color:0x173F2E, shininess:6 });
+    var mesh = new THREE.Mesh(geo, mat);
+    mesh.rotation.z = 23.5 * Math.PI/180; // axial tilt
+    sc.add(mesh);
+    // faint wireframe fallback layer
+    var wire = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color:0xDEF24B, wireframe:true, transparent:true, opacity:0.12 }));
+    mesh.add(wire);
+
+    var loader = new THREE.TextureLoader(); loader.crossOrigin = "anonymous";
+    loader.load(
+      "https://unpkg.com/three-globe@2.24.10/example/img/earth-day.jpg",
+      function(tex){ mat.map = tex; mat.color.set(0xffffff); mat.needsUpdate = true; wire.visible = false; },
+      undefined,
+      function(){ /* keep green + wireframe fallback */ }
+    );
+
+    globe.renderer = rnd; globe.scene = sc; globe.cam = cam; globe.mesh = mesh;
+
+    // drag-to-spin (non-blocking)
+    var el = rnd.domElement;
+    el.addEventListener("pointerdown", function(e){ globe.dragging = true; globe.dragX = e.clientX; });
+    window.addEventListener("pointerup", function(){ globe.dragging = false; });
+    window.addEventListener("pointermove", function(e){
+      if (!globe.dragging) return;
+      var dx = e.clientX - globe.dragX; globe.dragX = e.clientX;
+      mesh.rotation.y += dx * 0.006;
+    });
+  }
+  function loop(){
+    if (!globe.running) return;
+    if (!reduce && !globe.dragging) globe.mesh.rotation.y += globe.vel;
+    globe.renderer.render(globe.scene, globe.cam);
+    globe.raf = requestAnimationFrame(loop);
+  }
+  function startGlobe(){ if (globe.running || !globe.renderer) return; globe.running = true; loop(); }
+  function stopGlobe(){ globe.running = false; if (globe.raf) cancelAnimationFrame(globe.raf); }
+  document.addEventListener("visibilitychange", function(){
+    if (document.hidden) stopGlobe();
+    else if (step === 1) startGlobe();
+  });
+
+  /* ── step navigation ──────────────────────────────────────── */
+  var bar = document.getElementById("bar"),
+      backBtn = document.getElementById("back"),
+      nextBtn = document.getElementById("next"),
+      submitBtn = document.getElementById("submit");
+
+  function render(){
+    Array.prototype.forEach.call(document.querySelectorAll(".step"), function(s){
+      s.classList.toggle("active", +s.dataset.step === step);
+    });
+    bar.style.transform = "scaleX(" + (step/MAX) + ")";
+    backBtn.style.display = step > 1 ? "" : "none";
+    nextBtn.style.display = step < MAX ? "" : "none";
+    submitBtn.style.display = step === MAX ? "" : "none";
+
+    if (step === 1){ initGlobe(); startGlobe(); } else stopGlobe();
+    if (step === 3){ if (!locked) startCycle(); } else stopCycle();
+  }
+
+  function validateStep(){
+    if (step === 1){
+      if (!state.country){
+        document.getElementById("country-err").classList.add("show");
+        sel.classList.add("field-err"); return false;
+      }
+    }
+    if (step === 2 && state.newsletter){
+      var em = document.getElementById("email").value.trim();
+      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+      if (!ok){
+        document.getElementById("email-err").classList.add("show");
+        document.getElementById("email").classList.add("field-err"); return false;
+      }
+      state.email = em;
+    }
+    if (step === 3){
+      var fb = document.getElementById("feedback").value.trim();
+      if (fb.length < 2){
+        document.getElementById("fb-err").classList.add("show");
+        document.getElementById("feedback").classList.add("field-err"); return false;
+      }
+      state.feedback = fb;
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener("click", function(){
+    if (!validateStep()) return;
+    if (step < MAX){ step++; render(); }
+  });
+  backBtn.addEventListener("click", function(){
+    if (step > 1){ step--; render(); }
+  });
+
+  // clear errors on input
+  document.getElementById("email").addEventListener("input", function(){
+    this.classList.remove("field-err"); document.getElementById("email-err").classList.remove("show");
+  });
+  var fbEl = document.getElementById("feedback");
+  fbEl.addEventListener("input", function(){
+    document.getElementById("fb-count").textContent = this.value.length;
+    this.classList.remove("field-err"); document.getElementById("fb-err").classList.remove("show");
+  });
+
+  /* ── footprint ────────────────────────────────────────────── */
+  function sessionFootprint(){
+    // Bytes actually transferred this session (compressed, over the wire).
+    var nav = performance.getEntriesByType("navigation")[0];
+    var res = performance.getEntriesByType("resource");
+    var bytes = (nav && nav.transferSize || 0) + res.reduce(function(s,r){ return s + (r.transferSize||0); }, 0);
+
+    /* ── Sustainable Web Design Model v4 (2024) ───────────────────
+       Energy intensity of data transfer, kWh per GB, by system segment.
+       Source: https://sustainablewebdesign.org/estimating-digital-emissions/ */
+    var KWH_PER_GB =
+        0.055 + 0.059 + 0.080   // operational: data centre + network + device
+      + 0.012 + 0.013 + 0.081;  // embodied:    data centre + network + device
+                                // = 0.300 kWh/GB total
+    var GRID_G_PER_KWH = 494;   // SWD v4 global-average grid carbon intensity (gCO₂e/kWh)
+
+    var gb    = bytes / 1e9;
+    var kwh   = gb * KWH_PER_GB;
+    var grams = kwh * GRID_G_PER_KWH;
+
+    return {
+      mb:    +(bytes / 1e6).toFixed(2),
+      wh:    +(kwh * 1000).toFixed(2),
+      grams: +grams.toFixed(2)
+    };
+  }
+
+  var SOLAR_PROMPT = "A lush solarpunk ecosystem where farming and clean technology grow as one: terraced vertical gardens spilling with vines and vegetables, translucent solar-glass canopies, graceful wind turbines like sculptures, clear water channels and buzzing pollinator meadows, warm timber-and-plant architecture, people tending crops in golden-hour light. Hopeful, verdant, richly detailed — Studio Ghibli meets Moebius, wide cinematic view, soft natural palette.";
+  document.getElementById("copy-prompt").addEventListener("click", function(){
+    var btn = this;
+    navigator.clipboard.writeText(SOLAR_PROMPT).then(function(){
+      btn.textContent = "copied! paste into any image tool 🎨"; btn.classList.add("done");
+    }).catch(function(){ btn.textContent = "press ⌘/Ctrl+C — selected"; });
+  });
+
+  /* ── submit ───────────────────────────────────────────────── */
+  document.getElementById("form").addEventListener("submit", function(e){
+    e.preventDefault();
+    // step 4 gate
+    if (!termsOk){ document.getElementById("terms-err").classList.add("show"); return; }
+    // re-validate required fields defensively
+    if (!state.country || state.feedback.length < 2){ step = state.country ? 3 : 1; render(); validateStep(); return; }
+
+    var payload = {
+      country: state.country,
+      availabilityTier: state.availabilityTier,
+      sentiment: state.sentiment,
+      feedback: state.feedback,
+      newsletter: state.newsletter,
+      website: document.getElementById("website").value // honeypot (should be "")
+    };
+    if (state.newsletter && state.email) payload.email = state.email; // email ONLY when opted in
+
+    submitBtn.disabled = true; submitBtn.textContent = "sending…";
+    fetch("/api/intent", {
+      method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload)
+    }).catch(function(err){ console.warn("intent submit failed (showing thanks anyway):", err); })
+      .finally(showThanks);
+  });
+
+  function showThanks(){
+    stopGlobe(); stopCycle();
+    document.getElementById("form").style.display = "none";
+    document.getElementById("bar").style.transform = "scaleX(1)";
+    var picked = FACES.filter(function(f){ return f.key === state.sentiment; })[0] || {e:"🌱", key:null};
+    var face = document.getElementById("ty-face");
+    face.innerHTML = picked.key ? faceInner(picked) : "🌱";
+    document.getElementById("ty-note").textContent = state.newsletter
+      ? "We'll only ever email you the newsletter, from core@pestren.com."
+      : "No email collected — just your thoughts and country.";
+    var fp = sessionFootprint();
+    document.getElementById("foot").textContent = fp.grams + " g CO₂e · " + fp.wh + " Wh · " + fp.mb + " MB";
+    document.getElementById("thanks").classList.add("active");
+    document.getElementById("card").scrollIntoView({ behavior: reduce ? "auto":"smooth", block:"start" });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

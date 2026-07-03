@@ -1,0 +1,13 @@
+# deps
+node_modules/
+
+# secrets — the MongoDB URI lives here locally, NEVER commit it
+.env
+.env.local
+.env.*.local
+
+# vercel
+.vercel
+
+# os
+.DS_Store

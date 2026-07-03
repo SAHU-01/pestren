@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pestren Docs — The agricultural intelligence layer for AI</title>
+<link rel="icon" type="image/png" href="PESTREN.png">
+<meta name="description" content="Pestren documentation — provenance-tagged agricultural intelligence for any crop, anywhere. API reference, MCP, Skills, Benchmark, and use cases.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime:#DEF24B; --lime-pale:#F3F7CB; --lime-soft:#EAF29A;
+    --peri:#93A8F4; --peri-2:#8299f0; --peri-light:#C9D2FB; --peri-pale:#E6EAFD;
+    --forest:#173F2E; --forest-2:#20563c; --forest-line:rgba(255,255,255,0.12);
+    --ink:#161616; --ink-soft:#54544c; --ink-mute:#8a8a80;
+    --page:#EFF0E9; --white:#ffffff; --cream:#F6F6F0;
+    --amber:#F2A94B; --pink:#FF6FA9;
+    --line:rgba(22,22,22,0.10); --line-2:rgba(22,22,22,0.06);
+    --display:'Fredoka', system-ui, sans-serif;
+    --body:'Poppins', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+    --shadow-sm: 0 8px 22px rgba(22,22,22,0.08);
+    --r-lg:22px; --r:16px; --r-sm:12px;
+    --topbar:64px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--body); color:var(--ink); background:var(--page); font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  a { color:inherit; text-decoration:none; }
+  code, pre, .mono { font-family:var(--mono); }
+
+  /* ===== TOP BAR ===== */
+  .topbar { position:sticky; top:0; z-index:50; height:var(--topbar); background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:24px; padding:0 22px; }
+  .logo { display:flex; align-items:center; gap:9px; font-family:var(--display); font-weight:700; font-size:22px; }
+  .logo-mark { width:24px; height:24px; border-radius:8px; background:var(--forest); display:grid; place-items:center; }
+  .logo-mark svg { width:14px; height:14px; }
+  .logo-img { width:44px; height:44px; border-radius:12px; object-fit:cover; display:block; box-shadow:0 4px 12px rgba(22,22,22,0.14); }
+  .logo .tag { font-family:var(--mono); font-size:11px; font-weight:500; color:var(--ink-mute); background:var(--page);
+    padding:3px 8px; border-radius:999px; margin-left:2px; }
+  .tabs { display:flex; gap:2px; margin-left:8px; }
+  .tab { padding:8px 14px; border-radius:999px; font-weight:500; font-size:14px; color:var(--ink-soft); transition:background .18s,color .18s; cursor:pointer; }
+  .tab:hover { background:var(--page); color:var(--ink); }
+  .tab.active { background:var(--peri-light); color:var(--forest); box-shadow:0 0 0 3px rgba(147,168,244,0.22); }
+  .top-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+  .searchbar { display:flex; align-items:center; gap:8px; background:var(--page); border:1px solid var(--line); border-radius:999px;
+    padding:8px 14px; color:var(--ink-mute); font-size:13px; cursor:pointer; }
+  .searchbar svg { width:15px; height:15px; }
+  .searchbar kbd { font-family:var(--mono); font-size:11px; background:var(--white); border:1px solid var(--line); border-radius:5px; padding:1px 5px; }
+  .ghlink { width:38px; height:38px; border-radius:10px; display:grid; place-items:center; border:1px solid var(--line); }
+  .ghlink:hover { border-color:var(--ink); }
+  .ghlink svg { width:18px; height:18px; }
+  .btn-key { background:linear-gradient(135deg,#aabcf8,#8299f0); color:#fff; font-weight:600; font-size:14px;
+    border-radius:999px; padding:9px 18px; display:inline-flex; align-items:center; gap:8px; }
+  .btn-key:hover { transform:translateY(-1px); }
+  .menu-btn { display:none; width:38px; height:38px; border:1px solid var(--line); background:var(--white); border-radius:10px; cursor:pointer; }
+  .menu-btn span { display:block; width:16px; height:2px; background:var(--ink); margin:3px auto; border-radius:2px; }
+
+  /* ===== LAYOUT ===== */
+  .layout { display:grid; grid-template-columns:270px minmax(0,1fr) 220px; gap:0; max-width:1400px; margin:0 auto; }
+  @media (max-width:1100px){ .layout{ grid-template-columns:260px minmax(0,1fr); } .toc{ display:none; } }
+  @media (max-width:820px){ .layout{ grid-template-columns:1fr; } .tabs{ display:none; } .menu-btn{ display:block; } .searchbar kbd{ display:none; } }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar { position:sticky; top:var(--topbar); align-self:start; height:calc(100vh - var(--topbar));
+    overflow-y:auto; padding:28px 18px 60px; border-right:1px solid var(--line); }
+  @media (max-width:820px){
+    .sidebar { position:fixed; inset:var(--topbar) 0 auto 0; height:calc(100vh - var(--topbar)); background:var(--white);
+      z-index:40; transform:translateX(-102%); transition:transform .3s ease; border-right:none; }
+    .sidebar.open { transform:translateX(0); }
+  }
+  .nav-group { margin-bottom:24px; }
+  .nav-group.hidden { display:none; }
+  .nav-title { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-mute);
+    padding:0 12px 8px; display:flex; align-items:center; gap:7px; }
+  .nav-title .d { width:14px; height:2px; background:var(--lime); border-radius:2px; }
+  .nav-sub { font-size:11.5px; font-weight:600; color:var(--ink-soft); padding:12px 12px 4px; }
+  .nav-link { display:block; padding:7px 12px; border-radius:9px; font-size:14px; color:var(--ink-soft); transition:all .15s; }
+  .nav-link:hover { background:var(--page); color:var(--ink); }
+  .nav-link.active { background:var(--lime-pale); color:var(--forest); font-weight:600; }
+
+  /* ===== CONTENT ===== */
+  .content { padding:40px 52px 120px; min-width:0; }
+  @media (max-width:820px){ .content{ padding:28px 22px 80px; } }
+  .doc-page { display:none; }
+  .doc-page.active { display:block; animation:fade .35s ease; }
+  @keyframes fade { from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+  .eyebrow { font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.12em; color:var(--forest); margin-bottom:12px; }
+  h1 { font-family:var(--display); font-weight:700; font-size:clamp(30px,4vw,42px); line-height:1.08; margin-bottom:12px; }
+  .lead { font-size:18px; color:var(--ink-soft); max-width:680px; margin-bottom:8px; }
+  h2 { font-family:var(--display); font-weight:600; font-size:26px; margin:44px 0 14px; scroll-margin-top:80px; }
+  h3 { font-weight:600; font-size:18px; margin:28px 0 10px; }
+  .content p { margin-bottom:14px; max-width:760px; color:var(--ink); }
+  .content ul, .content ol { margin:0 0 16px 20px; max-width:760px; }
+  .content li { margin-bottom:7px; }
+  .content p code, .content li code, td code { font-family:var(--mono); font-size:0.86em; background:rgba(22,22,22,0.06);
+    padding:1px 6px; border-radius:5px; color:var(--forest); }
+  .hp { display:inline-block; border:2.5px solid var(--lime); background:var(--lime-pale); border-radius:12px; padding:0 .2em; }
+  a.inline { color:var(--peri-2); font-weight:500; border-bottom:1px solid rgba(130,153,240,0.4); }
+  a.inline:hover { border-color:var(--peri-2); }
+
+  /* cards */
+  .cardgroup { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:20px 0; }
+  @media (max-width:560px){ .cardgroup{ grid-template-columns:1fr; } }
+  .cardgroup.c4 { grid-template-columns:repeat(2,1fr); }
+  .dcard { display:block; background:var(--white); border:1.5px solid var(--line); border-radius:var(--r); padding:20px;
+    transition:transform .2s, box-shadow .2s, border-color .2s; }
+  .dcard:hover { transform:translateY(-3px); box-shadow:var(--shadow-sm); border-color:var(--peri); }
+  .dcard .ic { width:34px; height:34px; border-radius:10px; background:var(--lime-pale); display:grid; place-items:center; margin-bottom:12px; }
+  .dcard .ic svg { width:18px; height:18px; stroke:var(--forest); }
+  .dcard h4 { font-size:15.5px; font-weight:600; margin-bottom:5px; }
+  .dcard p { font-size:13px; color:var(--ink-soft); margin:0; }
+
+  /* code block */
+  .code { background:var(--forest); border-radius:var(--r); overflow:hidden; margin:18px 0; }
+  .code-bar { display:flex; align-items:center; gap:10px; padding:10px 16px; border-bottom:1px solid var(--forest-line); }
+  .code-file { font-family:var(--mono); font-size:12px; color:rgba(231,236,221,0.6); }
+  .code-copy { margin-left:auto; background:none; border:1px solid var(--forest-line); color:rgba(231,236,221,0.75);
+    font-family:var(--mono); font-size:11px; padding:5px 11px; border-radius:8px; cursor:pointer; display:inline-flex; gap:6px; align-items:center; }
+  .code-copy:hover { color:#fff; }
+  .code pre { margin:0; padding:18px 18px; overflow-x:auto; font-family:var(--mono); font-size:13px; line-height:1.7; color:#e7ecdd; }
+  .t-key{color:var(--peri-light);} .t-str{color:var(--lime);} .t-num{color:var(--amber);} .t-com{color:rgba(231,236,221,0.5);}
+  .t-fn{color:#e3b6f0;} .t-kw{color:#ef9fbf;}
+
+  /* code tabs */
+  .ctabs { display:flex; gap:4px; margin:18px 0 -8px; }
+  .ctab { font-family:var(--mono); font-size:12px; padding:7px 14px; border-radius:9px 9px 0 0; background:var(--page);
+    color:var(--ink-soft); cursor:pointer; border:1px solid var(--line); border-bottom:none; }
+  .ctab.active { background:var(--forest); color:#fff; border-color:var(--forest); }
+  .cpane { display:none; } .cpane.active { display:block; }
+
+  /* param / response fields */
+  .pfield { border-top:1px solid var(--line); padding:14px 0; }
+  .pfield:last-child { border-bottom:1px solid var(--line); }
+  .pfield-head { display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:5px; }
+  .pf-name { font-family:var(--mono); font-size:13.5px; font-weight:600; color:var(--ink); }
+  .pf-type { font-family:var(--mono); font-size:11.5px; color:var(--ink-mute); }
+  .pf-req { font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:0.06em; padding:2px 8px; border-radius:999px; }
+  .pf-req.req { background:#ffe3ec; color:#a1265f; } .pf-req.opt { background:var(--page); color:var(--ink-mute); }
+  .pfield p { font-size:13.5px; color:var(--ink-soft); margin:0; max-width:none; }
+
+  /* callouts */
+  .callout { display:flex; gap:12px; border-radius:var(--r); padding:15px 18px; margin:18px 0; font-size:14px; }
+  .callout .cc-ic { flex-shrink:0; width:22px; height:22px; border-radius:7px; display:grid; place-items:center; margin-top:1px; }
+  .callout .cc-ic svg { width:13px; height:13px; }
+  .callout p { margin:0; max-width:none; font-size:14px; }
+  .callout.info { background:var(--peri-pale); } .callout.info .cc-ic { background:var(--peri); } .callout.info .cc-ic svg{ stroke:#fff; }
+  .callout.warn { background:#fff3e0; } .callout.warn .cc-ic { background:var(--amber); } .callout.warn .cc-ic svg{ stroke:#fff; }
+  .callout.tip  { background:var(--lime-pale); } .callout.tip .cc-ic { background:var(--forest); } .callout.tip .cc-ic svg{ stroke:var(--lime); }
+
+  /* tables */
+  .tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:var(--r); margin:18px 0; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; min-width:520px; }
+  th, td { text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-mute); background:var(--cream); font-weight:600; }
+  tr:last-child td { border-bottom:none; }
+  td .mono { font-size:12.5px; }
+
+  /* tier / method badges */
+  .badge { font-family:var(--mono); font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; white-space:nowrap; }
+  .m-post { background:var(--lime); color:var(--forest); } .m-get { background:var(--peri-light); color:#2b3d78; }
+  .m-mcp { background:#e7d6f5; color:#5a2b78; }
+  .tier-lit { background:var(--page); color:var(--ink-soft); } .tier-fv { background:var(--lime-pale); color:var(--forest); }
+  .tier-lab { background:#d9ecff; color:#1c4e80; }
+  .endpoint { font-family:var(--mono); font-size:18px; font-weight:600; }
+
+  /* try-it */
+  .tryit { background:var(--white); border:1.5px solid var(--peri); border-radius:var(--r); padding:16px 18px; margin:18px 0; }
+  .tryit-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; font-weight:600; font-size:14px; }
+  .tryit-top .dot { width:8px; height:8px; border-radius:50%; background:var(--peri); }
+  .tryit input { width:100%; font-family:var(--mono); font-size:12.5px; border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:10px; }
+  .tryit .run { background:var(--forest); color:var(--lime); border:none; border-radius:999px; padding:9px 18px; font-weight:600; font-size:13px; cursor:pointer; }
+
+  /* accordion */
+  .acc { border:1.5px solid var(--line); border-radius:var(--r); margin-bottom:10px; overflow:hidden; }
+  .acc-q { width:100%; background:var(--white); border:none; text-align:left; cursor:pointer; padding:15px 18px; font-weight:600;
+    font-size:14.5px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .acc-plus { flex-shrink:0; width:22px; height:22px; position:relative; }
+  .acc-plus::before,.acc-plus::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--forest); border-radius:2px; }
+  .acc-plus::before{ width:11px; height:2px; } .acc-plus::after{ width:2px; height:11px; transition:transform .25s; }
+  .acc.open .acc-plus::after { transform:translate(-50%,-50%) scaleY(0); }
+  .acc-a { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .acc-a-in { padding:0 18px 16px; font-size:14px; color:var(--ink-soft); }
+
+  /* pager */
+  .pager { display:flex; justify-content:space-between; gap:14px; margin-top:52px; padding-top:24px; border-top:1px solid var(--line); }
+  .pager a { flex:1; border:1.5px solid var(--line); border-radius:var(--r); padding:14px 18px; transition:border-color .2s; }
+  .pager a:hover { border-color:var(--peri); }
+  .pager .lbl { font-size:11px; color:var(--ink-mute); text-transform:uppercase; letter-spacing:0.06em; }
+  .pager .ttl { font-weight:600; font-size:15px; color:var(--forest); }
+  .pager .next { text-align:right; }
+
+  /* TOC (on this page) */
+  .toc { position:sticky; top:var(--topbar); align-self:start; height:calc(100vh - var(--topbar)); overflow-y:auto; padding:40px 20px; font-size:13px; }
+  .toc-title { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-mute); margin-bottom:12px; }
+  .toc a { display:block; padding:5px 0 5px 12px; color:var(--ink-soft); border-left:2px solid var(--line); }
+  .toc a:hover, .toc a.active { color:var(--forest); border-color:var(--lime); }
+
+  .toast { position:fixed; bottom:26px; left:50%; transform:translate(-50%,20px); background:var(--forest); color:#fff;
+    font-family:var(--mono); font-size:12px; padding:11px 18px; border-radius:999px; z-index:200; opacity:0; pointer-events:none; transition:all .3s; }
+  .toast.show { opacity:1; transform:translate(-50%,0); }
+  .scrim { position:fixed; inset:var(--topbar) 0 0; background:rgba(0,0,0,.3); z-index:39; opacity:0; pointer-events:none; transition:opacity .3s; }
+  .scrim.show { opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a class="logo" href="index.html" aria-label="Pestren">
+    <img class="logo-img" src="PESTREN.png" alt="Pestren">
+    <span class="tag">docs</span>
+  </a>
+  <nav class="tabs" id="tabs">
+    <span class="tab active" data-group="guides">Guides</span>
+    <span class="tab" data-group="api">API reference</span>
+    <span class="tab" data-group="mcp">MCP</span>
+    <span class="tab" data-group="uc">Use cases</span>
+  </nav>
+  <div class="top-right">
+    <div class="searchbar" id="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>⌘K</kbd></div>
+    <a class="ghlink" href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49v-1.7c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.93-2.35 4.8-4.58 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg></a>
+    <a class="btn-key" href="index.html#contact">Get API key</a>
+  </div>
+</header>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="layout">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <!-- GUIDES -->
+    <div class="nav-group" data-group="guides">
+      <div class="nav-title"><span class="d"></span>Get started</div>
+      <a class="nav-link active" data-page="introduction">Introduction</a>
+      <a class="nav-link" data-page="quickstart">Quickstart</a>
+      <a class="nav-link" data-page="authentication">Authentication</a>
+      <div class="nav-title" style="margin-top:20px;"><span class="d"></span>Concepts</div>
+      <a class="nav-link" data-page="field-catalog">Field catalog &amp; layers</a>
+      <a class="nav-link" data-page="provenance">Provenance &amp; confidence</a>
+      <a class="nav-link" data-page="presets">Presets</a>
+      <a class="nav-link" data-page="skills">Skills</a>
+      <a class="nav-link" data-page="benchmarking">Benchmarking</a>
+    </div>
+    <!-- API -->
+    <div class="nav-group hidden" data-group="api">
+      <div class="nav-title"><span class="d"></span>API reference</div>
+      <a class="nav-link" data-page="api-ask">POST /v1/ask</a>
+      <a class="nav-link" data-page="api-fetch">POST /v1/fetch</a>
+      <a class="nav-link" data-page="api-meta">GET /v1/meta/fields</a>
+      <a class="nav-link" data-page="catalog">Field catalog</a>
+      <a class="nav-link" data-page="errors">Errors</a>
+    </div>
+    <!-- MCP -->
+    <div class="nav-group hidden" data-group="mcp">
+      <div class="nav-title"><span class="d"></span>MCP</div>
+      <a class="nav-link" data-page="mcp-install">Installation</a>
+      <a class="nav-link" data-page="mcp-tools">Tools, resources &amp; prompts</a>
+      <a class="nav-link" data-page="mcp-troubleshooting">Troubleshooting</a>
+    </div>
+    <!-- USE CASES -->
+    <div class="nav-group hidden" data-group="uc">
+      <div class="nav-title"><span class="d"></span>Use cases</div>
+      <a class="nav-link" data-page="uc-grower">Grower advisory</a>
+      <a class="nav-link" data-page="uc-insurance">Insurance underwriting</a>
+      <a class="nav-link" data-page="uc-lending">Agri-lending &amp; collateral</a>
+      <a class="nav-link" data-page="uc-robotics">Robotics &amp; sensors</a>
+      <a class="nav-link" data-page="uc-gov">Government &amp; policy</a>
+      <a class="nav-link" data-page="uc-agents">Building agents</a>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="content" id="content">
+
+    <!-- INTRODUCTION -->
+    <article class="doc-page active" id="page-introduction" data-group="guides">
+      <div class="eyebrow">Get started</div>
+      <h1>Provenance-tagged agricultural intelligence for <span class="hp">any crop, anywhere</span>.</h1>
+      <p class="lead">Pestren answers agronomic questions for any crop at any coordinate on earth — and every value it returns carries its source, a timestamp, a calibrated confidence, and a three-tier verification tag.</p>
+
+      <h2 id="what-you-get">What you get</h2>
+      <p>Three surfaces share one field catalog and one provenance model, so an answer, a raw field, and an agent tool call all cite the same ground truth:</p>
+      <ul>
+        <li><code>POST /v1/ask</code> — natural-language question in, a cited answer + recommended action out.</li>
+        <li><code>POST /v1/fetch</code> — deterministic raw fields or presets, each provenance-wrapped, with a <code>partial_failures</code> contract.</li>
+        <li><strong>MCP server</strong> — <code>pestren_ask</code> and <code>pestren_fetch</code> native to any MCP-aware model.</li>
+      </ul>
+      <p>Plus <a class="inline" data-jump="skills">drop-in Skills</a> (agronomy files an agent loads) and a public <a class="inline" data-jump="benchmarking">Benchmark playground</a>.</p>
+
+      <h2 id="why-different">Why it's different</h2>
+      <div class="cardgroup c4">
+        <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3c2.5 2.5 4 5.6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.6-4-9s1.5-6.5 4-9Z"/></svg></div><h4>Global authoritative sources</h4><p>FAO, ESA Sentinel, NASA, SoilGrids, CABI, national ag departments — never a proprietary "AI-derived" number.</p></div>
+        <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg></div><h4>Per-field citations + 3 tiers</h4><p>Every field ships its <code>source_url</code> and a <code>literature</code> / <code>field-verified</code> / <code>lab-confirmed</code> tag.</p></div>
+        <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 9h8M8 13h5"/></svg></div><h4>MCP-native distribution</h4><p>Drop the tools into any agent loop; citations flow through like any other tool call.</p></div>
+        <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></div><h4>Honest partial failures</h4><p>Anything we can't fetch surfaces in <code>partial_failures</code> with a <code>retryable</code> flag — never a silent default.</p></div>
+      </div>
+
+      <h2 id="coverage">Coverage</h2>
+      <p>Global. Latitude <code>[-60, 75]</code>, longitude <code>[-180, 180]</code>; out-of-bounds returns <code>400 coord_out_of_bounds</code>. Any crop; verification depth grows region by region. <strong>220+ fields across 7 layers; 12 presets</strong> — browse the full catalog at <code>GET /v1/meta/fields</code>.</p>
+
+      <h2 id="whats-next">What's next</h2>
+      <div class="cardgroup">
+        <a class="dcard" data-jump="quickstart"><h4>Quickstart →</h4><p>Your first cited answer in five minutes.</p></a>
+        <a class="dcard" data-jump="api-ask"><h4>API reference →</h4><p>The request/response contracts in full.</p></a>
+        <a class="dcard" data-jump="mcp-install"><h4>Install the MCP server →</h4><p>Wire Pestren into Claude, Cursor, or your agent.</p></a>
+        <a class="dcard" data-jump="uc-grower"><h4>Use cases →</h4><p>Grower, insurance, lending, robotics, policy, agents.</p></a>
+      </div>
+      <div class="pager"><span></span><a class="next" data-jump="quickstart"><div class="lbl">Next</div><div class="ttl">Quickstart →</div></a></div>
+    </article>
+
+    <!-- QUICKSTART -->
+    <article class="doc-page" id="page-quickstart" data-group="guides">
+      <div class="eyebrow">Get started</div>
+      <h1>Quickstart</h1>
+      <p class="lead">Make your first <code>/v1/ask</code> call and read a cited answer in five minutes.</p>
+
+      <h2 id="qs-token">1 · Get a token</h2>
+      <p>Grab an API token from your dashboard (see <a class="inline" data-jump="authentication">Authentication</a>) and export it:</p>
+      <div class="code"><div class="code-bar"><span class="code-file">shell</span><button class="code-copy">Copy</button></div><pre><span class="t-kw">export</span> PESTREN_API_TOKEN=<span class="t-str">"sk_live_…"</span></pre></div>
+
+      <h2 id="qs-call">2 · Ask a question</h2>
+      <div class="ctabs"><span class="ctab active">curl</span><span class="ctab">Python</span><span class="ctab">MCP</span></div>
+      <div class="cpane active"><div class="code"><div class="code-bar"><span class="code-file">request.sh</span><button class="code-copy">Copy</button></div><pre>curl -s https://api.pestren.ai/v1/ask \
+  -H <span class="t-str">"Authorization: Bearer $PESTREN_API_TOKEN"</span> \
+  -H <span class="t-str">'content-type: application/json'</span> \
+  -d <span class="t-str">'{"lat": 4.57, "lng": -75.66,
+       "question": "Coffee leaf rust risk here this week — should I act?"}'</span></pre></div></div>
+      <div class="cpane"><div class="code"><div class="code-bar"><span class="code-file">example.py</span><button class="code-copy">Copy</button></div><pre><span class="t-kw">import</span> os, requests
+r = requests.post(
+    <span class="t-str">"https://api.pestren.ai/v1/ask"</span>,
+    headers={<span class="t-str">"Authorization"</span>: <span class="t-str">f"Bearer {os.environ['PESTREN_API_TOKEN']}"</span>},
+    json={<span class="t-str">"lat"</span>: <span class="t-num">4.57</span>, <span class="t-str">"lng"</span>: <span class="t-num">-75.66</span>,
+          <span class="t-str">"question"</span>: <span class="t-str">"Coffee leaf rust risk here this week?"</span>},
+)
+<span class="t-fn">print</span>(r.json()[<span class="t-str">"answer"</span>], r.json()[<span class="t-str">"confidence"</span>])</pre></div></div>
+      <div class="cpane"><div class="code"><div class="code-bar"><span class="code-file">claude-code</span><button class="code-copy">Copy</button></div><pre><span class="t-com"># after installing the MCP server</span>
+/pestren_ask lat=<span class="t-num">4.57</span> lng=<span class="t-num">-75.66</span> \
+  question=<span class="t-str">"Coffee leaf rust risk here this week?"</span></pre></div></div>
+
+      <h2 id="qs-read">3 · Read the response</h2>
+      <p>You get a prose <code>answer</code>, an overall <code>confidence</code> bucket (<code>high</code>/<code>medium</code>/<code>low</code>), a <code>citations[]</code> array (one entry per source, each with a <code>source_url</code>, <code>fetched_at</code>, and verification tier), the <code>fields_used[]</code> that grounded the answer, and an optional <code>recommended_action</code>.</p>
+      <div class="callout tip"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span><p>Every claim in the prose maps back to a citation a field officer can open. If a driver field couldn't be fetched, it appears in <code>partial_failures</code> — the answer is never silently padded.</p></div>
+      <div class="pager"><a data-jump="introduction"><div class="lbl">Previous</div><div class="ttl">← Introduction</div></a><a class="next" data-jump="authentication"><div class="lbl">Next</div><div class="ttl">Authentication →</div></a></div>
+    </article>
+
+    <!-- AUTHENTICATION -->
+    <article class="doc-page" id="page-authentication" data-group="guides">
+      <div class="eyebrow">Get started</div>
+      <h1>Authentication</h1>
+      <p class="lead">Three ways in — all bearer-token based. The public catalog needs no auth.</p>
+
+      <h2 id="auth-token">Dashboard API token</h2>
+      <p>Copy a token from your account and send it as a bearer header on every call. Tokens are only accepted over <code>https</code> (with a loopback exception for local development).</p>
+      <div class="code"><div class="code-bar"><span class="code-file">header</span><button class="code-copy">Copy</button></div><pre>Authorization: Bearer &lt;PESTREN_API_TOKEN&gt;</pre></div>
+
+      <h2 id="auth-device">Device-flow login</h2>
+      <p>For CLIs and local MCP, run a one-time browser login that stores a credential file:</p>
+      <div class="code"><div class="code-bar"><span class="code-file">shell</span><button class="code-copy">Copy</button></div><pre>pestren-mcp login   <span class="t-com"># opens a browser, writes ~/.pestren/credentials</span></pre></div>
+
+      <h2 id="auth-oauth">MCP OAuth</h2>
+      <p>Remote MCP clients authenticate against the hosted endpoint <code>https://api.pestren.ai/mcp</code> via OAuth — no token pasting.</p>
+
+      <h2 id="auth-rotate">Rotate &amp; revoke</h2>
+      <p>Rotate tokens from the dashboard; revoked tokens fail immediately with <code>401 unauthorized</code>. Scope tokens per environment and never commit them.</p>
+      <div class="callout info"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><p><code>GET /v1/meta/fields</code> and <code>GET /v1/meta/presets</code> are public — no bearer required — so you can explore the catalog before you sign up.</p></div>
+      <div class="pager"><a data-jump="quickstart"><div class="lbl">Previous</div><div class="ttl">← Quickstart</div></a><a class="next" data-jump="field-catalog"><div class="lbl">Next</div><div class="ttl">Field catalog →</div></a></div>
+    </article>
+
+    <!-- FIELD CATALOG -->
+    <article class="doc-page" id="page-field-catalog" data-group="guides">
+      <div class="eyebrow">Concepts</div>
+      <h1>Field catalog &amp; layers</h1>
+      <p class="lead">Every value Pestren returns belongs to one of seven layers, plus a derived actions block. Here are representative fields per layer.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Layer</th><th>Representative fields</th></tr></thead>
+        <tbody>
+          <tr><td><strong>crop</strong></td><td><span class="mono">crop, crop_confidence, growth_stage, season, sowing_window</span></td></tr>
+          <tr><td><strong>soil</strong></td><td><span class="mono">soil_texture, soil_ph, soil_organic_carbon, soil_drainage</span></td></tr>
+          <tr><td><strong>water</strong></td><td><span class="mono">rainfall_7d, rainfall_30d, et0, soil_moisture, irrigation_need</span></td></tr>
+          <tr><td><strong>weather</strong></td><td><span class="mono">temp_min, temp_max, humidity, gdd, forecast_7d</span></td></tr>
+          <tr><td><strong>pest &amp; disease</strong></td><td><span class="mono">pest_risk, disease_risk, primary_threat, risk_drivers</span></td></tr>
+          <tr><td><strong>yield</strong></td><td><span class="mono">ndvi_current, ndvi_trend, biomass_estimate, yield_estimate, yield_risk</span></td></tr>
+          <tr><td><strong>boundaries/terrain</strong></td><td><span class="mono">field_polygon, field_area_ha, elevation, slope_degrees</span></td></tr>
+          <tr><td><strong>actions</strong> (derived)</td><td><span class="mono">recommended_action, recommended_products</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout info"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><p>Every value ships inside a <code>Field_[T]</code> wrapper carrying its provenance — see <a class="inline" data-jump="provenance">Provenance &amp; confidence</a>.</p></div>
+      <div class="pager"><a data-jump="authentication"><div class="lbl">Previous</div><div class="ttl">← Authentication</div></a><a class="next" data-jump="provenance"><div class="lbl">Next</div><div class="ttl">Provenance &amp; confidence →</div></a></div>
+    </article>
+
+    <!-- PROVENANCE -->
+    <article class="doc-page" id="page-provenance" data-group="guides">
+      <div class="eyebrow">Concepts</div>
+      <h1>Provenance &amp; confidence</h1>
+      <p class="lead">Two things that must never be conflated: the per-field <strong>verification tier</strong> and the per-answer <strong>confidence</strong>.</p>
+
+      <h2 id="envelope">The provenance envelope</h2>
+      <p>Every field is returned wrapped, not as a bare value:</p>
+      <div class="code"><div class="code-bar"><span class="code-file">Field_[T]</span><button class="code-copy">Copy</button></div><pre>{
+  <span class="t-key">"value"</span>: <span class="t-num">74</span>,
+  <span class="t-key">"unit"</span>: <span class="t-str">"risk_index_0_100"</span>,
+  <span class="t-key">"source"</span>: <span class="t-str">"FAO FAW-Monitor"</span>,
+  <span class="t-key">"source_url"</span>: <span class="t-str">"https://…"</span>,
+  <span class="t-key">"confidence"</span>: <span class="t-str">"field-verified"</span>,   <span class="t-com">// verification tier</span>
+  <span class="t-key">"fetched_at"</span>: <span class="t-str">"2026-07-01T06:12Z"</span>,
+  <span class="t-key">"dataset_vintage"</span>: <span class="t-str">"2026-W26"</span>,
+  <span class="t-key">"ttl_seconds"</span>: <span class="t-num">86400</span>,
+  <span class="t-key">"notes"</span>: <span class="t-str">"warm nights + rainfall on whorl-stage maize"</span>
+}</pre></div>
+
+      <h2 id="tiers">The 3-tier verification ladder</h2>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Tier</th><th>Means</th><th>When it applies</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge tier-lit">literature</span></td><td>Published model or dataset only.</td><td>New region/crop with no on-ground sample yet.</td></tr>
+          <tr><td><span class="badge tier-fv">field-verified</span></td><td>Confirmed on the ground this season/region.</td><td>Where Pestren's verification network has coverage.</td></tr>
+          <tr><td><span class="badge tier-lab">lab-confirmed</span></td><td>Validated by a lab diagnosis.</td><td>Disease/pest ID escalated to a partner lab.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="calibration">Answer calibration</h2>
+      <p>An <code>/v1/ask</code> answer gets one overall <code>high</code> / <code>medium</code> / <code>low</code>, derived from three signals:</p>
+      <ul>
+        <li><strong>Field coverage</strong> — how many of the fields the question needed were actually fetched.</li>
+        <li><strong>Tier mix</strong> — whether driver fields are <code>field-verified</code>/<code>lab-confirmed</code> or only <code>literature</code>.</li>
+        <li><strong>Cross-source agreement</strong> — whether independent sources corroborate.</li>
+      </ul>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p>A downgrade fires when a key field returns only <code>literature</code> tier, or a <code>partial_failure</code> hits a driver field. Confidence is a promise about the evidence, not the prose.</p></div>
+      <div class="pager"><a data-jump="field-catalog"><div class="lbl">Previous</div><div class="ttl">← Field catalog</div></a><a class="next" data-jump="presets"><div class="lbl">Next</div><div class="ttl">Presets →</div></a></div>
+    </article>
+
+    <!-- PRESETS -->
+    <article class="doc-page" id="page-presets" data-group="guides">
+      <div class="eyebrow">Concepts</div>
+      <h1>Presets</h1>
+      <p class="lead">Named field bundles for common jobs. Pass <code>preset</code> instead of enumerating <code>fields[]</code>.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Preset</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">pest_risk</span></td><td>This week's pest pressure + drivers.</td></tr>
+          <tr><td><span class="mono">disease_risk</span></td><td>Disease pressure + primary threat.</td></tr>
+          <tr><td><span class="mono">irrigation_plan</span></td><td>Soil moisture, ET0, rainfall, irrigation need.</td></tr>
+          <tr><td><span class="mono">soil_health</span></td><td>Texture, pH, organic carbon, drainage.</td></tr>
+          <tr><td><span class="mono">yield_forecast</span></td><td>NDVI trend, biomass, yield estimate + risk.</td></tr>
+          <tr><td><span class="mono">crop_verify</span></td><td>Crop, growth stage, sowing window.</td></tr>
+          <tr><td><span class="mono">precision_scouting</span></td><td>Risk polygons + NDVI for fleet tasking.</td></tr>
+          <tr><td><span class="mono">insurance_underwrite</span></td><td>Crop, sowing, flood/drainage, yield risk.</td></tr>
+          <tr><td><span class="mono">lending_collateral</span></td><td>Crop, acreage, NDVI trend, yield-risk band.</td></tr>
+          <tr><td><span class="mono">climate_risk</span></td><td>Aggregated climate-hazard exposure.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout info"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><p>There's a per-call field cap. If a preset exceeds it, fields are truncated in catalog order and the omission is reported in <code>notes</code>. Browse presets at <code>GET /v1/meta/presets</code>.</p></div>
+      <div class="pager"><a data-jump="provenance"><div class="lbl">Previous</div><div class="ttl">← Provenance</div></a><a class="next" data-jump="skills"><div class="lbl">Next</div><div class="ttl">Skills →</div></a></div>
+    </article>
+
+    <!-- SKILLS -->
+    <article class="doc-page" id="page-skills" data-group="guides">
+      <div class="eyebrow">Concepts</div>
+      <h1>Skills</h1>
+      <p class="lead">Drop-in agronomy files an agent loads to reason about a crop or a practice — reusable across models and stacks.</p>
+
+      <h2 id="skill-what">What a skill is</h2>
+      <p>A self-contained file describing an entity's agronomy: stages, thresholds, the sources behind them, and a verification tier. The agent reads the skill for <em>reasoning</em>; it calls <code>/v1/fetch</code> for <em>live values</em>.</p>
+      <div class="code"><div class="code-bar"><span class="code-file">skills/</span><button class="code-copy">Copy</button></div><pre>skills/
+  <span class="t-key">crop.coffee.skill.md</span>        <span class="t-com"># agronomy, stages, thresholds, sources, tier</span>
+  <span class="t-key">crop.maize.skill.md</span>
+  <span class="t-key">practice.irrigation.md</span>      <span class="t-com"># reusable across crops</span>
+  <span class="t-key">practice.disease-scouting.md</span></pre></div>
+
+      <h2 id="skill-schema">Schema</h2>
+      <p>Each skill declares an <code>entity</code>, its <code>stages</code>, decision <code>thresholds</code>, the <code>sources</code> that back them, and a default <code>verification</code> tier. Load it in Claude/GPT skills or a custom stack.</p>
+      <div class="callout tip"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span><p>Skills + <code>/v1/fetch</code> compose: the skill is the reasoning layer, fetch is the live-values layer. Together they give an agent grounded judgment instead of guesses.</p></div>
+      <div class="pager"><a data-jump="presets"><div class="lbl">Previous</div><div class="ttl">← Presets</div></a><a class="next" data-jump="benchmarking"><div class="lbl">Next</div><div class="ttl">Benchmarking →</div></a></div>
+    </article>
+
+    <!-- BENCHMARKING -->
+    <article class="doc-page" id="page-benchmarking" data-group="guides">
+      <div class="eyebrow">Concepts</div>
+      <h1>Benchmarking</h1>
+      <p class="lead">Run any farm question at any coordinate and see Pestren scored against other models. A first-class, public feature.</p>
+
+      <h2 id="bench-what">What it does</h2>
+      <p>Each model is scored on four axes and rolled into a single number:</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Axis</th><th>Checked by</th></tr></thead>
+        <tbody>
+          <tr><td><strong>grounded</strong></td><td>Are claims tied to fetched field values (not priors)?</td></tr>
+          <tr><td><strong>cited</strong></td><td>Does each claim carry an openable <code>source_url</code>?</td></tr>
+          <tr><td><strong>fresh</strong></td><td>Are values within their <code>ttl</code> for this week/coordinate?</td></tr>
+          <tr><td><strong>actionable</strong></td><td>Does the answer end in a concrete next step?</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2 id="bench-eval">Programmatic access</h2>
+      <p>Run the same rubric in CI over your own prompts:</p>
+      <div class="code"><div class="code-bar"><span class="code-file">request.sh</span><button class="code-copy">Copy</button></div><pre>curl -s https://api.pestren.ai/v1/eval \
+  -H <span class="t-str">"Authorization: Bearer $PESTREN_API_TOKEN"</span> \
+  -d <span class="t-str">'{"lat": 47.3, "lng": 8.5,
+       "question": "Late-blight risk for potato this week?",
+       "models": ["pestren","gpt-5","gemini","claude"]}'</span></pre></div>
+      <p>Returns a per-model, per-axis scored comparison. <a class="inline" href="index.html#benchmark">Open the hosted playground →</a></p>
+      <div class="pager"><a data-jump="skills"><div class="lbl">Previous</div><div class="ttl">← Skills</div></a><a class="next" data-jump="api-ask"><div class="lbl">Next</div><div class="ttl">API · /v1/ask →</div></a></div>
+    </article>
+
+    <!-- API ASK -->
+    <article class="doc-page" id="page-api-ask" data-group="api">
+      <div class="eyebrow">API reference</div>
+      <h1><span class="badge m-post">POST</span> <span class="endpoint">/v1/ask</span></h1>
+      <p class="lead">Natural-language Q&amp;A with per-citation provenance and an optional recommended action.</p>
+
+      <h2 id="ask-when">When to use</h2>
+      <p>Use <code>ask</code> when you want language + light interpretation. Use <a class="inline" data-jump="api-fetch"><code>/v1/fetch</code></a> when you already know the fields you need, or want a deterministic pipeline with no LLM latency.</p>
+
+      <h2 id="ask-pipeline">How it works</h2>
+      <ol>
+        <li><strong>Planner</strong> — picks catalog fields for the question + coordinate (+ optional crop/photo); capped per call; catalog is prompt-cached.</li>
+        <li><strong>Fetch</strong> — deterministic, parallel by layer; returns <code>Field_[T]</code> with provenance.</li>
+        <li><strong>Synthesizer</strong> — writes the prose answer and records <code>fields_used</code>.</li>
+        <li><strong>Citation extraction</strong> — one citation per source.</li>
+        <li><strong>Recommendation</strong> — optional action + products.</li>
+      </ol>
+
+      <h2 id="ask-request">Request</h2>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">lat</span><span class="pf-type">number</span><span class="pf-req req">required</span></div><p>Latitude in <code>[-60, 75]</code>.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">lng</span><span class="pf-type">number</span><span class="pf-req req">required</span></div><p>Longitude in <code>[-180, 180]</code>.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">question</span><span class="pf-type">string</span><span class="pf-req req">required</span></div><p>The agronomic question in natural language.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">crop</span><span class="pf-type">string</span><span class="pf-req opt">optional</span></div><p>Hint the crop to skip crop inference.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">image</span><span class="pf-type">string</span><span class="pf-req opt">optional</span></div><p>Base64 or URL of a leaf/field photo for diagnosis.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">include_trace</span><span class="pf-type">boolean</span><span class="pf-req opt">optional</span></div><p>Return the planner→fetch→synth trace.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">include_recommendations</span><span class="pf-type">boolean</span><span class="pf-req opt">optional</span></div><p>Include <code>recommended_action</code> and <code>recommended_products</code>.</p></div>
+
+      <div class="tryit"><div class="tryit-top"><span class="dot"></span>Try it</div><input value='{"lat":4.57,"lng":-75.66,"question":"Coffee leaf rust risk here this week?"}'><button class="run">Send request →</button></div>
+
+      <h2 id="ask-example">Worked example — coffee leaf rust, Colombia</h2>
+      <div class="code"><div class="code-bar"><span class="code-file">200 · response.json</span><button class="code-copy">Copy</button></div><pre>{
+  <span class="t-key">"answer"</span>: <span class="t-str">"Elevated coffee leaf rust risk this week. Humid nights and a
+             dense NDVI canopy at 1,450 m favour infection — scout the
+             lower canopy now and prep a protectant if lesions appear."</span>,
+  <span class="t-key">"confidence"</span>: <span class="t-str">"medium"</span>,
+  <span class="t-key">"citations"</span>: [
+    { <span class="t-key">"source"</span>: <span class="t-str">"CABI PlantwisePlus"</span>, <span class="t-key">"source_url"</span>: <span class="t-str">"https://…"</span>,
+      <span class="t-key">"fetched_at"</span>: <span class="t-str">"2026-07-01T05:40Z"</span>, <span class="t-key">"confidence"</span>: <span class="t-str">"literature"</span> },
+    { <span class="t-key">"source"</span>: <span class="t-str">"ESA Sentinel-2 NDVI"</span>, <span class="t-key">"source_url"</span>: <span class="t-str">"https://…"</span>,
+      <span class="t-key">"fetched_at"</span>: <span class="t-str">"2026-06-29T00:00Z"</span>, <span class="t-key">"confidence"</span>: <span class="t-str">"field-verified"</span> },
+    { <span class="t-key">"source"</span>: <span class="t-str">"ISRIC SoilGrids"</span>, <span class="t-key">"confidence"</span>: <span class="t-str">"literature"</span> },
+    { <span class="t-key">"source"</span>: <span class="t-str">"NASA POWER weather"</span>, <span class="t-key">"confidence"</span>: <span class="t-str">"field-verified"</span> }
+  ],
+  <span class="t-key">"fields_used"</span>: [<span class="t-str">"disease_risk"</span>,<span class="t-str">"humidity"</span>,<span class="t-str">"ndvi_current"</span>,<span class="t-str">"elevation"</span>],
+  <span class="t-key">"recommended_action"</span>: <span class="t-str">"Scout lower canopy; apply protectant if incidence &gt;5%."</span>,
+  <span class="t-key">"recommended_products"</span>: [ { <span class="t-key">"name"</span>: <span class="t-str">"copper-based protectant"</span>, <span class="t-key">"setup"</span>: <span class="t-str">"…"</span> } ]
+}</pre></div>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p>The <code>medium</code> confidence reflects a <code>literature</code>-tier disease model with no local <code>field-verified</code> sample yet — visible in the citation tiers. Set <code>include_trace: true</code> to see how the planner chose these fields.</p></div>
+      <div class="pager"><a data-jump="benchmarking"><div class="lbl">Previous</div><div class="ttl">← Benchmarking</div></a><a class="next" data-jump="api-fetch"><div class="lbl">Next</div><div class="ttl">/v1/fetch →</div></a></div>
+    </article>
+
+    <!-- API FETCH -->
+    <article class="doc-page" id="page-api-fetch" data-group="api">
+      <div class="eyebrow">API reference</div>
+      <h1><span class="badge m-post">POST</span> <span class="endpoint">/v1/fetch</span></h1>
+      <p class="lead">The developer escape hatch — deterministic, provenance-wrapped fields with no LLM in the loop.</p>
+
+      <h2 id="fetch-request">Request</h2>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">lat / lng</span><span class="pf-type">number</span><span class="pf-req req">required</span></div><p>Coordinate within global bounds.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">fields[]</span><span class="pf-type">string[]</span><span class="pf-req opt">one of</span></div><p>Explicit catalog field ids.</p></div>
+      <div class="pfield"><div class="pfield-head"><span class="pf-name">preset</span><span class="pf-type">string</span><span class="pf-req opt">one of</span></div><p>A named bundle (see <a class="inline" data-jump="presets">Presets</a>).</p></div>
+
+      <h2 id="fetch-example">Worked example — irrigation_plan, maize in Kenya</h2>
+      <div class="code"><div class="code-bar"><span class="code-file">200 · response.json</span><button class="code-copy">Copy</button></div><pre>{
+  <span class="t-key">"fields"</span>: {
+    <span class="t-key">"soil_moisture"</span>: { <span class="t-key">"value"</span>: <span class="t-num">0.18</span>, <span class="t-key">"unit"</span>: <span class="t-str">"m3/m3"</span>,
+        <span class="t-key">"source"</span>: <span class="t-str">"NASA SMAP"</span>, <span class="t-key">"confidence"</span>: <span class="t-str">"field-verified"</span> },
+    <span class="t-key">"et0"</span>:           { <span class="t-key">"value"</span>: <span class="t-num">5.1</span>,  <span class="t-key">"unit"</span>: <span class="t-str">"mm/day"</span>, <span class="t-key">"source"</span>: <span class="t-str">"NASA POWER"</span> },
+    <span class="t-key">"rainfall_7d"</span>:   { <span class="t-key">"value"</span>: <span class="t-num">6</span>,    <span class="t-key">"unit"</span>: <span class="t-str">"mm"</span>,     <span class="t-key">"source"</span>: <span class="t-str">"ERA5"</span> },
+    <span class="t-key">"irrigation_need"</span>:{ <span class="t-key">"value"</span>: <span class="t-str">"moderate"</span>, <span class="t-key">"confidence"</span>: <span class="t-str">"literature"</span> },
+    <span class="t-key">"growth_stage"</span>:  { <span class="t-key">"value"</span>: <span class="t-str">"whorl"</span>, <span class="t-key">"confidence"</span>: <span class="t-str">"field-verified"</span> }
+  },
+  <span class="t-key">"partial_failures"</span>: []
+}</pre></div>
+
+      <h2 id="fetch-honesty">The honesty pattern</h2>
+      <p>When a source can't be reached, the field is not silently defaulted — it lands in <code>partial_failures</code> with a <code>retryable</code> flag:</p>
+      <div class="code"><div class="code-bar"><span class="code-file">partial_failures</span><button class="code-copy">Copy</button></div><pre><span class="t-key">"partial_failures"</span>: [
+  { <span class="t-key">"field"</span>: <span class="t-str">"ndvi_current"</span>, <span class="t-key">"error"</span>: <span class="t-str">"cloudy_sentinel_pass"</span>,
+    <span class="t-key">"retryable"</span>: <span class="t-num">true</span> }
+]</pre></div>
+      <div class="callout info"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><p><strong>Batch / polygon:</strong> fetch for a resolved <code>field_polygon</code> to aggregate over the parcel, or a bare point for a single sample. In unverified regions a field's tier may drop to <code>literature</code> — always reported, never hidden.</p></div>
+      <div class="pager"><a data-jump="api-ask"><div class="lbl">Previous</div><div class="ttl">← /v1/ask</div></a><a class="next" data-jump="api-meta"><div class="lbl">Next</div><div class="ttl">/v1/meta/fields →</div></a></div>
+    </article>
+
+    <!-- API META -->
+    <article class="doc-page" id="page-api-meta" data-group="api">
+      <div class="eyebrow">API reference</div>
+      <h1><span class="badge m-get">GET</span> <span class="endpoint">/v1/meta/fields</span></h1>
+      <p class="lead">The public catalog — no auth. Every field, described.</p>
+      <p>Returns each field's <code>id</code>, <code>layer</code>, <code>unit</code>, <code>description</code>, default <code>source</code>, typical <code>confidence</code> tier, and <code>ttl_seconds</code>. Companion endpoint <code>GET /v1/meta/presets</code> lists the bundles.</p>
+      <div class="code"><div class="code-bar"><span class="code-file">200 · response.json</span><button class="code-copy">Copy</button></div><pre>{
+  <span class="t-key">"fields"</span>: [
+    { <span class="t-key">"id"</span>: <span class="t-str">"disease_risk"</span>, <span class="t-key">"layer"</span>: <span class="t-str">"pest_disease"</span>,
+      <span class="t-key">"unit"</span>: <span class="t-str">"risk_index_0_100"</span>, <span class="t-key">"source"</span>: <span class="t-str">"CABI PlantwisePlus"</span>,
+      <span class="t-key">"confidence"</span>: <span class="t-str">"literature"</span>, <span class="t-key">"ttl_seconds"</span>: <span class="t-num">86400</span>,
+      <span class="t-key">"description"</span>: <span class="t-str">"Weekly disease pressure for the resolved crop."</span> }
+  ]
+}</pre></div>
+      <div class="pager"><a data-jump="api-fetch"><div class="lbl">Previous</div><div class="ttl">← /v1/fetch</div></a><a class="next" data-jump="catalog"><div class="lbl">Next</div><div class="ttl">Field catalog →</div></a></div>
+    </article>
+
+    <!-- CATALOG -->
+    <article class="doc-page" id="page-catalog" data-group="api">
+      <div class="eyebrow">API reference</div>
+      <h1>Field catalog</h1>
+      <p class="lead">The browsable table of every field by layer — generated from <code>/v1/meta/fields</code> so docs never drift from the API.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Field</th><th>Layer</th><th>Unit</th><th>Typical tier</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">crop</td><td>crop</td><td>label</td><td><span class="badge tier-fv">field-verified</span></td></tr>
+          <tr><td class="mono">growth_stage</td><td>crop</td><td>label</td><td><span class="badge tier-fv">field-verified</span></td></tr>
+          <tr><td class="mono">soil_ph</td><td>soil</td><td>pH</td><td><span class="badge tier-lit">literature</span></td></tr>
+          <tr><td class="mono">soil_drainage</td><td>soil</td><td>class</td><td><span class="badge tier-lit">literature</span></td></tr>
+          <tr><td class="mono">rainfall_7d</td><td>water</td><td>mm</td><td><span class="badge tier-fv">field-verified</span></td></tr>
+          <tr><td class="mono">et0</td><td>water</td><td>mm/day</td><td><span class="badge tier-fv">field-verified</span></td></tr>
+          <tr><td class="mono">humidity</td><td>weather</td><td>%</td><td><span class="badge tier-fv">field-verified</span></td></tr>
+          <tr><td class="mono">disease_risk</td><td>pest &amp; disease</td><td>0–100</td><td><span class="badge tier-lit">literature</span></td></tr>
+          <tr><td class="mono">ndvi_current</td><td>yield</td><td>index</td><td><span class="badge tier-fv">field-verified</span></td></tr>
+          <tr><td class="mono">yield_risk</td><td>yield</td><td>band</td><td><span class="badge tier-lit">literature</span></td></tr>
+          <tr><td class="mono">field_polygon</td><td>boundaries</td><td>geojson</td><td><span class="badge tier-fv">field-verified</span></td></tr>
+          <tr><td class="mono">recommended_action</td><td>actions</td><td>text</td><td><span class="badge tier-lit">derived</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout info"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><p>This is an excerpt. The live table renders all 220+ fields from the public catalog endpoint.</p></div>
+      <div class="pager"><a data-jump="api-meta"><div class="lbl">Previous</div><div class="ttl">← /v1/meta/fields</div></a><a class="next" data-jump="errors"><div class="lbl">Next</div><div class="ttl">Errors →</div></a></div>
+    </article>
+
+    <!-- ERRORS -->
+    <article class="doc-page" id="page-errors" data-group="api">
+      <div class="eyebrow">API reference</div>
+      <h1>Errors</h1>
+      <p class="lead">HTTP errors, the non-error <code>partial_failures</code> contract, and the <code>crop_unsupported</code> soft-fallback.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Status</th><th>Code</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>400</td><td class="mono">coord_out_of_bounds</td><td>lat/lng outside global bounds.</td></tr>
+          <tr><td>401</td><td class="mono">unauthorized</td><td>Missing/invalid/revoked token.</td></tr>
+          <tr><td>403</td><td class="mono">quota_exceeded</td><td>Plan quota reached.</td></tr>
+          <tr><td>404</td><td class="mono">unknown_field / unknown_preset</td><td>Not in the catalog.</td></tr>
+          <tr><td>422</td><td class="mono">validation_error</td><td>Bad body; see <code>detail[]</code>.</td></tr>
+          <tr><td>429</td><td class="mono">rate_limited</td><td>Too many requests; back off.</td></tr>
+          <tr><td>500</td><td class="mono">internal</td><td>Something broke on our side.</td></tr>
+        </tbody>
+      </table></div>
+      <h2 id="err-partial">partial_failures (not an error)</h2>
+      <p>A <code>200</code> can still carry per-field failures — each with an <code>error</code> and a <code>retryable</code> flag. Treat it as data, not an exception.</p>
+      <h2 id="err-softfallback">crop_unsupported soft-fallback</h2>
+      <p>For an unsupported crop, Pestren answers generically, drops tier to <code>literature</code>, and flags it in <code>notes</code> rather than failing the call.</p>
+      <div class="pager"><a data-jump="catalog"><div class="lbl">Previous</div><div class="ttl">← Field catalog</div></a><a class="next" data-jump="mcp-install"><div class="lbl">Next</div><div class="ttl">MCP · Installation →</div></a></div>
+    </article>
+
+    <!-- MCP INSTALL -->
+    <article class="doc-page" id="page-mcp-install" data-group="mcp">
+      <div class="eyebrow">MCP</div>
+      <h1>Installation</h1>
+      <p class="lead">Wire Pestren into any MCP-aware agent. Server name <code>com.pestren/agri</code>.</p>
+
+      <h2 id="mcp-hosted">Hosted (OAuth) — Claude Code</h2>
+      <div class="code"><div class="code-bar"><span class="code-file">shell</span><button class="code-copy">Copy</button></div><pre>claude mcp add --transport http pestren https://api.pestren.ai/mcp
+<span class="t-com"># then run /mcp in Claude Code and complete the browser login</span></pre></div>
+
+      <h2 id="mcp-local">Local stdio fallback</h2>
+      <p>A slim adapter (no GDAL) for Claude Desktop, Cursor, or custom clients:</p>
+      <div class="code"><div class="code-bar"><span class="code-file">shell</span><button class="code-copy">Copy</button></div><pre>uvx pestren-mcp            <span class="t-com"># run the server</span>
+pestren-mcp login          <span class="t-com"># or set PESTREN_BEARER_TOKEN</span></pre></div>
+
+      <h2 id="mcp-config">Config blocks</h2>
+      <div class="code"><div class="code-bar"><span class="code-file">claude_desktop_config.json / cursor</span><button class="code-copy">Copy</button></div><pre>{ <span class="t-key">"mcpServers"</span>: {
+    <span class="t-key">"pestren"</span>: { <span class="t-key">"command"</span>: <span class="t-str">"uvx"</span>, <span class="t-key">"args"</span>: [<span class="t-str">"pestren-mcp"</span>] }
+} }</pre></div>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p>If <code>uvx</code> isn't on your client's PATH, use its absolute path (e.g. <code>~/.local/bin/uvx</code>) in <code>command</code>.</p></div>
+
+      <h2 id="mcp-env">Environment variables</h2>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Var</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">PESTREN_BASE_URL</td><td>Override the API base (default <code>https://api.pestren.ai</code>).</td></tr>
+          <tr><td class="mono">PESTREN_BEARER_TOKEN</td><td>Token instead of device login.</td></tr>
+          <tr><td class="mono">PESTREN_TIMEOUT_S</td><td>Per-call timeout; raise on cold start.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="pager"><a data-jump="errors"><div class="lbl">Previous</div><div class="ttl">← Errors</div></a><a class="next" data-jump="mcp-tools"><div class="lbl">Next</div><div class="ttl">Tools &amp; resources →</div></a></div>
+    </article>
+
+    <!-- MCP TOOLS -->
+    <article class="doc-page" id="page-mcp-tools" data-group="mcp">
+      <div class="eyebrow">MCP</div>
+      <h1>Tools, resources &amp; prompts</h1>
+      <p class="lead">Two tools, three resources, four prompts — results are the verbatim <code>/v1</code> JSON.</p>
+      <h2 id="mcp-t">Tools</h2>
+      <ul>
+        <li><code>pestren_ask(lat, lng, question[, crop])</code> — mirrors <code>/v1/ask</code>.</li>
+        <li><code>pestren_fetch(lat, lng, fields|preset)</code> — mirrors <code>/v1/fetch</code>.</li>
+      </ul>
+      <h2 id="mcp-r">Resources</h2>
+      <ul>
+        <li><code>pestren://catalog/fields</code></li>
+        <li><code>pestren://catalog/presets</code></li>
+        <li><code>pestren://catalog/coverage</code></li>
+      </ul>
+      <h2 id="mcp-p">Prompts</h2>
+      <p><code>pestren_grower_report</code> · <code>pestren_pest_check</code> · <code>pestren_irrigation_plan</code> · <code>pestren_pick_fields</code> — each exposed as a slash command in Claude Code.</p>
+      <div class="pager"><a data-jump="mcp-install"><div class="lbl">Previous</div><div class="ttl">← Installation</div></a><a class="next" data-jump="mcp-troubleshooting"><div class="lbl">Next</div><div class="ttl">Troubleshooting →</div></a></div>
+    </article>
+
+    <!-- MCP TROUBLESHOOTING -->
+    <article class="doc-page" id="page-mcp-troubleshooting" data-group="mcp">
+      <div class="eyebrow">MCP</div>
+      <h1>Troubleshooting</h1>
+      <p class="lead">Smoke-test with MCP Inspector, then fix the usual suspects.</p>
+      <div class="acc"><button class="acc-q">Inspector smoke check<span class="acc-plus"></span></button><div class="acc-a"><div class="acc-a-in">You should see two tools, three resources, and prompts visible — and a passing <code>pestren_ask</code> and <code>pestren_fetch</code> call returning provenance-wrapped JSON.</div></div></div>
+      <div class="acc"><button class="acc-q">Auth / URL-binding gotchas<span class="acc-plus"></span></button><div class="acc-a"><div class="acc-a-in">Confirm <code>PESTREN_BASE_URL</code> has no trailing slash and the token is exported in the same shell that launches the client. For hosted OAuth, re-run <code>/mcp</code> to refresh the grant.</div></div></div>
+      <div class="acc"><button class="acc-q">Cold-start timeout<span class="acc-plus"></span></button><div class="acc-a"><div class="acc-a-in">First call after idle can exceed the default timeout — raise <code>PESTREN_TIMEOUT_S</code> (e.g. to 30).</div></div></div>
+      <div class="pager"><a data-jump="mcp-tools"><div class="lbl">Previous</div><div class="ttl">← Tools &amp; resources</div></a><a class="next" data-jump="uc-grower"><div class="lbl">Next</div><div class="ttl">Use cases →</div></a></div>
+    </article>
+
+    <!-- USE CASES -->
+    <article class="doc-page" id="page-uc-grower" data-group="uc">
+      <div class="eyebrow">Use cases</div>
+      <h1>Grower advisory</h1>
+      <p class="lead">A grower or agronomist asks pest / irrigation / yield questions in language and gets a cited answer, an action, and optional products.</p>
+      <h3>Query</h3>
+      <p><em>"Coffee at 4.57, -75.66 — leaf rust risk this week, and should I irrigate?"</em></p>
+      <h3>Response &amp; audit trail</h3>
+      <p>A grounded answer + <code>recommended_action</code>, every claim citing CABI / Sentinel / NASA with tiers a field officer can re-open.</p>
+      <h3>Why it works</h3>
+      <p>The planner pulls the disease and water layers for the exact coordinate — not generic advice.</p>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p><strong>What it does NOT do:</strong> it's not a spray prescription of record, not a geocoder (you resolve address → lat/lng), and not a live pest-trap feed — add those alongside if you need them.</p></div>
+      <div class="pager"><a data-jump="mcp-troubleshooting"><div class="lbl">Previous</div><div class="ttl">← Troubleshooting</div></a><a class="next" data-jump="uc-insurance"><div class="lbl">Next</div><div class="ttl">Insurance →</div></a></div>
+    </article>
+
+    <article class="doc-page" id="page-uc-insurance" data-group="uc">
+      <div class="eyebrow">Use cases</div>
+      <h1>Insurance underwriting</h1>
+      <p class="lead">Verify crop, sowing window, flood/drainage exposure, and yield-risk with per-field citations an adjuster or regulator can re-fetch.</p>
+      <h3>Query</h3>
+      <p><em>"Verify crop, sowing window, and flood exposure for this parcel to settle a claim."</em></p>
+      <h3>Why it works</h3>
+      <p>Use the <code>insurance_underwrite</code> preset; every figure is sourced and audit-trailed with a <code>fetched_at</code>.</p>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p><strong>What it does NOT do:</strong> Pestren is not a CAT model — it returns the inputs; the carrier scores.</p></div>
+      <div class="pager"><a data-jump="uc-grower"><div class="lbl">Previous</div><div class="ttl">← Grower advisory</div></a><a class="next" data-jump="uc-lending"><div class="lbl">Next</div><div class="ttl">Agri-lending →</div></a></div>
+    </article>
+
+    <article class="doc-page" id="page-uc-lending" data-group="uc">
+      <div class="eyebrow">Use cases</div>
+      <h1>Agri-lending &amp; collateral</h1>
+      <p class="lead">Crop, acreage, NDVI trend, and a yield-risk band as sourced collateral evidence — reproducible at loan time.</p>
+      <h3>Why it works</h3>
+      <p>The <code>lending_collateral</code> preset returns an independent, citable read on the standing crop and its trajectory.</p>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p><strong>What it does NOT do:</strong> it's evidence, not a credit decision — your model does the underwriting.</p></div>
+      <div class="pager"><a data-jump="uc-insurance"><div class="lbl">Previous</div><div class="ttl">← Insurance</div></a><a class="next" data-jump="uc-robotics"><div class="lbl">Next</div><div class="ttl">Robotics &amp; sensors →</div></a></div>
+    </article>
+
+    <article class="doc-page" id="page-uc-robotics" data-group="uc">
+      <div class="eyebrow">Use cases</div>
+      <h1>Robotics &amp; sensor builders</h1>
+      <p class="lead"><code>/v1/fetch</code> as training data and risk polygons to task fleets and calibrate models. Your detections flow back as ground truth.</p>
+      <h3>Why it works</h3>
+      <p>Sourced field priors reduce false positives; the <code>precision_scouting</code> preset returns polygons to fly.</p>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p><strong>What it does NOT do:</strong> not a replacement for on-board perception — it's the sourced prior.</p></div>
+      <div class="pager"><a data-jump="uc-lending"><div class="lbl">Previous</div><div class="ttl">← Agri-lending</div></a><a class="next" data-jump="uc-gov"><div class="lbl">Next</div><div class="ttl">Government &amp; policy →</div></a></div>
+    </article>
+
+    <article class="doc-page" id="page-uc-gov" data-group="uc">
+      <div class="eyebrow">Use cases</div>
+      <h1>Government &amp; policy</h1>
+      <p class="lead">Aggregate crop maps and climate-risk zones for scheme targeting and policy modeling — every figure sourced.</p>
+      <h3>Why it works</h3>
+      <p>Fetch across a district's parcels with the <code>climate_risk</code> preset; provenance makes the aggregate defensible.</p>
+      <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p><strong>What it does NOT do:</strong> not real-time event feeds — pair with live gauge/trap APIs for hazard nowcasting.</p></div>
+      <div class="pager"><a data-jump="uc-robotics"><div class="lbl">Previous</div><div class="ttl">← Robotics &amp; sensors</div></a><a class="next" data-jump="uc-agents"><div class="lbl">Next</div><div class="ttl">Building agents →</div></a></div>
+    </article>
+
+    <article class="doc-page" id="page-uc-agents" data-group="uc">
+      <div class="eyebrow">Use cases</div>
+      <h1>Building agents</h1>
+      <p class="lead">Drop the MCP tools + Skills into an agent loop; let the planner pick fields; keep citations flowing through tool calls.</p>
+      <h3>Sample transcript</h3>
+      <div class="code"><div class="code-bar"><span class="code-file">agent.log</span><button class="code-copy">Copy</button></div><pre><span class="t-com">user →</span> Is my rice at 21.94, 87.75 at risk this week?
+<span class="t-com">agent →</span> <span class="t-fn">pestren_ask</span>(lat=<span class="t-num">21.94</span>, lng=<span class="t-num">87.75</span>,
+             question=<span class="t-str">"pest/disease risk this week for rice?"</span>)
+<span class="t-com">tool →</span> { answer, confidence:<span class="t-str">"high"</span>, citations:[…], recommended_action }
+<span class="t-com">agent →</span> Elevated stem-borer pressure — scout now. (FAO, Sentinel ↗)</pre></div>
+      <div class="callout tip"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span><p>Load a <code>crop.rice.skill.md</code> alongside the tools so the agent reasons with the right thresholds, then fetches live values.</p></div>
+      <div class="pager"><a data-jump="uc-gov"><div class="lbl">Previous</div><div class="ttl">← Government &amp; policy</div></a><a class="next" href="index.html"><div class="lbl">Next</div><div class="ttl">Back to home →</div></a></div>
+    </article>
+
+  </main>
+
+  <!-- ===== TOC ===== -->
+  <aside class="toc" id="toc"><div class="toc-title">On this page</div><div id="tocLinks"></div></aside>
+</div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+  const groupOf = {}; // page -> group
+  const pages = Array.from(document.querySelectorAll('.doc-page'));
+  pages.forEach(p => groupOf[p.id.replace('page-','')] = p.dataset.group);
+  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  const navGroups = Array.from(document.querySelectorAll('.nav-group'));
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const scrim = document.getElementById('scrim');
+
+  function buildTOC(pageId){
+    const page = document.getElementById('page-'+pageId);
+    const links = document.getElementById('tocLinks'); links.innerHTML='';
+    page.querySelectorAll('h2[id]').forEach(h => {
+      const a = document.createElement('a'); a.textContent = h.textContent; a.href = '#'+h.id;
+      a.addEventListener('click', e => { e.preventDefault(); h.scrollIntoView({behavior:'smooth', block:'start'}); });
+      links.appendChild(a);
+    });
+  }
+
+  function showPage(pageId, push){
+    const group = groupOf[pageId] || 'guides';
+    pages.forEach(p => p.classList.toggle('active', p.id === 'page-'+pageId));
+    navLinks.forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+    // switch tab + sidebar group
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.group === group));
+    navGroups.forEach(g => g.classList.toggle('hidden', g.dataset.group !== group));
+    buildTOC(pageId);
+    content.scrollTo ? window.scrollTo({top:0}) : null; window.scrollTo(0,0);
+    sidebar.classList.remove('open'); scrim.classList.remove('show');
+    if(push) history.replaceState(null,'','#'+pageId);
+  }
+
+  navLinks.forEach(l => l.addEventListener('click', () => showPage(l.dataset.page, true)));
+  // any element with data-jump navigates between pages
+  document.addEventListener('click', e => {
+    const j = e.target.closest('[data-jump]');
+    if(j){ e.preventDefault(); showPage(j.dataset.jump, true); }
+  });
+  // tabs jump to the first page of their group
+  const firstOfGroup = { guides:'introduction', api:'api-ask', mcp:'mcp-install', uc:'uc-grower' };
+  tabs.forEach(t => t.addEventListener('click', () => showPage(firstOfGroup[t.dataset.group], true)));
+
+  // mobile sidebar
+  document.getElementById('menuBtn').addEventListener('click', () => { sidebar.classList.toggle('open'); scrim.classList.toggle('show'); });
+  scrim.addEventListener('click', () => { sidebar.classList.remove('open'); scrim.classList.remove('show'); });
+
+  // code tabs
+  document.querySelectorAll('.ctabs').forEach(group => {
+    const tabsEl = Array.from(group.querySelectorAll('.ctab'));
+    const panes = [];
+    let n = group.nextElementSibling;
+    while(n && n.classList.contains('cpane')){ panes.push(n); n = n.nextElementSibling; }
+    tabsEl.forEach((tb,i) => tb.addEventListener('click', () => {
+      tabsEl.forEach(x=>x.classList.remove('active')); panes.forEach(x=>x.classList.remove('active'));
+      tb.classList.add('active'); if(panes[i]) panes[i].classList.add('active');
+    }));
+  });
+
+  // copy buttons
+  const toast = document.getElementById('toast'); let tT;
+  function showToast(m){ toast.textContent=m; toast.classList.add('show'); clearTimeout(tT); tT=setTimeout(()=>toast.classList.remove('show'),1600); }
+  document.querySelectorAll('.code-copy').forEach(b => b.addEventListener('click', () => {
+    const pre = b.closest('.code').querySelector('pre');
+    navigator.clipboard.writeText(pre.textContent).then(()=>showToast('Copied ⧉'));
+  }));
+
+  // accordions
+  document.querySelectorAll('.acc').forEach(item => {
+    const q = item.querySelector('.acc-q'), a = item.querySelector('.acc-a');
+    q.addEventListener('click', () => {
+      const open = item.classList.contains('open');
+      document.querySelectorAll('.acc').forEach(o => { o.classList.remove('open'); o.querySelector('.acc-a').style.maxHeight=null; });
+      if(!open){ item.classList.add('open'); a.style.maxHeight = a.scrollHeight+'px'; }
+    });
+  });
+
+  // try-it demo
+  document.querySelectorAll('.tryit .run').forEach(b => b.addEventListener('click', () => showToast('200 · cited answer returned (demo)')));
+
+  // deep link
+  const initial = location.hash.replace('#','');
+  showPage(document.getElementById('page-'+initial) ? initial : 'introduction', false);
+</script>
+</body>
+</html>

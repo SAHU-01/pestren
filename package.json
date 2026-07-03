@@ -1,0 +1,17 @@
+{
+  "name": "pestren",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pestren — landing + feedback form with a MongoDB-backed serverless intent endpoint.",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "mongodb": "^6.12.0"
+  },
+  "devDependencies": {
+    "vercel": "^39.0.0"
+  }
+}
