@@ -217,7 +217,7 @@
   <nav class="tabs" id="tabs">
     <span class="tab active" data-group="guides">Guides</span>
     <span class="tab" data-group="api">API reference</span>
-    <span class="tab" data-group="mcp">MCP</span>
+    <!-- <span class="tab" data-group="mcp">MCP</span> -->
     <span class="tab" data-group="uc">Use cases</span>
   </nav>
   <div class="top-right">
@@ -250,19 +250,20 @@
     <!-- API -->
     <div class="nav-group hidden" data-group="api">
       <div class="nav-title"><span class="d"></span>API reference</div>
-      <a class="nav-link" data-page="api-ask">POST /v1/ask</a>
+      <!-- <a class="nav-link" data-page="api-ask">POST /v1/ask</a>
       <a class="nav-link" data-page="api-fetch">POST /v1/fetch</a>
       <a class="nav-link" data-page="api-meta">GET /v1/meta/fields</a>
       <a class="nav-link" data-page="catalog">Field catalog</a>
-      <a class="nav-link" data-page="errors">Errors</a>
+      <a class="nav-link" data-page="errors">Errors</a> -->
+      Coming Soon
     </div>
     <!-- MCP -->
-    <div class="nav-group hidden" data-group="mcp">
+    <!-- <div class="nav-group hidden" data-group="mcp">
       <div class="nav-title"><span class="d"></span>MCP</div>
       <a class="nav-link" data-page="mcp-install">Installation</a>
       <a class="nav-link" data-page="mcp-tools">Tools, resources &amp; prompts</a>
       <a class="nav-link" data-page="mcp-troubleshooting">Troubleshooting</a>
-    </div>
+    </div> -->
     <!-- USE CASES -->
     <div class="nav-group hidden" data-group="uc">
       <div class="nav-title"><span class="d"></span>Use cases</div>
@@ -511,7 +512,9 @@ r = requests.post(
     <!-- API ASK -->
     <article class="doc-page" id="page-api-ask" data-group="api">
       <div class="eyebrow">API reference</div>
-      <h1><span class="badge m-post">POST</span> <span class="endpoint">/v1/ask</span></h1>
+      Coming Soon
+
+      <!-- <h1><span class="badge m-post">POST</span> <span class="endpoint">/v1/ask</span></h1>
       <p class="lead">Natural-language Q&amp;A with per-citation provenance and an optional recommended action.</p>
 
       <h2 id="ask-when">When to use</h2>
@@ -556,9 +559,9 @@ r = requests.post(
   <span class="t-key">"recommended_products"</span>: [ { <span class="t-key">"name"</span>: <span class="t-str">"copper-based protectant"</span>, <span class="t-key">"setup"</span>: <span class="t-str">"…"</span> } ]
 }</pre></div>
       <div class="callout warn"><span class="cc-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span><p>The <code>medium</code> confidence reflects a <code>literature</code>-tier disease model with no local <code>field-verified</code> sample yet — visible in the citation tiers. Set <code>include_trace: true</code> to see how the planner chose these fields.</p></div>
-      <div class="pager"><a data-jump="benchmarking"><div class="lbl">Previous</div><div class="ttl">← Benchmarking</div></a><a class="next" data-jump="api-fetch"><div class="lbl">Next</div><div class="ttl">/v1/fetch →</div></a></div>
+      <div class="pager"><a data-jump="benchmarking"><div class="lbl">Previous</div><div class="ttl">← Benchmarking</div></a><a class="next" data-jump="api-fetch"><div class="lbl">Next</div><div class="ttl">/v1/fetch →</div></a></div> -->
     </article>
-
+ 
     <!-- API FETCH -->
     <article class="doc-page" id="page-api-fetch" data-group="api">
       <div class="eyebrow">API reference</div>
