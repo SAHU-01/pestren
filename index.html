@@ -312,6 +312,13 @@
 
   .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.vis { opacity:1; transform:translateY(0); }
+  /* "coming soon" hover tooltip for not-yet-live actions */
+  .soon { position:relative; cursor:not-allowed; }
+  .soon::after { content:"Coming soon"; position:absolute; bottom:calc(100% + 8px); left:50%;
+    transform:translateX(-50%) translateY(4px); background:var(--ink); color:#fff; font-family:var(--mono);
+    font-size:11px; letter-spacing:.02em; padding:5px 9px; border-radius:8px; white-space:nowrap;
+    opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease; z-index:5; }
+  .soon:hover::after { opacity:1; transform:translateX(-50%) translateY(0); }
 
   .toast { position:fixed; bottom:26px; left:50%; transform:translate(-50%,20px); background:var(--forest); color:#fff;
     font-family:var(--mono); font-size:12px; padding:12px 20px; border-radius:999px; z-index:300; opacity:0; pointer-events:none; transition:all .3s; }
@@ -497,6 +504,7 @@
   .vibe-result { max-width:610px; }
   .vibe-brand { font-family:var(--display); font-weight:700; font-size:26px; letter-spacing:-.01em; line-height:1; }
   .vibe-brand span { color:var(--forest); }
+  .vibe-brand img { width:42px; height:42px; border-radius:11px; object-fit:cover; display:block; box-shadow:0 4px 12px rgba(22,22,22,.14); }
   .vibe-res { font-family:var(--mono); font-size:12px; color:var(--ink-mute); margin-top:8px; }
   .vibe-res b { color:var(--forest); font-weight:600; }
   .vibe-desc { margin-top:12px; font-size:14px; line-height:1.65; color:var(--ink-soft); }
@@ -528,10 +536,11 @@
       <a class="nav-pill" href="#integrate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2v6M15 2v6M7 8h10v4a5 5 0 0 1-10 0V8ZM12 17v5"/></svg>Integrate</a>
       <a class="nav-pill" href="#benchmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l-3 5h6L5 8ZM19 8l-3 5h6l-3-5Z"/></svg>Benchmark</a>
       <a class="nav-pill" href="docs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"/><path d="M14 4v5h5"/></svg>Docs</a>
-      <a class="nav-pill" href="feedback.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>Feedback</a>
     </nav>
     <div class="nav-right">
-      <a class="btn btn-peri" href="#contact">Get API key <span class="tdot"></span></a>
+      <!-- API not live yet — CTA points to the waitlist for now -->
+      <!-- <a class="btn btn-peri" href="#contact">Get API key <span class="tdot"></span></a> -->
+      <a class="btn btn-peri" href="feedback.html">Join the waitlist <span class="tdot"></span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -637,11 +646,13 @@
       </div>
 
       <div class="hero-cta stagger">
-        <a href="#contact" class="btn btn-peri">Get API key →</a>
-        <a href="#benchmark" class="btn btn-white">Open the playground ↗</a>
+        <!-- API not live yet — commented out until launch -->
+        <!-- <a href="#contact" class="btn btn-peri">Get API key →</a> -->
+        <a href="feedback.html" class="btn btn-peri">Join the waitlist →</a>
+        <!-- Playground + Skill not live yet — commented out until launch -->
+        <!-- <a href="#benchmark" class="btn btn-white">Open the playground ↗</a> -->
         <a href="docs.html" class="btn btn-white">Read the docs</a>
-        <a href="feedback.html" class="btn btn-white">Share feedback 🌱</a>
-        <button class="btn btn-white" id="copySkill" type="button">Copy Skill ⧉</button>
+        <!-- <button class="btn btn-white" id="copySkill" type="button">Copy Skill ⧉</button> -->
       </div>
     </header>
 
@@ -851,7 +862,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
         <div class="bench-q">
           <span class="bench-qlabel">Question</span>
           <span class="bench-qbox" id="benchQ">"Late-blight risk for potato at 47.3, 8.5 this week?"</span>
-          <button class="bench-run" id="benchRun">Run →</button>
+          <button class="bench-run soon" id="benchRun" title="Coming soon" aria-label="Run — coming soon">Run →</button>
         </div>
         <div class="bench-tablewrap">
           <table class="bench-table">
@@ -868,7 +879,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
         </div>
         <div class="bench-foot">
           <span class="bench-cap">run any question · any coordinate · see the sources</span>
-          <a href="#contact" class="bench-run">Open the playground →</a>
+          <button type="button" class="bench-run soon" id="benchPlay" title="Coming soon" aria-label="Open the playground — coming soon">Open the playground →</button>
         </div>
       </div>
 
@@ -909,6 +920,9 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
       </div>
 
       <div class="vibe-card reveal">
+        <div class="vibe-cta-top" style="display:flex;justify-content:center;margin-bottom:26px;">
+          <a href="feedback.html" class="btn btn-peri">Join the waitlist →</a>
+        </div>
         <div class="vibe-radial" id="vibeRadial">
           <svg class="vibe-web" viewBox="0 0 400 400" aria-hidden="true">
             <circle class="ring" cx="200" cy="200" r="55"/>
@@ -944,7 +958,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
 
         <div class="vibe-foot">
           <div class="vibe-result">
-            <div class="vibe-brand">pe<span>🌱</span>tren</div>
+            <div class="vibe-brand"><img src="PESTREN.png" alt="Pestren"></div>
             <div class="vibe-res">results : <b id="vibeName">excited</b></div>
             <p class="vibe-desc" id="vibeDesc"></p>
           </div>
@@ -959,8 +973,9 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
       <div class="footer-top">
         <h2>Forward-deployed agriculture. <span class="hp">Any crop. Anywhere.</span></h2>
         <div class="footer-contact">
-          <a class="footer-mail" href="mailto:hello@pestren.ai">hello@pestren.ai</a>
-          <a class="btn btn-peri" href="mailto:hello@pestren.ai">Get API key <span class="tdot"></span></a>
+          <a class="footer-mail" href="mailto:core@pestren.com">core@pestren.com</a>
+          <!-- API not live yet — button commented out for now -->
+          <!-- <a class="btn btn-peri" href="mailto:core@pestren.com">Get API key <span class="tdot"></span></a> -->
         </div>
       </div>
       <div class="footer-links">
@@ -973,7 +988,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
         <a href="#contact">Contact</a>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 Pestren, Inc. · pestren.ai</span>
+        <span>© 2026 Pestren, Inc. · pestren.com</span>
         <span>Any crop · any geography · any LLM</span>
       </div>
     </footer>
@@ -987,7 +1002,8 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
   <a href="#benchmark">Benchmark</a>
   <a href="docs.html">Docs</a>
   <a href="#contact">Contact</a>
-  <a href="#contact" class="btn btn-peri" style="align-self:flex-start;">Get API key ●</a>
+  <!-- API not live yet — waitlist CTA for now -->
+  <a href="feedback.html" class="btn btn-peri" style="align-self:flex-start;">Join the waitlist ●</a>
 </div>
 
 <div class="toast" id="toast">Copied</div>
@@ -1033,21 +1049,22 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
     "pestren": { "command": "uvx", "args": ["pestren-mcp"] }
   }
 }`;
-  document.getElementById('copySkill').addEventListener('click', () => navigator.clipboard.writeText(skill).then(()=>showToast('Skill copied ⧉')));
+  const copySkillBtn = document.getElementById('copySkill');
+  if (copySkillBtn) { copySkillBtn.addEventListener('click', () => navigator.clipboard.writeText(skill).then(()=>showToast('Skill copied ⧉'))); }
 
   // integrate
   const D = [
     { method:'POST', mc:'m-post', ep:'/v1/ask', summary:'Natural language in, cited answer + action out.',
       body:'Ask about any crop, pest, or field, anywhere. A planner picks the right agri-fields, fetches them with provenance, and synthesizes a grounded answer that ends in an action. Every claim carries a citation you can open.',
       returns:'answer + citations + action', best:'agents & apps that reason in language', file:'request.sh',
-      code:`curl -X POST https://api.pestren.ai/v1/ask \\
+      code:`curl -X POST https://api.pestren.com/v1/ask \\
   -H <span class="t-str">"Authorization: Bearer $PESTREN_TOKEN"</span> \\
   -d '{<span class="t-key">"lat"</span>:<span class="t-num">4.5700</span>,<span class="t-key">"lng"</span>:<span class="t-num">-75.6600</span>,<span class="t-key">"crop"</span>:<span class="t-str">"coffee"</span>,
        <span class="t-key">"question"</span>:<span class="t-str">"Irrigation and rust risk this week?"</span>}'` },
     { method:'POST', mc:'m-post', ep:'/v1/fetch', summary:'Exact fields at any coordinate.',
       body:'Skip the language layer. Ask for named fields at a point or polygon anywhere on earth and get structured values back, each with its own source, timestamp, and confidence tier.',
       returns:'fields + per-field provenance', best:'pipelines, scoring, training data', file:'request.sh',
-      code:`curl -X POST https://api.pestren.ai/v1/fetch \\
+      code:`curl -X POST https://api.pestren.com/v1/fetch \\
   -H <span class="t-str">"Authorization: Bearer $PESTREN_TOKEN"</span> \\
   -d '{<span class="t-key">"lat"</span>:<span class="t-num">4.5700</span>,<span class="t-key">"lng"</span>:<span class="t-num">-75.6600</span>,
        <span class="t-key">"fields"</span>:[<span class="t-str">"crop"</span>,<span class="t-str">"soil"</span>,<span class="t-str">"rainfall_7d"</span>,<span class="t-str">"ndvi"</span>,<span class="t-str">"risk"</span>,<span class="t-str">"field_polygon"</span>]}'` },
@@ -1122,7 +1139,9 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
 
   // benchmark playground (demo interaction)
   const benchRun = document.getElementById('benchRun');
-  if(benchRun){ benchRun.addEventListener('click', () => showToast('Scored — Pestren 9.4 · see the sources ↗')); }
+  if(benchRun){ benchRun.addEventListener('click', () => showToast('Coming soon 🌱')); }
+  const benchPlay = document.getElementById('benchPlay');
+  if(benchPlay){ benchPlay.addEventListener('click', () => showToast('Coming soon 🌱')); }
 
   // ===================== HERO INTERACTIONS =====================
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

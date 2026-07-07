@@ -223,7 +223,9 @@
   <div class="top-right">
     <div class="searchbar" id="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search<kbd>⌘K</kbd></div>
     <a class="ghlink" href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.09.68-.22.68-.49v-1.7c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.93-2.35 4.8-4.58 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.59.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg></a>
-    <a class="btn-key" href="index.html#contact">Get API key</a>
+    <!-- API not live yet — waitlist CTA for now -->
+    <!-- <a class="btn-key" href="index.html#contact">Get API key</a> -->
+    <a class="btn-key" href="feedback.html">Join the waitlist</a>
   </div>
 </header>
 
@@ -324,14 +326,14 @@
 
       <h2 id="qs-call">2 · Ask a question</h2>
       <div class="ctabs"><span class="ctab active">curl</span><span class="ctab">Python</span><span class="ctab">MCP</span></div>
-      <div class="cpane active"><div class="code"><div class="code-bar"><span class="code-file">request.sh</span><button class="code-copy">Copy</button></div><pre>curl -s https://api.pestren.ai/v1/ask \
+      <div class="cpane active"><div class="code"><div class="code-bar"><span class="code-file">request.sh</span><button class="code-copy">Copy</button></div><pre>curl -s https://api.pestren.com/v1/ask \
   -H <span class="t-str">"Authorization: Bearer $PESTREN_API_TOKEN"</span> \
   -H <span class="t-str">'content-type: application/json'</span> \
   -d <span class="t-str">'{"lat": 4.57, "lng": -75.66,
        "question": "Coffee leaf rust risk here this week — should I act?"}'</span></pre></div></div>
       <div class="cpane"><div class="code"><div class="code-bar"><span class="code-file">example.py</span><button class="code-copy">Copy</button></div><pre><span class="t-kw">import</span> os, requests
 r = requests.post(
-    <span class="t-str">"https://api.pestren.ai/v1/ask"</span>,
+    <span class="t-str">"https://api.pestren.com/v1/ask"</span>,
     headers={<span class="t-str">"Authorization"</span>: <span class="t-str">f"Bearer {os.environ['PESTREN_API_TOKEN']}"</span>},
     json={<span class="t-str">"lat"</span>: <span class="t-num">4.57</span>, <span class="t-str">"lng"</span>: <span class="t-num">-75.66</span>,
           <span class="t-str">"question"</span>: <span class="t-str">"Coffee leaf rust risk here this week?"</span>},
@@ -362,7 +364,7 @@ r = requests.post(
       <div class="code"><div class="code-bar"><span class="code-file">shell</span><button class="code-copy">Copy</button></div><pre>pestren-mcp login   <span class="t-com"># opens a browser, writes ~/.pestren/credentials</span></pre></div>
 
       <h2 id="auth-oauth">MCP OAuth</h2>
-      <p>Remote MCP clients authenticate against the hosted endpoint <code>https://api.pestren.ai/mcp</code> via OAuth — no token pasting.</p>
+      <p>Remote MCP clients authenticate against the hosted endpoint <code>https://api.pestren.com/mcp</code> via OAuth — no token pasting.</p>
 
       <h2 id="auth-rotate">Rotate &amp; revoke</h2>
       <p>Rotate tokens from the dashboard; revoked tokens fail immediately with <code>401 unauthorized</code>. Scope tokens per environment and never commit them.</p>
@@ -497,7 +499,7 @@ r = requests.post(
 
       <h2 id="bench-eval">Programmatic access</h2>
       <p>Run the same rubric in CI over your own prompts:</p>
-      <div class="code"><div class="code-bar"><span class="code-file">request.sh</span><button class="code-copy">Copy</button></div><pre>curl -s https://api.pestren.ai/v1/eval \
+      <div class="code"><div class="code-bar"><span class="code-file">request.sh</span><button class="code-copy">Copy</button></div><pre>curl -s https://api.pestren.com/v1/eval \
   -H <span class="t-str">"Authorization: Bearer $PESTREN_API_TOKEN"</span> \
   -d <span class="t-str">'{"lat": 47.3, "lng": 8.5,
        "question": "Late-blight risk for potato this week?",
@@ -665,7 +667,7 @@ r = requests.post(
       <p class="lead">Wire Pestren into any MCP-aware agent. Server name <code>com.pestren/agri</code>.</p>
 
       <h2 id="mcp-hosted">Hosted (OAuth) — Claude Code</h2>
-      <div class="code"><div class="code-bar"><span class="code-file">shell</span><button class="code-copy">Copy</button></div><pre>claude mcp add --transport http pestren https://api.pestren.ai/mcp
+      <div class="code"><div class="code-bar"><span class="code-file">shell</span><button class="code-copy">Copy</button></div><pre>claude mcp add --transport http pestren https://api.pestren.com/mcp
 <span class="t-com"># then run /mcp in Claude Code and complete the browser login</span></pre></div>
 
       <h2 id="mcp-local">Local stdio fallback</h2>
@@ -683,7 +685,7 @@ pestren-mcp login          <span class="t-com"># or set PESTREN_BEARER_TOKEN</sp
       <div class="tablewrap"><table>
         <thead><tr><th>Var</th><th>Purpose</th></tr></thead>
         <tbody>
-          <tr><td class="mono">PESTREN_BASE_URL</td><td>Override the API base (default <code>https://api.pestren.ai</code>).</td></tr>
+          <tr><td class="mono">PESTREN_BASE_URL</td><td>Override the API base (default <code>https://api.pestren.com</code>).</td></tr>
           <tr><td class="mono">PESTREN_BEARER_TOKEN</td><td>Token instead of device login.</td></tr>
           <tr><td class="mono">PESTREN_TIMEOUT_S</td><td>Per-call timeout; raise on cold start.</td></tr>
         </tbody>
