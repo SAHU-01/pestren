@@ -1,8 +1,14 @@
 // api/intent.js — Node serverless (Vercel-style)
 // The ONLY thing that touches the database. The browser never sees the URI.
 import { MongoClient } from "mongodb";
+import { createHash } from "crypto";
 
 const uri = process.env.MONGODB_URI;
+// Salt keeps stored IP hashes non-reversible. Set IP_HASH_SALT in prod.
+const IP_SALT = process.env.IP_HASH_SALT || "pestren-intent";
+function hashIp(ip) {
+  return createHash("sha256").update(IP_SALT + "|" + ip).digest("hex");
+}
 
 const SANCTIONED = new Set([
   "north korea", "iran", "syria", "cuba", "russia", "belarus",
@@ -62,6 +68,7 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: "region_unavailable" });
 
     const newsletter = b.newsletter === true;
+    const ipHash = ip !== "unknown" ? hashIp(ip) : null;
     const doc = {
       country,
       availabilityTier: b.availabilityTier === "priority" ? "priority" : "expanding",
@@ -72,11 +79,32 @@ export default async function handler(req, res) {
       ...(newsletter && EMAIL_RE.test(String(b.email || "").trim())
         ? { email: String(b.email).trim().toLowerCase() }
         : {}),
+      ...(ipHash ? { ipHash } : {}),
       createdAt: new Date(),
     };
 
     const client = await getClient();
-    await client.db("pestren").collection("intent").insertOne(doc);
+    const collection = client.db("pestren").collection("intent");
+
+    // One submission per IP. Unique index makes this race-safe; the findOne is
+    // a fast path so we usually skip the insert attempt entirely.
+    if (ipHash) {
+      await collection.createIndex(
+        { ipHash: 1 },
+        { unique: true, partialFilterExpression: { ipHash: { $exists: true } } }
+      );
+      const existing = await collection.findOne({ ipHash }, { projection: { _id: 1 } });
+      if (existing) return res.status(409).json({ error: "already_submitted" });
+    }
+
+    try {
+      await collection.insertOne(doc);
+    } catch (err) {
+      // 11000 = duplicate key: another request from this IP won the race.
+      if (err && err.code === 11000)
+        return res.status(409).json({ error: "already_submitted" });
+      throw err;
+    }
     return res.status(200).json({ ok: true });
   } catch (e) {
     console.error("intent error", e);

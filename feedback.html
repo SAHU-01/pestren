@@ -103,6 +103,13 @@ textarea{resize:vertical;min-height:84px}
 .email-reveal.show{max-height:160px;opacity:1;margin-top:16px}
 .email-note{font-size:12.5px;color:#71766d;margin-top:7px}
 
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,18px);
+  background:var(--forest);color:var(--white);font-weight:600;font-size:14px;
+  line-height:1.4;padding:14px 20px;border-radius:var(--radius-sm);
+  box-shadow:var(--shadow);max-width:min(440px,92vw);text-align:center;
+  z-index:9999;opacity:0;pointer-events:none;transition:opacity .35s,transform .35s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
 /* radar — one big floating head at a time */
 .radar{position:relative;width:min(360px,82vw);aspect-ratio:1;margin:10px auto 4px}
 .radar-web{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -296,6 +303,8 @@ textarea{resize:vertical;min-height:84px}
     </div>
   </section>
 </main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -616,9 +625,29 @@ textarea{resize:vertical;min-height:84px}
     submitBtn.disabled = true; submitBtn.textContent = "sending…";
     fetch("/api/intent", {
       method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload)
-    }).catch(function(err){ console.warn("intent submit failed (showing thanks anyway):", err); })
-      .finally(showThanks);
+    }).then(function(res){
+      if (res.status === 409){
+        // one submission per IP — let them know instead of thanking them again
+        showToast("You've already sent feedback from this network — one submission per person is plenty. Thanks! 🙏");
+        submitBtn.disabled = false; submitBtn.textContent = "send it 🚀";
+        return;
+      }
+      showThanks();
+    }).catch(function(err){
+      // network hiccup: don't punish the user, show thanks anyway (prior behavior)
+      console.warn("intent submit failed (showing thanks anyway):", err);
+      showThanks();
+    });
   });
+
+  var toastTimer;
+  function showToast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 5000);
+  }
 
   function showThanks(){
     stopGlobe(); stopCycle();

@@ -297,6 +297,8 @@
   .faq-a { max-height:0; overflow:hidden; transition:max-height .35s ease; }
   .faq-a-in { padding:0 52px 24px 0; color:var(--ink-soft); font-size:15px; line-height:1.6; max-width:720px; }
   .faq-a-in code { font-family:var(--mono); font-size:13px; background:rgba(22,22,22,0.06); padding:1px 6px; border-radius:5px; }
+  .faq-a-in ul { list-style:disc; margin:12px 0; padding-left:22px; }
+  .faq-a-in li { margin:5px 0; }
 
   /* ===================== FOOTER ===================== */
   .footer { background:var(--forest); color:#fff; padding:60px 44px 52px; margin:36px 0 0; }
@@ -358,7 +360,8 @@
   .bench-tablewrap { overflow-x:auto; border-radius:16px; border:1px solid var(--forest-line); }
   table.bench-table { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:13px; min-width:520px; }
   .bench-table th, .bench-table td { text-align:center; padding:13px 10px; border-bottom:1px solid var(--forest-line); }
-  .bench-table th { color:rgba(231,236,221,0.55); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; }
+  .bench-table th { color:rgba(231,236,221,0.55); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; vertical-align:top; }
+  .th-w { display:block; margin-top:3px; font-size:10px; letter-spacing:0; color:rgba(222,242,75,0.85); }
   .bench-table td:first-child, .bench-table th:first-child { text-align:left; padding-left:18px; font-weight:600; color:#fff; }
   .bench-table tr.pest td { background:rgba(222,242,75,0.08); }
   .bench-table tr.pest td:first-child { color:var(--lime); }
@@ -368,6 +371,70 @@
   .bench-foot { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-top:22px; }
   .bench-cap { font-family:var(--mono); font-size:11.5px; color:rgba(231,236,221,0.6); background:rgba(255,255,255,0.06);
     border:1px solid var(--forest-line); border-radius:999px; padding:7px 13px; }
+
+  /* ===================== PLAYGROUND MODAL ===================== */
+  .pg-overlay { position:fixed; inset:0; z-index:200; background:rgba(12,22,16,0.6); backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px); display:none; opacity:0; transition:opacity .25s ease; padding:20px; }
+  .pg-overlay.open { display:grid; place-items:center; opacity:1; }
+  .pg-modal { width:min(1080px,96vw); max-height:92vh; display:flex; flex-direction:column;
+    background:var(--forest); color:#e7ecdd; border-radius:24px; border:1px solid var(--forest-line);
+    box-shadow:0 40px 90px rgba(0,0,0,0.5); overflow:hidden; transform:translateY(14px) scale(.985); transition:transform .3s cubic-bezier(.2,.7,.2,1); }
+  .pg-overlay.open .pg-modal { transform:none; }
+  .pg-head { display:flex; align-items:center; gap:14px; padding:22px 26px; border-bottom:1px solid var(--forest-line); }
+  .pg-head .pg-eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:rgba(231,236,221,0.5); }
+  .pg-head h3 { font-size:20px; font-weight:700; color:#fff; line-height:1.1; margin-top:2px; }
+  .pg-head h3 .hl { color:var(--lime); }
+  .pg-close { margin-left:auto; width:38px; height:38px; flex-shrink:0; border:1px solid var(--forest-line);
+    background:rgba(255,255,255,0.05); border-radius:50%; color:#e7ecdd; font-size:18px; cursor:pointer; line-height:1;
+    display:grid; place-items:center; transition:background .2s, transform .2s; }
+  .pg-close:hover { background:rgba(255,255,255,0.12); transform:rotate(90deg); }
+  .pg-body { padding:24px 26px 28px; overflow-y:auto; }
+  .pg-label { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:rgba(231,236,221,0.5); margin-bottom:10px; }
+  .pg-tiles { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
+  .pg-tile { text-align:left; font-family:var(--mono); font-size:12.5px; line-height:1.5; color:#e7ecdd;
+    background:rgba(255,255,255,0.05); border:1px solid var(--forest-line); border-radius:14px; padding:12px 15px;
+    cursor:pointer; max-width:340px; transition:background .2s, border-color .2s, transform .2s; }
+  .pg-tile:hover { background:rgba(222,242,75,0.1); transform:translateY(-2px); }
+  .pg-tile.on { border-color:var(--lime); background:rgba(222,242,75,0.12); }
+  .pg-tile .pg-tile-tag { display:block; font-family:var(--body); font-weight:600; font-size:11px; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--lime); margin-bottom:5px; }
+  .pg-chat { display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.05);
+    border:1px solid var(--forest-line); border-radius:16px; padding:16px 18px; margin-bottom:22px; }
+  .pg-chat .pg-avatar { width:30px; height:30px; flex-shrink:0; border-radius:50%; background:var(--lime); color:var(--forest);
+    display:grid; place-items:center; font-weight:700; font-size:13px; }
+  .pg-chat .pg-q { font-size:14.5px; line-height:1.55; color:#fff; }
+  .pg-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  @media (max-width:720px){ .pg-grid{ grid-template-columns:1fr; } }
+  .pg-card { display:flex; flex-direction:column; background:rgba(255,255,255,0.04);
+    border:1px solid var(--forest-line); border-radius:16px; overflow:hidden; }
+  .pg-card.pest { border-color:rgba(222,242,75,0.5); background:rgba(222,242,75,0.06); }
+  .pg-card-head { display:flex; align-items:center; gap:9px; padding:13px 16px; border-bottom:1px solid var(--forest-line); }
+  .pg-card-head .pg-name { font-weight:600; font-size:14px; color:#fff; }
+  .pg-card.pest .pg-name { color:var(--lime); }
+  .pg-card-head .pg-tag { margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:.03em;
+    text-transform:uppercase; padding:3px 8px; border-radius:999px; border:1px solid var(--forest-line); color:rgba(231,236,221,0.7); }
+  .pg-card.pest .pg-tag { color:var(--forest); background:var(--lime); border-color:var(--lime); font-weight:600; }
+  .pg-answer { padding:14px 16px; font-size:13px; line-height:1.6; color:#dfe5d5; max-height:230px; overflow-y:auto; flex:1; }
+  .pg-answer p { margin:0 0 9px; } .pg-answer p:last-child { margin-bottom:0; }
+  .pg-answer b { color:var(--lime); }
+  .pg-answer.pending { display:grid; place-items:center; text-align:center; color:rgba(231,236,221,0.65); font-style:italic; min-height:120px; }
+  .pg-card-foot { padding:11px 16px; border-top:1px solid var(--forest-line); }
+  .pg-view { display:inline-flex; align-items:center; gap:6px; font-family:var(--body); font-weight:600; font-size:12.5px;
+    text-decoration:none; color:var(--forest); background:var(--lime); border-radius:999px; padding:7px 15px; transition:transform .2s, filter .2s; }
+  .pg-view:hover { transform:translateY(-2px); filter:brightness(1.05); }
+  .pg-view.disabled { background:rgba(255,255,255,0.06); color:rgba(231,236,221,0.4); cursor:not-allowed; pointer-events:none; }
+  .pg-answer::-webkit-scrollbar, .pg-body::-webkit-scrollbar { width:7px; }
+  .pg-answer::-webkit-scrollbar-thumb, .pg-body::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.14); border-radius:99px; }
+  .pg-sources { margin-top:13px; padding-top:12px; border-top:1px dashed var(--forest-line); }
+  .pg-src-label { display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:10px; letter-spacing:.08em;
+    text-transform:uppercase; color:rgba(231,236,221,0.55); margin-bottom:9px; }
+  .pg-src-label .pg-src-count { color:var(--forest); background:var(--lime); border-radius:999px; padding:1px 7px; font-weight:600; }
+  .pg-src-note { font-size:11.5px; line-height:1.45; color:var(--amber); margin-bottom:10px; }
+  .pg-src { display:flex; gap:9px; align-items:baseline; font-size:11.5px; line-height:1.4; color:#c7cfba;
+    padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .pg-src:last-child { border-bottom:none; }
+  .pg-src .pg-src-site { flex-shrink:0; min-width:74px; font-family:var(--mono); font-size:10px; color:var(--lime); word-break:break-word; }
+  .pg-src.off .pg-src-site { color:var(--amber); }
 
   /* ===================== TRUST STRIP ===================== */
   .trust-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px; }
@@ -629,7 +696,7 @@
             </div>
             <p class="model-pointer">The model changes. <b>Pestren's grounded answer doesn't.</b></p>
             <!-- STAYS constant: the payoff -->
-            <div class="app-pair">
+            <!-- <div class="app-pair">
               <div class="mini peri">
                 <span class="mini-top">Cited to source</span>
                 <span class="mini-pill">Explore</span>
@@ -640,7 +707,7 @@
                 <span class="mini-pill lime">field-verified</span>
                 <span class="mini-bot">real fields, real growers</span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -835,7 +902,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
       </div><!-- /.int-sticky -->
      </div><!-- /.int-scroll -->
 
-      <div class="int-feats stagger">
+      <!-- <div class="int-feats stagger">
         <div class="feat-strip lime">
           <div class="fs-eyebrow">Build your own farm · forward-deployed</div>
           <h3>From a plot and a budget to a running plan</h3>
@@ -847,7 +914,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
           <p>Recommended inputs, sensors, and gear a grower can buy and install — with setup guidance built into every answer.</p>
           <span class="fs-note">Pestren earns referral commission on recommendations — a revenue line on top of API metering.</span>
         </div>
-      </div>
+      </div> -->
     </section>
 
     <!-- ===================== BENCHMARK & TRUST ===================== -->
@@ -861,25 +928,25 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
       <div class="bench reveal">
         <div class="bench-q">
           <span class="bench-qlabel">Question</span>
-          <span class="bench-qbox" id="benchQ">"Late-blight risk for potato at 47.3, 8.5 this week?"</span>
-          <button class="bench-run soon" id="benchRun" title="Coming soon" aria-label="Run — coming soon">Run →</button>
+          <span class="bench-qbox" id="benchQ">"Should I spray rice for late blight at 37.76, -122.38 this week?"</span>
+          <button class="bench-run" id="benchRun" aria-label="Run in the playground">Run →</button>
         </div>
         <div class="bench-tablewrap">
           <table class="bench-table">
             <thead>
-              <tr><th>Model</th><th>grounded</th><th>cited</th><th>fresh</th><th>action</th><th>score</th></tr>
+              <tr><th>Model</th><th>grounded<span class="th-w">2.5</span></th><th>cited<span class="th-w">2.0</span></th><th>fresh<span class="th-w">2.5</span></th><th>action<span class="th-w">3.0</span></th><th>score<span class="th-w">/10</span></th></tr>
             </thead>
             <tbody>
               <tr class="pest"><td>Pestren</td><td><span class="bx-y">✔</span></td><td><span class="bx-y">✔</span></td><td><span class="bx-y">✔</span></td><td><span class="bx-y">✔</span></td><td class="bench-score bx-y">9.4</td></tr>
-              <tr><td>GPT-5</td><td><span class="bx-y">✔</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td><span class="bx-p">~</span></td><td class="bench-score">5.1</td></tr>
-              <tr><td>Gemini</td><td><span class="bx-p">~</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td><span class="bx-p">~</span></td><td class="bench-score">4.7</td></tr>
-              <tr><td>Claude</td><td><span class="bx-y">✔</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td><span class="bx-p">~</span></td><td class="bench-score">5.6</td></tr>
+              <tr><td>GPT-5</td><td><span class="bx-y">✔</span></td><td><span class="bx-y">✔</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td class="bench-score">4.5</td></tr>
+              <tr><td>DeepSeek</td><td><span class="bx-p">~</span></td><td><span class="bx-y">✔</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td class="bench-score">3.3</td></tr>
+              <tr><td>Claude</td><td><span class="bx-y">✔</span></td><td><span class="bx-n">–</span></td><td><span class="bx-n">–</span></td><td><span class="bx-y">✔</span></td><td class="bench-score">5.5</td></tr>
             </tbody>
           </table>
         </div>
         <div class="bench-foot">
           <span class="bench-cap">run any question · any coordinate · see the sources</span>
-          <button type="button" class="bench-run soon" id="benchPlay" title="Coming soon" aria-label="Open the playground — coming soon">Open the playground →</button>
+          <button type="button" class="bench-run" id="benchPlay" aria-label="Open the playground">Open the playground →</button>
         </div>
       </div>
 
@@ -966,6 +1033,64 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
         </div>
       </div>
     </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="sec" id="faq">
+      <div class="sec-head reveal" style="text-align:center;max-width:660px;margin-left:auto;margin-right:auto;">
+        <div class="sec-eyebrow" style="justify-content:center;">06 · FAQ</div>
+        <h2 class="sec-title" style="margin-left:auto;margin-right:auto;">Questions, <span class="hp">answered</span>.</h2>
+        <p class="sec-lead" style="margin-left:auto;margin-right:auto;">The things partners and growers ask us most — starting with where the intelligence actually comes from.</p>
+      </div>
+
+      <div class="faq reveal" style="margin:0 auto;">
+        <div class="faq-item open">
+          <button class="faq-q" aria-expanded="true">Where does Pestren's data — and the model — come from?<span class="faq-plus" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            Pestren runs on an <b>open-source foundation model</b>, trained and grounded on openly available, authoritative datasets. Global layers come from <b>ESA Sentinel</b> (satellite), <b>NASA</b> (weather), and <b>ISRIC SoilGrids</b> (soil), plus specialist references like the <b>Insecticide Resistance Action Committee (IRAC)</b> for resistance management. On top of that we use each region's official land-parcel and crop datasets:
+            <ul>
+              <li><b>Europe</b> — LPIS (Land Parcel Identification System), CAP declarations</li>
+              <li><b>USA</b> — USDA Cropland Data Layer (CDL)</li>
+              <li><b>Brazil</b> — CONAB, MapBiomas</li>
+              <li><b>India</b> — state agriculture departments, ICAR institutes, FASAL outputs, plus PMFBY and the Digital Crop Survey where access permits (both restricted)</li>
+              <li><b>Australia</b> — ABARES</li>
+              <li><b>Canada</b> — AAFC Crop Inventory</li>
+            </ul>
+            On top of that public base we layer <b>field data and verification points contributed by our partner FPOs</b> (Farmer Producer Organizations), so answers are checked against the real ground — not just the literature. Every answer names the sources it used.
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">How fresh is the information?<span class="faq-plus" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            Weather updates daily, satellite refreshes on its revisit cycle, and risk is scored weekly. Every value carries its own <code>timestamp</code> so you always know how recent it is.
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">How do I know how much to trust an answer?<span class="faq-plus" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            Every fact is tagged with a confidence tier — <code>literature-only</code>, <code>field-verified</code>, or <code>lab-confirmed</code> — so you always see whether it's backed by published sources, ground truth from the field, or lab results.
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Do you use my questions or farm data to train models?<span class="faq-plus" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            No. Your questions and coordinates are never used to train models. Field data contributed through FPO partnerships is used only with consent, to improve verification coverage.
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Which crops and regions do you cover?<span class="faq-plus" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            Our vision is simple: <strong>any crop, any geography</strong>. At launch, Pestren supports farms growing food crops across the <strong>United States and India</strong>. We're already expanding our coverage and plan to add more countries and continents beginning next quarter.
+
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What does it cost?<span class="faq-plus" aria-hidden="true"></span></button>
+          <div class="faq-a"><div class="faq-a-in">
+            A free tier plus a metered API, with volume plans for enterprise. Grower access is kept low-friction on purpose.
+          </div></div>
+        </div>
+      </div>
+    </section>
   </div><!-- /.pad -->
 
     <!-- ===================== FOOTER ===================== -->
@@ -984,6 +1109,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
         <a href="#integrate">Integrate</a>
         <a href="#benchmark">Benchmark</a>
         <a href="#vibe">Vibe check</a>
+        <a href="#faq">FAQ</a>
         <a href="docs.html">Docs</a>
         <a href="#contact">Contact</a>
       </div>
@@ -1000,6 +1126,7 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
   <a href="#sectors">Sectors</a>
   <a href="#integrate">Integrate</a>
   <a href="#benchmark">Benchmark</a>
+  <a href="#faq">FAQ</a>
   <a href="docs.html">Docs</a>
   <a href="#contact">Contact</a>
   <!-- API not live yet — waitlist CTA for now -->
@@ -1007,6 +1134,31 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
 </div>
 
 <div class="toast" id="toast">Copied</div>
+
+<!-- ===================== BENCHMARK PLAYGROUND MODAL ===================== -->
+<div class="pg-overlay" id="pgOverlay" role="dialog" aria-modal="true" aria-labelledby="pgTitle">
+  <div class="pg-modal">
+    <div class="pg-head">
+      <div>
+        <div class="pg-eyebrow">Benchmark playground</div>
+        <h3 id="pgTitle">Same question. <span class="hl">Every model.</span></h3>
+      </div>
+      <button class="pg-close" id="pgClose" aria-label="Close playground">✕</button>
+    </div>
+    <div class="pg-body">
+      <div class="pg-label">Pick a question</div>
+      <div class="pg-tiles" id="pgTiles"></div>
+
+      <div class="pg-chat">
+        <span class="pg-avatar">Q</span>
+        <div class="pg-q" id="pgQuestion"></div>
+      </div>
+
+      <div class="pg-label">How each model answered</div>
+      <div class="pg-grid" id="pgGrid"></div>
+    </div>
+  </div>
+</div>
 
 <script>
   // mobile menu
@@ -1137,11 +1289,157 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
   setInt(0); onIntScroll();
   document.getElementById('mCopy').addEventListener('click',()=>navigator.clipboard.writeText(mCode.textContent).then(()=>showToast('Copied')));
 
-  // benchmark playground (demo interaction)
-  const benchRun = document.getElementById('benchRun');
-  if(benchRun){ benchRun.addEventListener('click', () => showToast('Coming soon 🌱')); }
-  const benchPlay = document.getElementById('benchPlay');
-  if(benchPlay){ benchPlay.addEventListener('click', () => showToast('Coming soon 🌱')); }
+  // ===================== BENCHMARK PLAYGROUND =====================
+  (function(){
+    // Each entry: a real farm question + how each model answered it, with a link to the live chat.
+    // Pestren answers are added as they're captured (answer:null renders a "coming soon" tile).
+    const QUESTIONS = [
+      {
+        tag: 'Rice · late blight · San Francisco',
+        q: 'I grow rice at 37.760313, -122.384323. Should I spray for late blight in the next 7 days?',
+        models: {
+          pestren: {
+            tag:'grounded · cited', link:'https://interface.pestren.com/share/12a79119-a006-446a-8c04-d0161ad578dd',
+            answer:'<p><b>No spray — this coordinate isn\'t cropland.</b> It resolves to Developed / High-intensity urban land (San Francisco), with <b>no cultivated crop on record</b> in the USDA Cropland Data Layer.</p>'+
+              '<p>Because there\'s no rice — and no farmland — here, late-blight risk and any spray decision simply don\'t apply. (Late blight is a potato/tomato disease, not rice, either way.)</p>'+
+              '<p>Every value is location-checked and timestamped: crop = Developed/High, land-capability class 8, fetched 2026-07-27.</p>',
+            note:'All 10 sources are tied to this exact coordinate — parcel, soil, land cover and cropping history for 37.76, -122.38.',
+            sources:[
+              { site:'Field geo', title:'Drawn / imported field geometry' },
+              { site:'USDA SSURGO', title:'Soil — Soil Data Access' },
+              { site:'NASA POWER', title:'Climate (gridded)' },
+              { site:'NASA POWER', title:'Solar & wind + astronomy' },
+              { site:'Sentinel-2', title:'L2A via Element84 Earth Search STAC' },
+              { site:'USDA SSURGO', title:'Land Capability' },
+              { site:'USDA NASS', title:'Cropland Data Layer — cropping history' },
+              { site:'USGS NLCD', title:'Land Cover 2021' },
+              { site:'CA DWR', title:'Water District service areas' },
+              { site:'DataSF', title:'Parcels & zoning (Socrata)' }
+            ]
+          },
+          gpt: {
+            name:'GPT-5', tag:'no field data', link:'https://chatgpt.com/s/t_6a675acd509c819181313679c0d17365',
+            answer:'<p><b>No — don\'t spray for late blight on rice.</b> Late blight (<i>Phytophthora infestans</i>) is a disease of potato and tomato, not rice.</p>'+
+              '<p>Those coordinates (37.76, -122.38) are near San Francisco. If your crop is really rice, the diseases worth watching are rice blast, sheath blight, bacterial leaf blight and stem rot.</p>'+
+              '<p>Spraying a fungicide "just in case" for late blight on rice would not be appropriate or effective.</p>',
+            note:'Cited potato/tomato blight pages plus weather for Nellore, India — nothing tied to this field or this week.',
+            sources:[
+              { site:'UC IPM', title:'Late Blight — Home & Landscape' },
+              { site:'UC IPM', title:'Late Blight / Potato — Pest Management Guidelines' },
+              { site:'imd.gov.in', title:'Local Weather Report & Forecast — Nellore, India', off:true },
+              { site:'imd.gov.in', title:'5-day Sub-Divisional Rainfall Forecast (Jul 23)', off:true },
+              { site:'imd.gov.in', title:'5-day Sub-Divisional Rainfall Forecast (Jul 22)', off:true },
+              { site:'imd.gov.in', title:'Agromet Advisory Services', off:true },
+              { site:'uconn.edu', title:'Late Blight of Tomato' },
+              { site:'wisc.edu', title:'Vegetable Crop Update — Jun 21' },
+              { site:'wisc.edu', title:'Vegetable Crop Update — Jun 7' },
+              { site:'wisc.edu', title:'Weather & Potato Disease Models' },
+              { site:'ucanr.edu', title:'Late Blight / Potato' },
+              { site:'ucanr.edu', title:'Late Blight / Tomato' },
+              { site:'msu.edu', title:'Disease Tools — Potato & Sugar Beet Pathology' }
+            ]
+          },
+          claude: {
+            name:'Claude (Sonnet 4.6)', tag:'general weather', link:'https://claude.ai/share/b883aee6-8f7c-471f-ac88-59401f16e2dd',
+            answer:'<p>Flagged two issues: <b>late blight doesn\'t affect rice</b> (rice blast is the real threat), and the coordinates are in San Francisco (Mission/Potrero) — urban, not farmland. California rice grows in the Sacramento Valley.</p>'+
+              '<p>Pulled a 7-day SF forecast (cool, dry, ~0–10% rain) and concluded blast pressure would be low. Asked for your real field coordinates for an accurate read.</p>'+
+              '<p>Note: Opus 4.8 flagged this same question as a wrong crop/location mismatch.</p>',
+            note:'One live source — generic city weather, no field, soil, or disease-model grounding.',
+            sources:[
+              { site:'Google', title:'Live weather for 37.76, -122.38 (San Francisco, CA)' }
+            ]
+          },
+          deepseek: {
+            name:'DeepSeek', tag:'read 15 pages', link:'https://chat.deepseek.com/share/1bqzcwpvveuelfmopw',
+            answer:'<p>Read 15 web pages, then said it <b>could not give a definitive spray / don\'t-spray recommendation</b>.</p>'+
+              '<p>Explained that the real rice disease is rice blast (<i>Pyricularia oryzae</i>), not late blight, and that the Bay/Delta climate matters.</p>'+
+              '<p>Ended by advising you to check your local 7-day forecast and contact UC Cooperative Extension — no direct answer for your field this week.</p>',
+            note:'15 pages read — including a Russian dictionary, a Chinese climate page and a Houzz forum thread. Breadth, not grounding.',
+            sources:[
+              { site:'Univ. Sargodha', title:'Introductory Plant Pathology PP-202' },
+              { site:'ku.ac.th', title:'Phytophthora infestans culture medium (Thai)', off:true },
+              { site:'ScienceDirect', title:'Actionable-threshold advisory system for rice blast (Mar 2026)' },
+              { site:'Houzz', title:'Forum thread — "Anybody grown rice?"', off:true },
+              { site:'IEEE Xplore', title:'Hybrid deep learning for rice & potato leaf diseases (Feb 2025)' },
+              { site:'GoPhotonics', title:'NIR spectroradiometer to identify plant diseases' },
+              { site:'IEEE Xplore', title:'LSTM for climate-sensitive precision agriculture (Feb 2026)' },
+              { site:'ucanr.edu', title:'Rice production practices in the Delta' },
+              { site:'rus-dict', title:'"BLIGHT" — Russian–English dictionary entry', off:true },
+              { site:'vogis.org', title:'Red-grain rice / blast outbreak report' },
+              { site:'APS / Phytopath.', title:'Seasonal weather dynamics & rice disease (Oct 2025)' },
+              { site:'Weather Spark', title:'Rice vs. San Francisco climate comparison (Chinese)', off:true },
+              { site:'The Daily Star', title:'Chilly spell raises disease risk for winter crops (Dec 2025)', off:true },
+              { site:'ScienceDirect', title:'Plant disease diagnosis & image classification (Nov 2021)' },
+              { site:'Sainsbury Lab', title:'Sophien Kamoun group — plant–pathogen research' }
+            ]
+          }
+        }
+      }
+    ];
+    const ORDER = ['pestren','gpt','claude','deepseek'];
+    const NAMES = { pestren:'Pestren', gpt:'GPT-5', claude:'Claude', deepseek:'DeepSeek' };
+
+    const overlay = document.getElementById('pgOverlay');
+    const tilesWrap = document.getElementById('pgTiles');
+    const qEl = document.getElementById('pgQuestion');
+    const gridEl = document.getElementById('pgGrid');
+    if(!overlay) return;
+
+    function renderModels(entry){
+      gridEl.innerHTML = '';
+      ORDER.forEach(key => {
+        const m = entry.models[key] || {};
+        const card = document.createElement('div');
+        card.className = 'pg-card' + (key==='pestren' ? ' pest' : '');
+        const name = m.name || NAMES[key];
+        const tag = m.tag ? '<span class="pg-tag">'+m.tag+'</span>' : '';
+        let sourcesHtml = '';
+        if(m.sources && m.sources.length){
+          const rows = m.sources.map(s =>
+            '<div class="pg-src'+(s.off?' off':'')+'"><span class="pg-src-site">'+s.site+'</span><span>'+s.title+'</span></div>'
+          ).join('');
+          sourcesHtml = '<div class="pg-sources">'+
+            '<div class="pg-src-label">Sources <span class="pg-src-count">'+m.sources.length+'</span></div>'+
+            (m.note ? '<div class="pg-src-note">'+m.note+'</div>' : '')+ rows +'</div>';
+        }
+        const body = m.answer
+          ? '<div class="pg-answer">'+m.answer+ sourcesHtml +'</div>'
+          : '<div class="pg-answer pending">Pestren\'s grounded, cited answer lands here — coming soon.</div>';
+        const foot = m.link
+          ? '<a class="pg-view" href="'+m.link+'" target="_blank" rel="noopener">View it ↗</a>'
+          : '<span class="pg-view disabled">View it ↗</span>';
+        card.innerHTML = '<div class="pg-card-head"><span class="pg-name">'+name+'</span>'+tag+'</div>'+
+          body + '<div class="pg-card-foot">'+foot+'</div>';
+        gridEl.appendChild(card);
+      });
+    }
+    function select(i){
+      const entry = QUESTIONS[i];
+      qEl.textContent = entry.q;
+      Array.from(tilesWrap.children).forEach((t,idx)=> t.classList.toggle('on', idx===i));
+      renderModels(entry);
+    }
+    // build tiles
+    QUESTIONS.forEach((entry,i)=>{
+      const t = document.createElement('button');
+      t.type = 'button'; t.className = 'pg-tile';
+      t.innerHTML = '<span class="pg-tile-tag">'+entry.tag+'</span>'+entry.q;
+      t.addEventListener('click', ()=> select(i));
+      tilesWrap.appendChild(t);
+    });
+
+    let lastFocus = null;
+    function open(){ lastFocus = document.activeElement; select(0); overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+    function close(){ overlay.classList.remove('open'); document.body.style.overflow=''; if(lastFocus) lastFocus.focus(); }
+    document.getElementById('pgClose').addEventListener('click', close);
+    overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
+
+    const benchRun = document.getElementById('benchRun');
+    if(benchRun) benchRun.addEventListener('click', open);
+    const benchPlay = document.getElementById('benchPlay');
+    if(benchPlay) benchPlay.addEventListener('click', open);
+  })();
 
   // ===================== HERO INTERACTIONS =====================
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1279,6 +1577,32 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
     wrap.addEventListener('mouseleave', start);
     document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); });
     set(0); start();
+  })();
+
+  /* ── FAQ accordion ─────────────────────────────────────────── */
+  (function(){
+    const items = Array.from(document.querySelectorAll('.faq-item'));
+    function setOpen(item, open){
+      const a = item.querySelector('.faq-a');
+      const btn = item.querySelector('.faq-q');
+      item.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      a.style.maxHeight = open ? a.scrollHeight + 'px' : null;
+    }
+    items.forEach(item => {
+      const btn = item.querySelector('.faq-q');
+      btn.addEventListener('click', () => {
+        const willOpen = !item.classList.contains('open');
+        items.forEach(other => { if(other !== item) setOpen(other, false); });
+        setOpen(item, willOpen);
+      });
+      // sync any item marked open-by-default in the markup
+      if(item.classList.contains('open')) setOpen(item, true);
+    });
+    window.addEventListener('resize', () => {
+      const open = document.querySelector('.faq-item.open .faq-a');
+      if(open) open.style.maxHeight = open.scrollHeight + 'px';
+    }, { passive:true });
   })();
 </script>
 </body>
