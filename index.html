@@ -1374,6 +1374,73 @@ action      = scout now; targeted bio-control if &gt;5% damage</div>
             ]
           }
         }
+      },
+      {
+        tag: 'Crop choice · 60% water · Sacramento Valley',
+        q: 'Coordinates 38.854711, -121.678234. Assume irrigation water is limited to 60% of normal. Which crop would maximize profit over the next season? Explain your reasoning.',
+        models: {
+          pestren: {
+            tag:'grounded · cited', link:'https://interface.pestren.com/share/74dcfac0-9eb2-4c6c-b522-b0ae947845f3',
+            answer:'<p><b>Sunflowers — the best profit potential next season at 60% of normal water.</b></p>'+
+              '<p>The soil is Clear Lake clay (59% clay, poorly drained Vertisol): ideal for puddled rice but it needs full flood, so a 40% cut makes rice extremely risky and likely unprofitable. Sunflowers need roughly half the water of rice, tolerate drought, and can draw on stored winter-rain moisture (668 mm/yr) in this clay.</p>'+
+              '<p>Cropping history proves it: sunflowers already succeeded on this parcel in 2022, and planting them breaks the 2021–2025 rice monoculture — improving soil structure and cutting disease pressure. Matches the 3,198 GDD, long frost-free season (zone 10a) and Class-2-irrigated prime farmland.</p>',
+            note:'All 14 field references resolve to this exact parcel in Sutter County — soil, climate, cropping history, water district, SGMA agency and drought status for 38.85, -121.68.',
+            sources:[
+              { site:'Field geo', title:'Location & parcel — drawn / imported geometry' },
+              { site:'USDA SSURGO', title:'Soil — Soil Data Access' },
+              { site:'NASA POWER', title:'Climate (gridded)' },
+              { site:'NASA POWER', title:'Solar & wind + astronomy' },
+              { site:'Sentinel-2', title:'Vegetation — L2A via Element84 Earth Search STAC' },
+              { site:'USDA SSURGO', title:'Crop suitability — Land Capability' },
+              { site:'USDA NASS', title:'Cropland Data Layer — cropping history' },
+              { site:'USGS NLCD', title:'Land Cover 2021' },
+              { site:'CA DWR', title:'Water / irrigation district service areas' },
+              { site:'CA DOC', title:'Important Farmland (FMMP 2020)' },
+              { site:'CA DWR', title:'SGMA — Groundwater Sustainability Agencies' },
+              { site:'Drought Monitor', title:'Drought status (NDMC / USDA / NOAA)' },
+              { site:'CA SWRCB', title:'eWRIMS — points of diversion (water rights)' },
+              { site:'Sutter County', title:'Parcel & zoning (CA parcel update)' }
+            ]
+          },
+          gpt: {
+            name:'GPT-5', tag:'declined · no field data', link:'https://chatgpt.com/s/t_6a684a498e608191b4fd39f84e9401c9',
+            answer:'<p><b>Declined to name a crop.</b> Said profit "depends on agronomy, economics, and farm constraints" it can\'t get from a coordinate, and that naming one crop would be "speculative rather than evidence-based."</p>'+
+              '<p>Correctly placed the point in the Sacramento Valley and listed candidates (rice, tomatoes, corn, safflower, walnuts), then asked for acreage, soil type, water allocation, equipment and contracts before committing.</p>',
+            note:'No live field data and no citations — a reasoned refusal that hands the decision back to you.'
+          },
+          claude: {
+            name:'Claude (Opus 4.8)', tag:'general weather', link:'https://claude.ai/share/b883aee6-8f7c-471f-ac88-59401f16e2dd',
+            answer:'<p><b>Recommended processing tomatoes with regulated deficit irrigation (RDI).</b> Reasoned that tomatoes are the region\'s highest-value annual crop and tolerate deficit irrigation — projecting 35–45 t/ac at 60% water vs. 42–52 at full, and $800–1,700/ac net vs. $480–890 for grain sorghum.</p>'+
+              '<p>Built a crop-by-crop water table from general agronomy and ruled out flooded rice. Flagged missing inputs — soil texture, current contracts, drip vs. furrow — as caveats.</p>',
+            note:'One live source — a city weather forecast — plus agronomy from training. No soil, parcel, or cropping-history grounding for this field.',
+            sources:[
+              { site:'Google', title:'Live weather for 38.85, -121.68 (Sacramento Valley, CA)' }
+            ]
+          },
+          deepseek: {
+            name:'DeepSeek', tag:'read 15 pages · wrong region', link:'https://chat.deepseek.com/share/bcronohst5m5y7fpqe',
+            answer:'<p><b>Recommended a winter forage crop (wheat / barley).</b> Argued forage grains are a low-water, low-capital, "SGMA-ready" option that can flex between forage, grain or fallow depending on the year.</p>'+
+              '<p>But it placed the field in the <b>San Joaquin Valley</b> — the coordinate is actually the Sacramento Valley (Sutter County). Reasoned from generic reports, none tied to this parcel, soil, or cropping history.</p>',
+            note:'15 pages read — including an olive-irrigation study and a Hiroshima water-pricing paper. Wrong region, breadth over grounding.',
+            sources:[
+              { site:'West Coast Nut', title:'Alternative field crops as groundwater access tightens' },
+              { site:'Digital Knowledge', title:'Olive-tree yield & WUE under irrigation regimes', off:true },
+              { site:'CDFA', title:'Planting Seeds Blog — revenue per acre-foot' },
+              { site:'FAO/AGRIS', title:'Crop, energy & water nexus — Central Valley' },
+              { site:'UC Press', title:'Water Scarcity — application rates & costs' },
+              { site:'PPIC', title:'SGMA-ready crops as an alternative to fallowing' },
+              { site:'Hiroshima Univ.', title:'Returns to water & crop-price sensitivity', off:true },
+              { site:'eScholarship', title:'Mean water needs & revenue per acre' },
+              { site:'USGS', title:'Estimating crop water productivity' },
+              { site:'UC Berkeley', title:'Irrigation water costs — San Benito County' },
+              { site:'USGS', title:'Deficit-irrigation forage sorghum — San Joaquin' },
+              { site:'IWA', title:'Economic water productivity table' },
+              { site:'FAO/AGRIS', title:'Crop water-use dynamics — Central Valley' },
+              { site:'UC Davis', title:'Crop-rotation cost tool for rice growers' },
+              { site:'Ag Alert', title:'Agave crop potential in California' }
+            ]
+          }
+        }
       }
     ];
     const ORDER = ['pestren','gpt','claude','deepseek'];
