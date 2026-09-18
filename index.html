@@ -226,11 +226,6 @@
   .app-panel { background:var(--lime); border-radius:var(--r-lg); padding:22px; box-shadow:var(--shadow); }
   .app-card { background:var(--white); border-radius:22px; padding:22px; height:100%; display:flex; flex-direction:column; }
   .app-head { font-family:var(--display); font-weight:700; font-size:22px; }
-  .car-ticks { display:flex; align-items:center; gap:6px; margin:16px 0 20px; }
-  .car-ticks i { height:4px; width:26px; border-radius:2px; background:#e2e3da; display:block; }
-  .car-ticks i.on { background:var(--ink); width:34px; }
-  .car-play { margin-left:6px; width:30px; height:30px; border-radius:50%; background:var(--forest); display:grid; place-items:center; }
-  .car-play svg { width:11px; height:11px; fill:var(--lime); }
   .app-pair { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:auto; }
   @media (max-width:400px){ .app-pair{ grid-template-columns:1fr; } }
   .mini { border-radius:20px; padding:18px; min-height:170px; display:flex; flex-direction:column; }
@@ -597,17 +592,12 @@
   /* Height budget. The panel was 699px against a 460px card beside it, and most
      of the excess was chrome rather than content: a 66px band holding five dashes
      and a play button, plus a caption naming the model the lit chip already names.
-     Both are gone; the rest is tightened padding. Content is untouched. */
-  .app-top { display:flex; align-items:center; justify-content:space-between; gap:14px; }
-  .app-top .car-ticks { margin:0; flex:none; }
+     All of it is gone; the rest is tightened padding. Content is untouched. */
+  .app-top { display:flex; align-items:center; gap:14px; }
   .app-panel { padding:15px; }
   .app-card { padding:17px; }
-  /* Sized so the heading holds one line next to the ticks; wrapping to two cost
-     back a chunk of what merging the rows saved. */
+  /* Kept to one line so the panel height stays where the budget above put it. */
   .app-head { font-size:18px; line-height:1.2; }
-  .car-play { width:26px; height:26px; }
-  .car-ticks { gap:5px; }
-  .car-ticks i { width:20px; }
   .model-panel { margin-top:12px; }
 
   .app-q { display:flex; align-items:baseline; gap:9px; margin-top:10px; font-size:15px;
@@ -657,13 +647,6 @@
     .wa-rows li { grid-template-columns:56px 1fr; }
     .wa-rows .src { grid-column:2; justify-self:start; }
   }
-  .car-ticks i { cursor:pointer; transition:width .25s ease, background .25s ease; }
-  .car-play { margin-left:auto; border:none; cursor:pointer; position:relative; }
-  .car-play .ic-pause { display:none; }
-  .car-play.playing .ic-play { display:none; }
-  .car-play.playing .ic-pause { display:block; }
-  .car-play svg { width:11px; height:11px; fill:var(--lime); }
-
   /* highlighter sweep on the "verified" pill (scaleX, fires once) */
   .big-overlay .hp.sweep { position:relative; z-index:0; border:none; background:transparent; padding:0 .2em; }
   .big-overlay .hp.sweep::before { content:''; position:absolute; inset:-2px -3px; z-index:-1;
@@ -903,9 +886,6 @@
           <div class="app-card">
             <div class="app-top">
               <div class="app-head">Why not just ask a general model?</div>
-              <div class="car-ticks" id="carTicks">
-                <button class="car-play" id="carPlay" aria-label="Play/pause"><svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="ic-pause" viewBox="0 0 24 24"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg></button>
-              </div>
             </div>
             <p class="app-q"><span class="qm">Q</span>&ldquo;Can I set up a grain farm here?&rdquo;</p>
             <div class="model-panel">
@@ -1777,10 +1757,8 @@
   // 1) live model selector + auto-rotate carousel
   (function(){
     const chipsWrap = document.getElementById('modelChips');
-    const ticksWrap = document.getElementById('carTicks');
-    const play = document.getElementById('carPlay');
     const live = document.getElementById('modelLive');
-    if(!chipsWrap || !ticksWrap || !play) return;
+    if(!chipsWrap) return;
     const chips = Array.from(chipsWrap.querySelectorAll('.mchip'));
     // each model's OWN unaided answer to the same question — varied + ungrounded
     const MODELS = [
@@ -1802,11 +1780,6 @@
     ];
     const answer = document.getElementById('modelAnswer');
     const maLbl = document.getElementById('maLbl'), maText = document.getElementById('maText'), maFlag = document.getElementById('maFlag');
-    // build one tick per model, inserted before the play button
-    const ticks = chips.map((_,i) => {
-      const t = document.createElement('i'); if(i===0) t.className='on';
-      ticksWrap.insertBefore(t, play); return t;
-    });
     const pill = document.getElementById('mchipPill');
     let cur = 0, timer = null;
     function movePill(){
@@ -1819,7 +1792,6 @@
     function set(i){
       cur = (i + chips.length) % chips.length;
       chips.forEach((c,idx)=>c.classList.toggle('on', idx===cur));
-      ticks.forEach((t,idx)=>t.classList.toggle('on', idx===cur));
       movePill();
       const name = chips[cur].textContent.trim();
       if(live) live.innerHTML = 'Asked of <b>'+name+'</b>';
@@ -1831,11 +1803,12 @@
         answer.classList.remove('swap'); void answer.offsetWidth; answer.classList.add('swap');
       }
     }
-    function start(){ if(reduceMotion || timer) return; play.classList.add('playing'); timer = setInterval(()=>set(cur+1), 2600); }
-    function stop(){ clearInterval(timer); timer=null; play.classList.remove('playing'); }
-    play.addEventListener('click', ()=> timer ? stop() : start());
+    // Rotation still stops on interaction — clicking a chip means the reader is
+    // reading that one, and rotating out from under them would be hostile. The
+    // play/pause button is gone, so a chip is now the only thing that stops it.
+    function start(){ if(reduceMotion || timer) return; timer = setInterval(()=>set(cur+1), 2600); }
+    function stop(){ clearInterval(timer); timer=null; }
     chips.forEach((c,i)=> c.addEventListener('click', ()=>{ stop(); set(i); }));
-    ticks.forEach((t,i)=> t.addEventListener('click', ()=>{ stop(); set(i); }));
     // pause when tab hidden (saves cycles)
     document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stop(); });
     window.addEventListener('resize', movePill, { passive:true });
