@@ -278,6 +278,16 @@
   .sst-f { display:block; font-family:var(--display); font-weight:700; font-size:clamp(22px,2.4vw,30px);
     line-height:1; color:var(--forest); font-variant-numeric:tabular-nums; margin-bottom:7px; }
   .sst-l { display:block; font-size:12.5px; line-height:1.45; color:var(--ink-soft); }
+  /* Every figure carries where it came from. On a page whose whole promise is
+     "every claim cited", a lumped source line at the foot of the section makes
+     the reader work out which number came from which report — which is exactly
+     the assembly work we are selling the end of. */
+  .sst-src { display:block; margin-top:9px; font-family:var(--mono); font-size:10px;
+    line-height:1.4; color:var(--ink-mute); text-decoration:underline;
+    text-underline-offset:2px; text-decoration-color:var(--line-strong, rgba(22,22,22,0.2)); }
+  a.sst-src:hover { color:var(--forest); text-decoration-color:var(--forest); }
+  /* Not a citation, and it must not dress like one. */
+  .sst-src.own { text-decoration:none; opacity:.72; font-style:italic; }
 
   @media (max-width:860px){
     .spanel { grid-template-columns:1fr; gap:18px; padding:24px 22px; }
@@ -1042,8 +1052,8 @@
     <section class="sec" id="sectors">
       <div class="sec-head reveal">
         <div class="sec-eyebrow">02 &middot; Sectors</div>
-        <h2 class="sec-title">Everyone who has to <span class="hp">reject land</span> to find land.</h2>
-        <p class="sec-lead">Eight operators, one job in common: screen far more parcels than you will ever take, and be able to say why you dropped each one.</p>
+        <h2 class="sec-title">Sectors we <span class="hp">power</span>.</h2>
+        <p class="sec-lead">Eight operators, one job in common: screen far more land than you will ever take, and be able to say why you dropped each parcel. Every figure below links to where it came from.</p>
       </div>
 
       <div class="sectors reveal">
@@ -1068,8 +1078,8 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">$127B</span><span class="sst-l">insured natural-catastrophe losses, 2025</span></div>
-              <div class="sst"><span class="sst-f">2 in 3</span><span class="sst-l">US homeowners underinsured for wildfire, typically by 20%</span></div>
+              <div class="sst"><span class="sst-f">$127B</span><span class="sst-l">insured natural-catastrophe losses, 2025</span><a class="sst-src" href="https://www.munichre.com/en/company/media-relations/media-information-and-corporate-news/media-information/2026/natural-disaster-figures-2025.html" target="_blank" rel="noopener">Munich Re &#8599;</a></div>
+              <div class="sst"><span class="sst-f">2 in 3</span><span class="sst-l">US homeowners underinsured for wildfire, typically by 20%</span><a class="sst-src" href="https://uphelp.org/two-thirds-of-homeowners-underinsured-for-wildfire-loss/" target="_blank" rel="noopener">Insurance Information Institute, via United Policyholders &#8599;</a></div>
           </div>
         </div>
         <div class="spanel" id="spanel-lend" role="tabpanel" aria-labelledby="stab-lend" hidden>
@@ -1083,8 +1093,8 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">31%</span><span class="sst-l">of US banks are CRE-concentrated (1,374 banks)</span></div>
-              <div class="sst"><span class="sst-f">40-65%</span><span class="sst-l">appraisal write-downs on Class-B and C office</span></div>
+              <div class="sst"><span class="sst-f">31%</span><span class="sst-l">of US banks are CRE-concentrated &mdash; 1,374 of them</span><a class="sst-src" href="https://www.fdic.gov/analysis/2025-risk-review.pdf" target="_blank" rel="noopener">FDIC Risk Review 2025 &#8599;</a></div>
+              <div class="sst"><span class="sst-f">$116.4B</span><span class="sst-l">of US commercial property already distressed, Q1 2025</span><a class="sst-src" href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends &#8599;</a></div>
           </div>
         </div>
         <div class="spanel" id="spanel-dev" role="tabpanel" aria-labelledby="stab-dev" hidden>
@@ -1098,8 +1108,8 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">$10-20K</span><span class="sst-l">buyer-paid diligence on one complex parcel, forfeited if it dies</span></div>
-              <div class="sst"><span class="sst-f">Hundreds</span><span class="sst-l">screened at the top of a funnel that ends in one deal</span></div>
+              <div class="sst"><span class="sst-f">$10&ndash;20K</span><span class="sst-l">buyer-paid diligence on one complex parcel, forfeited if it dies</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
+              <div class="sst"><span class="sst-f">Hundreds</span><span class="sst-l">of properties at the top of a funnel that ends in one deal</span><a class="sst-src" href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet &#8599;</a></div>
           </div>
         </div>
         <div class="spanel" id="spanel-carbon" role="tabpanel" aria-labelledby="stab-carbon" hidden>
@@ -1113,8 +1123,8 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">~11x</span><span class="sst-l">over-crediting attributed to control-area selection bias</span></div>
-              <div class="sst"><span class="sst-f">78%</span><span class="sst-l">of the top 50 offset projects judged likely ineffective</span></div>
+              <div class="sst"><span class="sst-f">~11&times;</span><span class="sst-l">over-crediting, attributed to selection bias in control areas</span><a class="sst-src" href="https://www.nature.com/articles/s41467-026-71552-3" target="_blank" rel="noopener">Nature Communications &#8599;</a></div>
+              <div class="sst"><span class="sst-f">78%</span><span class="sst-l">of the top 50 offset projects judged likely ineffective</span><a class="sst-src" href="https://carboncredits.com/study-finds-carbon-offsets-failing-to-deliver-real-climate-impact/" target="_blank" rel="noopener">Corporate Accountability review &#8599;</a></div>
           </div>
         </div>
         <div class="spanel" id="spanel-dc" role="tabpanel" aria-labelledby="stab-dc" hidden>
@@ -1128,8 +1138,8 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">$64B</span><span class="sst-l">of US data centre projects blocked or delayed since 2023</span></div>
-              <div class="sst"><span class="sst-f">$70-105M</span><span class="sst-l">cost of a 12-18 month permit delay on a $1B project</span></div>
+              <div class="sst"><span class="sst-f">$64B</span><span class="sst-l">of US data centre projects blocked or delayed since 2023</span><a class="sst-src" href="https://www.datacenterwatch.org/report" target="_blank" rel="noopener">Data Center Watch &#8599;</a></div>
+              <div class="sst"><span class="sst-f">$70&ndash;105M</span><span class="sst-l">cost of a 12&ndash;18 month permit delay on a $1B project</span><a class="sst-src" href="https://www.globaldatacenterhub.com/p/permitting-zoning-and-environmental" target="_blank" rel="noopener">Global Data Center Hub &#8599;</a></div>
           </div>
         </div>
         <div class="spanel" id="spanel-acq" role="tabpanel" aria-labelledby="stab-acq" hidden>
@@ -1143,8 +1153,8 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">1,000+</span><span class="sst-l">parcels a month is a normal screening load</span></div>
-              <div class="sst"><span class="sst-f">100</span><span class="sst-l">county offices is a normal answer to one parcel question</span></div>
+              <div class="sst"><span class="sst-f">1,000+</span><span class="sst-l">parcels a month is a normal screening load</span><span class="sst-src own">Pestren estimate</span></div>
+              <div class="sst"><span class="sst-f">100</span><span class="sst-l">county offices is a normal answer to one parcel question</span><span class="sst-src own">Pestren estimate</span></div>
           </div>
         </div>
         <div class="spanel" id="spanel-ag" role="tabpanel" aria-labelledby="stab-ag" hidden>
@@ -1158,8 +1168,8 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span></div>
-              <div class="sst"><span class="sst-f">6 years</span><span class="sst-l">of cropping history recoverable from orbit, with dates</span></div>
+              <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span><a class="sst-src" href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets &#8599;</a></div>
+              <div class="sst"><span class="sst-f">6 years</span><span class="sst-l">of cropping history recoverable from orbit, with dates</span><span class="sst-src own">Pestren estimate</span></div>
           </div>
         </div>
         <div class="spanel" id="spanel-adv" role="tabpanel" aria-labelledby="stab-adv" hidden>
@@ -1173,12 +1183,11 @@
             </ul>
           </div>
           <div class="sp-right">
-              <div class="sst"><span class="sst-f">$1-6K</span><span class="sst-l">per report is what the assembly costs today</span></div>
-              <div class="sst"><span class="sst-f">30-60 days</span><span class="sst-l">is the turnaround that cost buys</span></div>
+              <div class="sst"><span class="sst-f">$1&ndash;6K</span><span class="sst-l">per report is what the assembly costs today</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
+              <div class="sst"><span class="sst-f">30&ndash;60 days</span><span class="sst-l">is the turnaround that cost buys</span><span class="sst-src own">Pestren estimate</span></div>
           </div>
         </div>
       </div>
-      <p class="prob-src reveal" style="text-align:left;">Figures &mdash; <a href="https://www.datacenterwatch.org/report" target="_blank" rel="noopener">Data Center Watch</a> &middot; <a href="https://www.fdic.gov/analysis/2025-risk-review.pdf" target="_blank" rel="noopener">FDIC Risk Review 2025</a> &middot; <a href="https://www.munichre.com/en/company/media-relations/media-information-and-corporate-news/media-information/2026/natural-disaster-figures-2025.html" target="_blank" rel="noopener">Munich Re</a> &middot; <a href="https://www.nature.com/articles/s41467-026-71552-3" target="_blank" rel="noopener">Nature Communications on over-crediting</a> &middot; <a href="https://carboncredits.com/study-finds-carbon-offsets-failing-to-deliver-real-climate-impact/" target="_blank" rel="noopener">offset project review</a></p>
     </section>
 
     <!-- ===================== INTEGRATE ===================== -->
