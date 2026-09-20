@@ -268,6 +268,24 @@
   .ps-lbl { font-size:14.5px; color:#EDEFE4; font-weight:500; }
   .ps-src { font-family:var(--mono); font-size:11px; line-height:1.5; color:rgba(237,239,228,0.52); }
 
+  /* Two columns, one argument: the category on the left is real and well served,
+     the column on the right is the same size and completely empty. Equal widths
+     are the point — an asymmetric layout would imply one matters less. */
+  .gapgrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:28px 0 0; }
+  .gapcol { background:rgba(255,255,255,0.05); border:1px solid var(--forest-line);
+    border-radius:var(--r-sm); padding:22px 22px 20px; display:flex; flex-direction:column; gap:9px; }
+  /* Dashed, because this column describes something that does not exist yet. */
+  .gc-gap { border-style:dashed; border-color:rgba(222,242,75,0.42); background:rgba(222,242,75,0.05); }
+  .gc-k { font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:rgba(237,239,228,0.5); }
+  .gc-gap .gc-k { color:var(--lime); }
+  .gc-h { font-family:var(--display); font-weight:700; font-size:clamp(17px,1.7vw,21px);
+    line-height:1.2; color:#FFFFFF; text-wrap:balance; }
+  .gc-list { list-style:none; margin:2px 0 0; padding:0; display:flex; flex-direction:column; gap:5px; }
+  .gc-list li { font-family:var(--mono); font-size:11.5px; line-height:1.5; color:rgba(237,239,228,0.66); }
+  .gc-gap .gc-list li { color:var(--lime); }
+  .gc-note { margin-top:4px; font-size:13.5px; line-height:1.5; color:rgba(237,239,228,0.62); }
+
   /* The section's punchline. It closes the argument the three figures open, so
      it is set larger than body copy and centred against them rather than run on
      as another paragraph. */
@@ -282,6 +300,7 @@
   @media (max-width:860px){
     .sec-problem { padding:44px 26px; }
     .prob-stats { grid-template-columns:1fr; gap:12px; }
+    .gapgrid { grid-template-columns:1fr; gap:12px; }
   }
   @media (max-width:640px){
     .sec-problem { padding:34px 20px; border-radius:var(--r); }
@@ -973,9 +992,35 @@
         </li>
       </ul>
 
-      <p class="prob-close reveal">The money is lost before anyone breaks ground. The industry does not lack data &mdash; it lacks anything that turns it into a decision. <b>That gap is what we built Pestren to close.</b></p>
+      <!-- The segmentation of the existing market is the argument. Every type
+           and every application it lists begins AFTER a parcel has been chosen,
+           so the whole category is priced per property you already believe in.
+           Reaching that point means rejecting hundreds, and that step has no
+           tooling at all — which is the gap, not "reports are slow". -->
+      <div class="gapgrid reveal">
+        <div class="gapcol">
+          <span class="gc-k">What the market sells</span>
+          <span class="gc-h">Diligence on the one you chose</span>
+          <ul class="gc-list">
+            <li>Legal &middot; Financial &middot; Technical</li>
+            <li>Environmental &middot; Market</li>
+          </ul>
+          <span class="gc-note">Every segment of the category begins after the parcel is picked and the records are gathered. It is priced per property, so it can only run on one.</span>
+        </div>
+        <div class="gapcol gc-gap">
+          <span class="gc-k">What nothing sells</span>
+          <span class="gc-h">Rejecting the hundreds you didn&rsquo;t</span>
+          <ul class="gc-list">
+            <li>Screening at land level</li>
+            <li>Discarding, with the reason recorded</li>
+          </ul>
+          <span class="gc-note">Hundreds of parcels sit at the top of a funnel that ends in one deal. Narrowing them is still done on instinct, spreadsheets and phone calls &mdash; before a single report is commissioned.</span>
+        </div>
+      </div>
 
-      <p class="prob-src reveal">Sources &mdash; <a href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends, US Distress Tracker</a> &middot; <a href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets</a> &middot; published buyer-paid diligence schedules</p>
+      <p class="prob-close reveal">The industry serves the parcel you already picked. <b>Nobody serves the hundreds you had to reject to find it</b> &mdash; and that is where the decision is actually made.</p>
+
+      <p class="prob-src reveal">Sources &mdash; <a href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends, US Distress Tracker</a> &middot; <a href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets</a> &middot; <a href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet on the acquisition funnel</a> &middot; published buyer-paid diligence schedules</p>
     </section>
 
     <!-- ===================== SECTORS ===================== -->
