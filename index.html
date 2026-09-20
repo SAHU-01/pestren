@@ -245,6 +245,65 @@
   .sec-eyebrow { font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.14em;
     color:var(--forest); display:inline-flex; align-items:center; gap:8px; margin-bottom:16px; }
   .sec-eyebrow::before { content:''; width:20px; height:2px; background:var(--lime); border-radius:2px; }
+
+  /* ---- THE INDUSTRY PROBLEM ----
+     The one dark band on the page. The section states a cost the reader is
+     already paying, and every light section after it is the answer — the
+     contrast is the argument, so it is worth a palette inversion rather than
+     another cream card. Forest is the page's own dark, not an imported navy. */
+  .sec-problem { background:var(--forest); color:#EDEFE4; border-radius:var(--r-lg); padding:64px 48px; margin:0 0 20px; }
+  .sec-problem .sec-title { color:#FFFFFF; }
+  .sec-problem .sec-lead { color:rgba(237,239,228,0.74); }
+  .sec-problem .hp { border-color:var(--lime); background:rgba(222,242,75,0.14); color:var(--lime); }
+  .sec-eyebrow.warn { color:var(--amber); }
+  .sec-eyebrow.warn::before { background:var(--amber); }
+
+  .prob-stats { list-style:none; margin:40px 0 0; padding:0;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .prob-stats li { background:rgba(255,255,255,0.05); border:1px solid var(--forest-line);
+    border-radius:var(--r-sm); padding:22px 22px 20px; display:flex; flex-direction:column; gap:7px; }
+  .ps-fig { font-family:var(--display); font-weight:700; font-size:clamp(28px,3.1vw,40px);
+    line-height:1; color:var(--lime); font-variant-numeric:tabular-nums; }
+  .prob-stats li.warn .ps-fig { color:var(--amber); }
+  .ps-lbl { font-size:14.5px; color:#EDEFE4; font-weight:500; }
+  .ps-src { font-family:var(--mono); font-size:11px; line-height:1.5; color:rgba(237,239,228,0.52); }
+
+  /* ---- market figure ---- */
+  .mkt { margin:28px 0 0; background:rgba(255,255,255,0.05); border:1px solid var(--forest-line);
+    border-radius:var(--r-sm); padding:22px 24px 16px; }
+  .mkt figcaption { display:flex; flex-direction:column; gap:4px; margin-bottom:6px; }
+  .mkt-t { font-family:var(--display); font-weight:600; font-size:16px; color:#FFFFFF; }
+  .mkt-s { font-family:var(--mono); font-size:11px; line-height:1.5; color:rgba(237,239,228,0.52); }
+  .mkt-svg { display:block; width:100%; height:auto; overflow:visible; }
+  .mkt-axis { stroke:rgba(237,239,228,0.34); stroke-width:1.5; }
+  .mkt-grid { stroke:rgba(237,239,228,0.12); stroke-width:1; }
+  .mkt-tick { font-family:var(--mono); font-size:10px; fill:rgba(237,239,228,0.5); text-anchor:end; }
+  /* Dashed on purpose: the eight years between the anchors are a CAGR, not
+     observations, and a solid line would claim they were measured. */
+  .mkt-path { stroke:var(--lime); stroke-width:2; fill:none; stroke-dasharray:7 6; stroke-linecap:round; }
+  .mkt-dot { fill:var(--lime); stroke:var(--forest); stroke-width:2.5; }
+  .mkt-val { font-family:var(--display); font-weight:700; font-size:15px; fill:#FFFFFF; }
+  .mkt-yr { font-family:var(--mono); font-size:11px; fill:rgba(237,239,228,0.6); }
+  .mkt-cagr { font-family:var(--mono); font-size:11px; fill:var(--lime); letter-spacing:0.06em; }
+  /* The figure is one series with two labelled points, so it needs no legend —
+     but it does need a text equivalent, which this is. Visually hidden, read by
+     screen readers and findable by search. */
+  .mkt-table { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  .prob-close { margin:28px 0 0; max-width:74ch; font-size:16px; line-height:1.62; color:rgba(237,239,228,0.8); }
+  .prob-close b { color:var(--lime); font-weight:600; }
+  .prob-src { margin:20px 0 0; font-family:var(--mono); font-size:11px; color:rgba(237,239,228,0.46); }
+  .prob-src a { color:rgba(237,239,228,0.72); text-decoration:underline; text-underline-offset:2px; }
+  .prob-src a:hover { color:var(--lime); }
+
+  @media (max-width:860px){
+    .sec-problem { padding:44px 26px; }
+    .prob-stats { grid-template-columns:1fr; gap:12px; }
+  }
+  @media (max-width:640px){
+    .sec-problem { padding:34px 20px; border-radius:var(--r); }
+    .mkt { padding:18px 16px 12px; }
+  }
   .sec-title { font-size:clamp(28px,4vw,48px); font-weight:700; max-width:900px; }
   .sec-lead { margin-top:16px; font-size:clamp(15px,1.4vw,18px); color:var(--ink-soft); max-width:620px; }
   .sec-head { margin-bottom:38px; }
@@ -712,36 +771,6 @@
   @media (max-width:560px){ .vibe-label{ font-size:12px; padding:5px 6px; } .vibe-brand{ font-size:22px; }
     .vibe-thumb{ width:80px; height:60px; } }
 
-  /* ===================== AGENTS =====================
-     One row per agent: number, mark, the question it owns, and the records it
-     reads. The source line is the point — a rival's agent list is icons and a
-     nice question; this one shows what each agent is actually allowed to answer
-     from, which is the same promise the citations make. */
-  .agents { list-style:none; margin:36px 0 0; padding:0; display:grid; gap:12px;
-    grid-template-columns:repeat(2, minmax(0,1fr)); }
-  .agent { display:grid; grid-template-columns:auto auto 1fr; align-items:start; gap:14px;
-    background:var(--white); border:1.5px solid var(--line); border-radius:var(--r-sm);
-    padding:18px 20px; transition:border-color .2s ease, transform .3s cubic-bezier(.2,.7,.2,1),
-    box-shadow .3s ease; }
-  .agent:hover { border-color:var(--forest); transform:translateY(-2px); box-shadow:var(--shadow-sm); }
-  .ag-n { font-family:var(--mono); font-size:12px; font-weight:600; color:var(--forest);
-    background:var(--lime-pale); border:1.4px solid var(--lime-soft); border-radius:10px;
-    width:30px; height:30px; display:grid; place-items:center; flex:none; }
-  .ag-ic { width:22px; height:22px; stroke:var(--forest); flex:none; margin-top:4px; }
-  .ag-body { display:flex; flex-direction:column; gap:3px; min-width:0; }
-  .ag-name { font-family:var(--display); font-weight:600; font-size:17px; line-height:1.2; color:var(--ink); }
-  .ag-q { font-size:14.5px; color:var(--ink-soft); font-style:italic; }
-  .ag-src { margin-top:5px; font-family:var(--mono); font-size:10.5px; line-height:1.55;
-    color:var(--ink-mute); }
-  @media (max-width:860px){ .agents{ grid-template-columns:1fr; } }
-  @media (max-width:640px){
-    .agents { margin-top:28px; gap:10px; }
-    .agent { padding:15px 16px; gap:11px; }
-    .ag-name { font-size:16px; }
-    .ag-q { font-size:14px; }
-    .ag-src { font-size:10px; }
-  }
-
   /* These four have base declarations further up the sheet, so they have to sit
      below them: a media query adds no specificity and neither does repetition.
      Same trap that left .stat-card absolute earlier. */
@@ -936,71 +965,70 @@
 
     </header>
 
-    <!-- ===================== WITHOUT / WITH ===================== -->
-    <section class="sec" id="compare">
+    <!-- ===================== THE INDUSTRY PROBLEM ===================== -->
+    <section class="sec sec-problem" id="compare">
       <div class="sec-head reveal">
-        <div class="sec-eyebrow">01 &middot; The agents</div>
-        <h2 class="sec-title">Six agents. One parcel. <span class="hp">Every answer sourced</span>.</h2>
-        <p class="sec-lead">Each agent owns one question a deal actually turns on, and reads the records that answer it. They run together on one parcel and reconcile into a single verdict.</p>
+        <div class="sec-eyebrow warn">01 &middot; The industry problem</div>
+        <h2 class="sec-title">The world spends <span class="hp">$10&nbsp;billion a year</span> valuing land, and still misprices it.</h2>
+        <p class="sec-lead">Evaluating one parcel means answering 80-plus interdependent questions &mdash; soil, water, crop yield, legal and UCC status, insurance, the owner&rsquo;s credit. Today that is 30 to 60 days and up to $6,000 a report, stitched together by hand. The data exists. Nothing connects it.</p>
       </div>
 
-      <ul class="agents stagger">
-        <li class="agent">
-          <span class="ag-n">1</span>
-          <svg class="ag-ic" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg>
-          <span class="ag-body">
-            <span class="ag-name">Site Selection</span>
-            <span class="ag-q">&ldquo;Where should we be looking?&rdquo;</span>
-            <span class="ag-src">parcel boundaries · land cover · soil class · comparable sales</span>
-          </span>
+      <ul class="prob-stats stagger">
+        <li>
+          <span class="ps-fig">$9.94B</span>
+          <span class="ps-lbl">spent a year valuing property</span>
+          <span class="ps-src">Real estate valuation services market, 2025</span>
         </li>
-        <li class="agent">
-          <span class="ag-n">2</span>
-          <svg class="ag-ic" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 16h6"/></svg>
-          <span class="ag-body">
-            <span class="ag-name">Zoning &amp; Permits</span>
-            <span class="ag-q">&ldquo;What are we allowed to build?&rdquo;</span>
-            <span class="ag-src">county zoning · setbacks · overlays · the office that rules on it</span>
-          </span>
+        <li class="warn">
+          <span class="ps-fig">$116.4B</span>
+          <span class="ps-lbl">of US property already distressed</span>
+          <span class="ps-src">MSCI balance of distress, Q1 2025 &middot; up 23% year on year</span>
         </li>
-        <li class="agent">
-          <span class="ag-n">3</span>
-          <svg class="ag-ic" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-3.4-2.7-6-6-6 0 3.4 2.7 6 6 6z"/><path d="M12 13c0-3.4 2.7-6 6-6 0 3.4-2.7 6-6 6z"/></svg>
-          <span class="ag-body">
-            <span class="ag-name">Land Quality</span>
-            <span class="ag-q">&ldquo;Is the ground worth it?&rdquo;</span>
-            <span class="ag-src">SSURGO soil · yield history · six-year vegetation · farmable acreage</span>
-          </span>
-        </li>
-        <li class="agent">
-          <span class="ag-n">4</span>
-          <svg class="ag-ic" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>
-          <span class="ag-body">
-            <span class="ag-name">Hazard &amp; Environment</span>
-            <span class="ag-q">&ldquo;What could go wrong?&rdquo;</span>
-            <span class="ag-src">FEMA flood zone · contamination · oil &amp; gas wells · wetlands</span>
-          </span>
-        </li>
-        <li class="agent">
-          <span class="ag-n">5</span>
-          <svg class="ag-ic" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5"/><circle cx="12" cy="13.5" r="2.4"/><path d="M12 15.9V19l-1.4-1-1.4 1v-3.1"/></svg>
-          <span class="ag-body">
-            <span class="ag-name">Title &amp; Encumbrance</span>
-            <span class="ag-q">&ldquo;Who owns it, and what is filed against it?&rdquo;</span>
-            <span class="ag-src">deeds · UCC liens · easements · USDA payment history</span>
-          </span>
-        </li>
-        <li class="agent">
-          <span class="ag-n">6</span>
-          <svg class="ag-ic" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15v3.5"/></svg>
-          <span class="ag-body">
-            <span class="ag-name">Feasibility</span>
-            <span class="ag-q">&ldquo;Does it pencil?&rdquo;</span>
-            <span class="ag-src">every layer above, reconciled into one cited verdict and a next action</span>
-          </span>
+        <li>
+          <span class="ps-fig">$10&ndash;20K</span>
+          <span class="ps-lbl">diligence on one complex parcel</span>
+          <span class="ps-src">Buyer pays up front, and forfeits it if the deal dies</span>
         </li>
       </ul>
-      <p class="sec-lead reveal" style="margin-top:26px;max-width:760px;"><em>The line under each agent is the records it reads: not a category, the actual source every claim is traced back to.</em></p>
+
+      <!-- Market chart. Two reported anchors and a CAGR between them is not a
+           time series, so the path between 2025 and 2033 is DASHED and the only
+           solid marks are the two figures the report actually publishes. Drawing
+           it as a smooth line would present eight modelled years as observed. -->
+      <figure class="mkt reveal">
+        <figcaption>
+          <span class="mkt-t">Property due diligence services &mdash; market size</span>
+          <span class="mkt-s">Two published anchors, joined at the report&rsquo;s 12.5% CAGR. The dashed path is modelled, not measured.</span>
+        </figcaption>
+        <svg class="mkt-svg" viewBox="0 0 620 220" role="img"
+             aria-label="Property due diligence services market grows from 4.9 billion dollars in 2025 to a projected 9.2 billion dollars in 2033, a 12.5 percent compound annual growth rate.">
+          <line x1="52" y1="176" x2="596" y2="176" class="mkt-axis"/>
+          <line x1="52" y1="40" x2="596" y2="40" class="mkt-grid"/>
+          <line x1="52" y1="108" x2="596" y2="108" class="mkt-grid"/>
+          <text x="44" y="44" class="mkt-tick">$10B</text>
+          <text x="44" y="112" class="mkt-tick">$5B</text>
+          <text x="44" y="180" class="mkt-tick">$0</text>
+          <path d="M96 109 L556 54" class="mkt-path"/>
+          <circle cx="96" cy="109" r="7" class="mkt-dot"/>
+          <circle cx="556" cy="54" r="7" class="mkt-dot"/>
+          <text x="96" y="90" class="mkt-val" text-anchor="middle">$4.9B</text>
+          <text x="556" y="35" class="mkt-val" text-anchor="middle">$9.2B</text>
+          <text x="96" y="198" class="mkt-yr" text-anchor="middle">2025</text>
+          <text x="556" y="198" class="mkt-yr" text-anchor="middle">2033</text>
+          <text x="326" y="92" class="mkt-cagr" text-anchor="middle">12.5% CAGR</text>
+        </svg>
+        <table class="mkt-table">
+          <caption>Property due diligence services market size</caption>
+          <tbody>
+            <tr><th scope="row">2025</th><td>$4.9B</td></tr>
+            <tr><th scope="row">2033 (projected)</th><td>$9.2B</td></tr>
+          </tbody>
+        </table>
+      </figure>
+
+      <p class="prob-close reveal">Nine generations of my family have owned farmland. Answering one question about my own field &mdash; could it support a new crop &mdash; still cost <b>$10,000 and two months</b>, across soil, legal and financial records that never connected. If it is that hard on land I know, it is worse for a lender evaluating land blind.</p>
+
+      <p class="prob-src reveal">Sources &mdash; <a href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends, US Distress Tracker</a> &middot; <a href="https://www.htfmarketinsights.com/report/4390042-property-due-diligence-services-market" target="_blank" rel="noopener">HTF Market Intelligence</a> &middot; <a href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets</a></p>
     </section>
 
     <!-- ===================== SECTORS ===================== -->
