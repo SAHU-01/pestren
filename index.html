@@ -98,8 +98,11 @@
 
   /* ===================== HERO ===================== */
   .hero { padding:20px 0 70px; }
-  .hero-head { max-width:920px; margin-bottom:28px; }
-  .hero h1 { font-size:clamp(30px,3.9vw,48px); font-weight:700; line-height:1.06; }
+  .hero-head { max-width:1040px; margin-bottom:28px; }
+  .hero h1 { font-size:clamp(34px,5.2vw,66px); font-weight:700; line-height:1.04; }
+  /* The pill is a fixed 16px radius everywhere else, which reads as a tight
+     rectangle once the type is this big. Scaled to the headline instead. */
+  .hero h1 .hp { border-radius:0.3em; padding:0 .22em; }
   .hero-docs { font-family:var(--body); font-style:italic; font-weight:500; font-size:clamp(15px,1.6vw,20px);
     color:var(--peri-2); white-space:nowrap; margin-left:10px; }
   .hero-sub { margin-top:20px; font-size:clamp(16px,1.5vw,19px); color:var(--ink-soft); max-width:820px; }
@@ -188,13 +191,13 @@
      than a clamp alone manages: at the shell's widest, 6vw overshoots the
      measure and the line count jumps. Each breakpoint below reclaims the fold. */
   @media (max-width:1200px){
-    .hero h1 { font-size:clamp(30px,4.2vw,44px); }
+    .hero h1 { font-size:clamp(34px,5.6vw,58px); }
     .hero-head { max-width:100%; }
   }
   @media (max-width:940px){
     .hero { padding:12px 0 56px; }
     .hero-head { max-width:100%; margin-bottom:28px; }
-    .hero h1 { font-size:clamp(28px,4.6vw,38px); }
+    .hero h1 { font-size:clamp(32px,6.0vw,50px); }
     .hero-sub { max-width:100%; }
     /* Two up, then one. Three columns of 13px prose is unreadable well before
        the grid itself runs out of room. */
@@ -206,13 +209,13 @@
   }
   @media (max-width:640px){
     .hero { padding:8px 0 44px; }
-    .hero h1 { font-size:clamp(26px,6.6vw,33px); line-height:1.1; }
+    .hero h1 { font-size:clamp(29px,7.4vw,40px); line-height:1.08; }
     .hero-sub { margin-top:16px; font-size:15.5px; }
     .hero-sub-2 { margin-top:12px; }
     .bento { gap:14px; }
   }
   @media (max-width:380px){
-    .hero h1 { font-size:24px; }
+    .hero h1 { font-size:27px; }
   }
 
   /* big image card */
@@ -683,7 +686,16 @@
   .mchip-pill.on { opacity:1; }
   #modelChips .mchip { position:relative; z-index:1; background:rgba(22,22,22,0.06); }
   #modelChips .mchip.on { background:transparent; border-color:transparent; color:var(--lime); }
-  #modelChips .mchip.on:hover { background:transparent; }
+  /* These three rules exist because of a specificity collision that made the
+     chips unreadable on hover. `.mchip:hover` sets lime-on-forest, but the
+     ID-qualified rule above outranks it on BACKGROUND only — so hovering an
+     inactive chip painted lime text on the pale grey it kept, which is close to
+     invisible. The fix is to own the hover here rather than to fight the
+     specificity: inactive chips just deepen their grey and keep ink, and only
+     the active chip — which sits over the sliding forest pill — is lime. */
+  #modelChips .mchip:hover { background:rgba(22,22,22,0.13); color:var(--ink); border-color:transparent; }
+  #modelChips .mchip.on,
+  #modelChips .mchip.on:hover { background:transparent; color:var(--lime); }
 
   /* CTA — lift on hover, spring on tap (transform only; shadow via CSS transition) */
   .hero-cta .btn { transition:transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s ease, border-color .2s ease, background .18s ease; }
@@ -834,7 +846,7 @@
     <!-- ===================== HERO ===================== -->
     <header class="hero">
       <div class="hero-head">
-        <h1><span class="hp">Agentic</span> land due diligence<br class="h1-br"> infrastructure.</h1>
+        <h1>Agentic <span class="hp">land due diligence</span><br class="h1-br"> infrastructure.</h1>
         <p class="hero-sub">Our <b>swarm of AI agents</b> queries <b>one parcel or a thousand</b>, reads <b>physical records and geospatial data per county</b>, reasons privately, and <b>cites every claim</b>.</p>
         <!-- What accelerating due diligence actually buys, as three facts rather
              than three adjectives. Each one is a number the reader can check
