@@ -106,20 +106,36 @@
   .hero-sub b { color:var(--ink); font-weight:600; }
   .hero-sub-2 { margin-top:14px; }
 
-  /* category eyebrow — names what this is before the headline makes a claim */
-  .hero-eyebrow {
-    display:inline-flex; align-items:center; gap:9px; margin-bottom:18px;
-    font-family:var(--mono); font-size:clamp(11px,1.1vw,13px); font-weight:500;
-    letter-spacing:0.09em; text-transform:uppercase; color:var(--forest);
-    background:var(--lime-pale); border:1px solid var(--lime-soft);
-    border-radius:999px; padding:7px 15px; line-height:1.3;
-  }
-  .hero-eyebrow .dot { width:7px; height:7px; border-radius:50%; background:var(--forest); flex:none; }
-  /* The headline is two clauses: the problem, then the promise. Break between
-     them explicitly where there is room, and let them wrap naturally where there
-     is not — `text-wrap:balance` reflows them into one ragged block instead. */
+  /* The category used to sit in an eyebrow pill above a benefit headline, which
+     said the same thing twice in two registers. The category IS the headline
+     now, and the benefit it was claiming is carried by the three figures below
+     — where it is a number the reader can check rather than an adjective. */
+  /* The headline is two clauses. Break between them explicitly where there is
+     room, and let them wrap naturally where there is not. */
   .h1-br { display:none; }
   @media (min-width:941px){ .h1-br { display:inline; } }
+
+  /* Three facts, side by side. A grid rather than flex so the three columns stay
+     equal however long the middle line runs — ragged column widths read as a
+     layout accident, and these are meant to scan as one row. */
+  .hero-points {
+    list-style:none; margin:26px 0 0; padding:0;
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
+    max-width:940px;
+  }
+  .hero-points li {
+    display:flex; flex-direction:column; gap:5px;
+    padding-left:14px; border-left:2px solid var(--lime);
+  }
+  .hero-points .k {
+    font-family:var(--mono); font-size:10.5px; font-weight:500;
+    letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-mute);
+  }
+  .hero-points .v {
+    font-family:var(--display); font-weight:700; font-size:clamp(15px,1.35vw,18px);
+    line-height:1.2; color:var(--ink);
+  }
+  .hero-points .d { font-size:13.5px; line-height:1.45; color:var(--ink-soft); }
 
   /* ---- source marquee ---------------------------------------------------
      The list is long on purpose: breadth of source IS the product, and a static
@@ -180,18 +196,23 @@
     .hero-head { max-width:100%; margin-bottom:28px; }
     .hero h1 { font-size:clamp(28px,4.6vw,38px); }
     .hero-sub { max-width:100%; }
+    /* Two up, then one. Three columns of 13px prose is unreadable well before
+       the grid itself runs out of room. */
+    .hero-points { grid-template-columns:repeat(2, 1fr); gap:16px; max-width:100%; }
+  }
+  @media (max-width:620px){
+    .hero-points { grid-template-columns:1fr; gap:14px; margin-top:20px; }
+    .hero-points .d { font-size:13px; }
   }
   @media (max-width:640px){
     .hero { padding:8px 0 44px; }
     .hero h1 { font-size:clamp(26px,6.6vw,33px); line-height:1.1; }
-    .hero-eyebrow { margin-bottom:14px; padding:6px 12px; letter-spacing:0.03em; font-size:10.5px; }
     .hero-sub { margin-top:16px; font-size:15.5px; }
     .hero-sub-2 { margin-top:12px; }
     .bento { gap:14px; }
   }
   @media (max-width:380px){
     .hero h1 { font-size:24px; }
-    .hero-eyebrow { font-size:10px; gap:7px; }
   }
 
   /* big image card */
@@ -813,9 +834,28 @@
     <!-- ===================== HERO ===================== -->
     <header class="hero">
       <div class="hero-head">
-        <p class="hero-eyebrow"><span class="dot" aria-hidden="true"></span>Agentic land due diligence infrastructure</p>
-        <h1>Accelerate land due diligence<br class="h1-br"> <span class="hp">from eight weeks to minutes.</span></h1>
-        <p class="hero-sub">Our <b>swarm of AI agents</b> helps you query <b>one parcel or a thousand</b>, providing physical world context like county records, soil and geospatial data, reasoning over it <b>privately, so nothing sensitive is exposed</b>, recommending the next action, and <b>citing every claim</b>, all in one loop.</p>
+        <h1><span class="hp">Agentic</span> land due diligence<br class="h1-br"> infrastructure.</h1>
+        <p class="hero-sub">Our <b>swarm of AI agents</b> queries <b>one parcel or a thousand</b>, reads <b>physical records and geospatial data per county</b>, reasons privately, and <b>cites every claim</b>.</p>
+        <!-- What accelerating due diligence actually buys, as three facts rather
+             than three adjectives. Each one is a number the reader can check
+             against what they pay and wait for today. -->
+        <ul class="hero-points">
+          <li>
+            <span class="k">Time</span>
+            <span class="v">Eight weeks to minutes</span>
+            <span class="d">The waiting was assembly, not analysis. Agents do the assembly.</span>
+          </li>
+          <li>
+            <span class="k">Cost</span>
+            <span class="v">$1,000&ndash;$6,000 a report, gone</span>
+            <span class="d">The records are public. You were paying someone to go and fetch them.</span>
+          </li>
+          <li>
+            <span class="k">Scale</span>
+            <span class="v">One parcel or a thousand</span>
+            <span class="d">Acreage and constraints on every one, so you can rank before you commit.</span>
+          </li>
+        </ul>
         <div class="srcs" aria-label="Data sources Pestren reads">
           <span class="srcs-lbl">Sourced from</span>
           <div class="srcs-view">
