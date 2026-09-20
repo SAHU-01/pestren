@@ -118,28 +118,6 @@
   .h1-br { display:none; }
   @media (min-width:941px){ .h1-br { display:inline; } }
 
-  /* Three facts, side by side. A grid rather than flex so the three columns stay
-     equal however long the middle line runs — ragged column widths read as a
-     layout accident, and these are meant to scan as one row. */
-  .hero-points {
-    list-style:none; margin:26px 0 0; padding:0;
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
-    max-width:940px;
-  }
-  .hero-points li {
-    display:flex; flex-direction:column; gap:5px;
-    padding-left:14px; border-left:2px solid var(--lime);
-  }
-  .hero-points .k {
-    font-family:var(--mono); font-size:10.5px; font-weight:500;
-    letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-mute);
-  }
-  .hero-points .v {
-    font-family:var(--display); font-weight:700; font-size:clamp(15px,1.35vw,18px);
-    line-height:1.2; color:var(--ink);
-  }
-  .hero-points .d { font-size:13.5px; line-height:1.45; color:var(--ink-soft); }
-
   /* ---- source marquee ---------------------------------------------------
      The list is long on purpose: breadth of source IS the product, and a static
      row would either truncate it or wrap into a block that reads as clutter. Two
@@ -199,13 +177,6 @@
     .hero-head { max-width:100%; margin-bottom:28px; }
     .hero h1 { font-size:clamp(32px,6.0vw,50px); }
     .hero-sub { max-width:100%; }
-    /* Two up, then one. Three columns of 13px prose is unreadable well before
-       the grid itself runs out of room. */
-    .hero-points { grid-template-columns:repeat(2, 1fr); gap:16px; max-width:100%; }
-  }
-  @media (max-width:620px){
-    .hero-points { grid-template-columns:1fr; gap:14px; margin-top:20px; }
-    .hero-points .d { font-size:13px; }
   }
   @media (max-width:640px){
     .hero { padding:8px 0 44px; }
@@ -222,10 +193,18 @@
   .big-card { position:relative; border-radius:var(--r-lg); overflow:hidden; min-height:460px;
     background:linear-gradient(180deg,#cdd7f7 0%, #bcd39a 46%, #8bbf6a 100%); box-shadow:var(--shadow); }
   .big-card .scene { position:absolute; inset:0; width:100%; height:100%; }
+  /* 74% before the chips beside it carried claims instead of one-word source
+     names. At 74% the chips had ~177px of clear card and the longest needed
+     ~250px, so it would have run under the headline box — they share a row and
+     only one of them can be greedy. */
   .big-overlay { position:absolute; top:22px; left:22px; right:22px; z-index:3;
-    background:rgba(255,255,255,0.78); backdrop-filter:blur(6px); border-radius:20px; padding:20px 22px; max-width:74%; }
+    background:rgba(255,255,255,0.78); backdrop-filter:blur(6px); border-radius:20px; padding:20px 22px; max-width:62%; }
   .big-overlay h2 { font-size:clamp(24px,2.6vw,34px); font-weight:700; line-height:1.06; }
-  .big-chips { position:absolute; top:20px; right:20px; z-index:4; display:flex; flex-direction:column; gap:9px; align-items:flex-end; }
+  .big-chips { position:absolute; top:20px; right:20px; z-index:4; display:flex; flex-direction:column; gap:9px;
+    align-items:flex-end; max-width:36%; }
+  /* .chip is nowrap globally, which is right for a one-word badge and wrong for
+     a claim. These may wrap; wrapping is a better failure than overlapping. */
+  .big-chips .chip { white-space:normal; flex-wrap:wrap; justify-content:flex-end; text-align:right; }
   /* Small-screen big-card + app-panel overrides live at the end of this sheet;
      see "SMALL-SCREEN CARD OVERRIDES". They must come after the base component
      rules or they silently lose the cascade. */
@@ -592,7 +571,6 @@
   .big-chips .chip { animation:floaty 5s ease-in-out infinite; }
   .big-chips .chip:nth-child(2){ animation-delay:.6s; }
   .big-chips .chip:nth-child(3){ animation-delay:1.2s; }
-  .big-chips .chip:nth-child(4){ animation-delay:1.8s; }
 
   /* ---- HERO: field card ---- */
   .big-card { transition:box-shadow .35s ease; }
@@ -848,26 +826,6 @@
       <div class="hero-head">
         <h1>Agentic <span class="hp">land due diligence</span><br class="h1-br"> infrastructure.</h1>
         <p class="hero-sub">Our <b>swarm of AI agents</b> queries <b>one parcel or a thousand</b>, reads <b>physical records and geospatial data per county</b>, reasons privately, and <b>cites every claim</b>.</p>
-        <!-- What accelerating due diligence actually buys, as three facts rather
-             than three adjectives. Each one is a number the reader can check
-             against what they pay and wait for today. -->
-        <ul class="hero-points">
-          <li>
-            <span class="k">Time</span>
-            <span class="v">Eight weeks to minutes</span>
-            <span class="d">The waiting was assembly, not analysis. Agents do the assembly.</span>
-          </li>
-          <li>
-            <span class="k">Cost</span>
-            <span class="v">$1,000&ndash;$6,000 a report, gone</span>
-            <span class="d">The records are public. You were paying someone to go and fetch them.</span>
-          </li>
-          <li>
-            <span class="k">Scale</span>
-            <span class="v">One parcel or a thousand</span>
-            <span class="d">Acreage and constraints on every one, so you can rank before you commit.</span>
-          </li>
-        </ul>
         <div class="srcs" aria-label="Data sources Pestren reads">
           <span class="srcs-lbl">Sourced from</span>
           <div class="srcs-view">
@@ -912,11 +870,15 @@
           <div class="big-overlay">
             <h2>One parcel.<br>Every answer <span class="hp sweep">cited</span>.</h2>
           </div>
+          <!-- These used to name four data sources. The "Sourced from" ticker in
+               the hero already names eighteen, so the chips were the weaker copy
+               of a list the reader had just scrolled past. They carry the three
+               claims instead — what the sources BUY, next to the card that shows
+               them being read. -->
           <div class="big-chips">
-            <span class="chip"><span class="pre">USDA/</span><span class="noun">soil</span></span>
-            <span class="chip"><span class="pre">Sentinel/</span><span class="noun">satellite</span></span>
-            <span class="chip"><span class="pre">county/</span><span class="noun">records</span></span>
-            <span class="chip"><span class="pre">UCC/</span><span class="noun">liens</span></span>
+            <span class="chip"><span class="pre">time/</span><span class="noun">eight weeks to minutes</span></span>
+            <span class="chip"><span class="pre">cost/</span><span class="noun">$1,000&ndash;$6,000 saved</span></span>
+            <span class="chip"><span class="pre">scale/</span><span class="noun">one parcel or a thousand</span></span>
           </div>
           <div class="stat-card">
             <div class="stat-num">80<span class="u">+ factors</span></div>
