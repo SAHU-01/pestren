@@ -193,17 +193,14 @@
   .big-card { position:relative; border-radius:var(--r-lg); overflow:hidden; min-height:460px;
     background:linear-gradient(180deg,#cdd7f7 0%, #bcd39a 46%, #8bbf6a 100%); box-shadow:var(--shadow); }
   .big-card .scene { position:absolute; inset:0; width:100%; height:100%; }
-  /* 74% before the chips beside it carried claims instead of one-word source
-     names. At 74% the chips had ~177px of clear card and the longest needed
-     ~250px, so it would have run under the headline box — they share a row and
-     only one of them can be greedy. */
-  .big-overlay { position:absolute; top:22px; left:22px; right:22px; z-index:3;
-    background:rgba(255,255,255,0.78); backdrop-filter:blur(6px); border-radius:20px; padding:20px 22px; max-width:62%; }
-  .big-overlay h2 { font-size:clamp(24px,2.6vw,34px); font-weight:700; line-height:1.06; }
+  /* The chips had to share this row with a headline card ("One parcel. Every
+     answer cited.") and were squeezed to 36% for it. The card is gone — it said
+     in a sentence what the chips now say as three facts — so they get the width
+     back and no longer need to wrap to avoid it. Wrapping stays allowed anyway,
+     because .chip is nowrap globally and that is right for a one-word badge and
+     wrong for a claim. */
   .big-chips { position:absolute; top:20px; right:20px; z-index:4; display:flex; flex-direction:column; gap:9px;
-    align-items:flex-end; max-width:36%; }
-  /* .chip is nowrap globally, which is right for a one-word badge and wrong for
-     a claim. These may wrap; wrapping is a better failure than overlapping. */
+    align-items:flex-end; max-width:72%; }
   .big-chips .chip { white-space:normal; flex-wrap:wrap; justify-content:flex-end; text-align:right; }
   /* Small-screen big-card + app-panel overrides live at the end of this sheet;
      see "SMALL-SCREEN CARD OVERRIDES". They must come after the base component
@@ -650,11 +647,6 @@
     .wa-rows .src { grid-column:2; justify-self:start; }
   }
   /* highlighter sweep on the "verified" pill (scaleX, fires once) */
-  .big-overlay .hp.sweep { position:relative; z-index:0; border:none; background:transparent; padding:0 .2em; }
-  .big-overlay .hp.sweep::before { content:''; position:absolute; inset:-2px -3px; z-index:-1;
-    border:2.5px solid var(--lime); background:var(--lime-pale); border-radius:16px;
-    transform:scaleX(0); transform-origin:left center; transition:transform .55s cubic-bezier(.22,1,.36,1) .35s; }
-  .big-overlay .hp.sweep.go::before { transform:scaleX(1); }
 
   /* sliding model pill — the layoutId equivalent (transform + occasional width, one element) */
   #modelChips { position:relative; }
@@ -768,15 +760,12 @@
      upward and got clipped by overflow:hidden. Keep this block below the base
      component rules. */
   /* Below 640 the card stops being a canvas with pinned corners and becomes a
-     normal column. The old rule made .big-chips static while .big-overlay stayed
-     absolute, so the headline was painted on top of the chips. Everything here is
-     `relative` rather than `static` so the existing z-index order still holds
-     over the scene, which remains the absolute background it always was. */
+     normal column. Everything here is `relative` rather than `static` so the
+     existing z-index order still holds over the scene, which remains the
+     absolute background it always was. */
   @media (max-width:640px){
     .big-card { min-height:0; display:flex; flex-direction:column; gap:16px; padding:20px 18px; }
-    .big-overlay { position:relative; inset:auto; max-width:100%; }
-    .big-overlay h2 { font-size:clamp(22px,6.2vw,30px); }
-    .big-chips { position:relative; inset:auto; flex-direction:row; flex-wrap:wrap;
+    .big-chips { position:relative; inset:auto; max-width:100%; flex-direction:row; flex-wrap:wrap;
       align-items:flex-start; justify-content:flex-start; padding:0; gap:8px; }
     .big-chips .chip { animation:none; }
     .stat-card { position:relative; inset:auto; width:100%; max-width:100%; margin-top:auto; padding:18px; }
@@ -825,7 +814,7 @@
     <header class="hero">
       <div class="hero-head">
         <h1>Agentic <span class="hp">land due diligence</span><br class="h1-br"> infrastructure.</h1>
-        <p class="hero-sub">Our <b>swarm of AI agents</b> queries <b>one parcel or a thousand</b>, reads <b>physical records and geospatial data per county</b>, reasons privately, and <b>cites every claim</b>.</p>
+        <p class="hero-sub">Our <b>swarm of AI agents</b> queries <b>one parcel or a thousand</b>, reads <b>physical records and geospatial data per county</b>, reasons privately, and <b>cites every claim</b>, <b>in minutes</b>.</p>
         <div class="srcs" aria-label="Data sources Pestren reads">
           <span class="srcs-lbl">Sourced from</span>
           <div class="srcs-view">
@@ -867,9 +856,6 @@
               <ellipse cx="150" cy="358" rx="14" ry="7"/><ellipse cx="250" cy="358" rx="14" ry="7"/><ellipse cx="345" cy="358" rx="14" ry="7"/><ellipse cx="440" cy="358" rx="14" ry="7"/>
             </g>
           </svg>
-          <div class="big-overlay">
-            <h2>One parcel.<br>Every answer <span class="hp sweep">cited</span>.</h2>
-          </div>
           <!-- These used to name four data sources. The "Sourced from" ticker in
                the hero already names eighteen, so the chips were the weaker copy
                of a list the reader had just scrolled past. They carry the three
@@ -1829,9 +1815,6 @@
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(movePill); // re-measure after webfont swap
     set(0); requestAnimationFrame(movePill); start();  // rAF: measure after layout settles
   })();
-
-  // 2b) fire the "verified" highlighter sweep once
-  requestAnimationFrame(()=>{ const hp=document.querySelector('.hp.sweep'); if(hp) hp.classList.add('go'); });
 
   // 2) animate the stat bar in on load
   requestAnimationFrame(()=>{ const bar=document.querySelector('.bar'); if(bar) bar.classList.add('go'); });
