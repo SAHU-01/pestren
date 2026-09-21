@@ -276,17 +276,15 @@
   .sp-list li::after { content:''; position:absolute; left:5px; top:.6em; width:4px; height:7px;
     border-right:2px solid var(--forest); border-bottom:2px solid var(--forest); transform:rotate(42deg); }
 
-  /* Two rows of two. The top pair is what the problem costs today and carries a
-     source link; the bottom pair is what we return and is marked as ours. Same
-     tile, different provenance — which is the distinction the whole page turns
-     on, so it is visible rather than implied. */
   /* Named policy lines, not our feature names. An insurer should find their own
      product on the card the same way the citation lets a reader find a number. */
   .ptags { display:flex; flex-wrap:wrap; gap:7px; margin-top:2px; }
   .ptags span { font-family:var(--mono); font-size:10.5px; padding:5px 10px; border-radius:999px;
     background:var(--lime-pale); border:1px solid var(--lime-soft); color:var(--forest); white-space:nowrap; }
 
-  .sp-stats { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-top:22px; }
+  /* Three across, one row. Four in a 2x2 made the reader scan a block; three in
+     a line reads as one statement with three parts. */
+  .sp-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:11px; margin-top:22px; }
   .sst { background:var(--cream); border:1px solid var(--line-2); border-radius:var(--r-sm); padding:15px 16px; }
   .sst-f { display:block; font-family:var(--display); font-weight:700; font-size:clamp(19px,2vw,25px);
     line-height:1; color:var(--forest); font-variant-numeric:tabular-nums; margin-bottom:6px; }
@@ -318,11 +316,13 @@
   @media (max-width:860px){
     .spanel { grid-template-columns:1fr; gap:20px; padding:24px 22px; }
   }
+  @media (max-width:860px){
+    .sp-stats { grid-template-columns:1fr; }
+  }
   @media (max-width:640px){
     .stabs { gap:6px; margin-bottom:16px; }
     .stab { font-size:11px; padding:8px 12px; }
     .spanel { padding:20px 18px; border-radius:var(--r); }
-    .sp-stats { grid-template-columns:1fr; }
   }
 
   /* ===================== INTEGRATE ===================== */
@@ -1014,10 +1014,9 @@
             <span class="sp-k">Policies that turn on land facts</span>
             <div class="ptags"><span>Title</span><span>Property &amp; hazard</span><span>Environmental liability</span><span>Crop &amp; parametric</span><span>Inherent defects</span><span>Political risk</span><span>Native title</span></div>
             <div class="sp-stats">
-                <div class="sst"><span class="sst-f">$127B</span><span class="sst-l">insured natural-catastrophe losses, 2025</span><a class="sst-src" href="https://www.munichre.com/en/company/media-relations/media-information-and-corporate-news/media-information/2026/natural-disaster-figures-2025.html" target="_blank" rel="noopener">Munich Re &#8599;</a></div>
-                <div class="sst"><span class="sst-f">2 in 3</span><span class="sst-l">homeowners underinsured for wildfire, typically by 20%</span><a class="sst-src" href="https://uphelp.org/two-thirds-of-homeowners-underinsured-for-wildfire-loss/" target="_blank" rel="noopener">Insurance Information Institute, via United Policyholders &#8599;</a></div>
-                <div class="sst"><span class="sst-f">1 query</span><span class="sst-l">a whole book, same evidence on every location</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Cited</span><span class="sst-l">every score traced to the register behind it</span><span class="sst-src own">Pestren</span></div>
+                <div class="sst"><span class="sst-f">36%</span><span class="sst-l">of transactions need extensive, non-routine title clearance</span><a class="sst-src" href="https://www.alta.org/media/pdf/240506-ALTA-Title-Insurance-Curative-Work-Study-Report.pdf" target="_blank" rel="noopener">ALTA curative work study &#8599;</a></div>
+                <div class="sst"><span class="sst-f">$50K&ndash;$10M</span><span class="sst-l">cleanup liability when a $2,200 site check misses contamination</span><a class="sst-src" href="https://www.epa.gov/brownfields/environmental-contamination-brownfield-sites" target="_blank" rel="noopener">US EPA Brownfields &#8599;</a></div>
+                <div class="sst"><span class="sst-f">2 in 3</span><span class="sst-l">homeowners underinsured for wildfire, typically by 20%</span><a class="sst-src" href="https://uphelp.org/two-thirds-of-homeowners-underinsured-for-wildfire-loss/" target="_blank" rel="noopener">Insurance Information Institute &#8599;</a></div>
             </div>
           </div>
           <div class="sp-right">
@@ -1045,7 +1044,6 @@
                 <div class="sst"><span class="sst-f">31%</span><span class="sst-l">of banks are CRE-concentrated &mdash; 1,374 of them</span><a class="sst-src" href="https://www.fdic.gov/analysis/2025-risk-review.pdf" target="_blank" rel="noopener">FDIC Risk Review 2025 &#8599;</a></div>
                 <div class="sst"><span class="sst-f">$116.4B</span><span class="sst-l">of commercial property already distressed, Q1 2025</span><a class="sst-src" href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends &#8599;</a></div>
                 <div class="sst"><span class="sst-f">Audit-trailed</span><span class="sst-l">every claim back to its recording office</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Portfolio-wide</span><span class="sst-l">not one file at a time</span><span class="sst-src own">Pestren</span></div>
             </div>
           </div>
           <div class="sp-right">
@@ -1073,7 +1071,6 @@
                 <div class="sst"><span class="sst-f">$10&ndash;20K</span><span class="sst-l">buyer-paid diligence on one complex parcel, forfeited if it dies</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
                 <div class="sst"><span class="sst-f">Hundreds</span><span class="sst-l">of properties at the top of a funnel that ends in one deal</span><a class="sst-src" href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet &#8599;</a></div>
                 <div class="sst"><span class="sst-f">Minutes</span><span class="sst-l">for a screen that used to take weeks</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Every claim</span><span class="sst-l">cited to the record that carries it</span><span class="sst-src own">Pestren</span></div>
             </div>
           </div>
           <div class="sp-right">
@@ -1101,7 +1098,6 @@
                 <div class="sst"><span class="sst-f">~11&times;</span><span class="sst-l">over-crediting, attributed to selection bias in control areas</span><a class="sst-src" href="https://www.nature.com/articles/s41467-026-71552-3" target="_blank" rel="noopener">Nature Communications &#8599;</a></div>
                 <div class="sst"><span class="sst-f">78%</span><span class="sst-l">of the top 50 offset projects judged likely ineffective</span><a class="sst-src" href="https://carboncredits.com/study-finds-carbon-offsets-failing-to-deliver-real-climate-impact/" target="_blank" rel="noopener">Corporate Accountability review &#8599;</a></div>
                 <div class="sst"><span class="sst-f">10,000s</span><span class="sst-l">of acres screened before commitment</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Reproducible</span><span class="sst-l">the baseline re-runs on demand</span><span class="sst-src own">Pestren</span></div>
             </div>
           </div>
           <div class="sp-right">
@@ -1129,7 +1125,6 @@
                 <div class="sst"><span class="sst-f">$64B</span><span class="sst-l">of data centre projects blocked or delayed since 2023</span><a class="sst-src" href="https://www.datacenterwatch.org/report" target="_blank" rel="noopener">Data Center Watch &#8599;</a></div>
                 <div class="sst"><span class="sst-f">$70&ndash;105M</span><span class="sst-l">cost of a 12&ndash;18 month permit delay on a $1B project</span><a class="sst-src" href="https://www.globaldatacenterhub.com/p/permitting-zoning-and-environmental" target="_blank" rel="noopener">Global Data Center Hub &#8599;</a></div>
                 <div class="sst"><span class="sst-f">8 workstreams</span><span class="sst-l">resolved together, not sequentially</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Side by side</span><span class="sst-l">every candidate on one standard</span><span class="sst-src own">Pestren</span></div>
             </div>
           </div>
           <div class="sp-right">
@@ -1157,7 +1152,6 @@
                 <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span><a class="sst-src" href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets &#8599;</a></div>
                 <div class="sst"><span class="sst-f">Hundreds</span><span class="sst-l">screened per deal closed, across the industry</span><a class="sst-src" href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet &#8599;</a></div>
                 <div class="sst"><span class="sst-f">1,000+</span><span class="sst-l">parcels a month is a normal screening load</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">One standard</span><span class="sst-l">applied to every parcel in a region</span><span class="sst-src own">Pestren</span></div>
             </div>
           </div>
           <div class="sp-right">
@@ -1185,7 +1179,6 @@
                 <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span><a class="sst-src" href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets &#8599;</a></div>
                 <div class="sst"><span class="sst-f">30&ndash;60 days</span><span class="sst-l">is what one assembled land report takes today</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
                 <div class="sst"><span class="sst-f">6 years</span><span class="sst-l">of cropping history, dated, from orbit</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Per field</span><span class="sst-l">never a county average</span><span class="sst-src own">Pestren</span></div>
             </div>
           </div>
           <div class="sp-right">
@@ -1213,7 +1206,6 @@
                 <div class="sst"><span class="sst-f">$1&ndash;6K</span><span class="sst-l">per report is what the assembly costs today</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
                 <div class="sst"><span class="sst-f">30&ndash;60 days</span><span class="sst-l">is the turnaround that cost buys</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
                 <div class="sst"><span class="sst-f">Per query</span><span class="sst-l">priced by the question, not the report</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Client-ready</span><span class="sst-l">citations your proposal can carry</span><span class="sst-src own">Pestren</span></div>
             </div>
           </div>
           <div class="sp-right">
