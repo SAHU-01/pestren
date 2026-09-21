@@ -246,78 +246,28 @@
     color:var(--forest); display:inline-flex; align-items:center; gap:8px; margin-bottom:16px; }
   .sec-eyebrow::before { content:''; width:20px; height:2px; background:var(--lime); border-radius:2px; }
 
-  /* ---- SECTORS ----
-     A tab set rather than a grid of cards. Eight audiences with eight different
-     losses is too much to read at once, and a card wall makes the reader do the
-     filtering. Tabs let them find themselves in one click and read only that. */
-  .sectors { margin-top:36px; }
-  .stabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
-  .stab { font-family:var(--mono); font-size:12px; font-weight:500; padding:9px 15px;
-    border-radius:999px; background:var(--white); color:var(--ink-soft);
-    border:1.5px solid var(--line); cursor:pointer; white-space:nowrap;
-    transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease; }
-  .stab:hover { transform:translateY(-1px); border-color:var(--line-strong, var(--forest)); color:var(--ink); }
-  .stab.on { background:var(--forest); color:var(--lime); border-color:var(--forest); }
-
-  .spanel { display:none; grid-template-columns:1.25fr 0.75fr; gap:26px;
-    background:var(--white); border:1.5px solid var(--line); border-radius:var(--r-lg); padding:30px 32px; }
-  .spanel.on { display:grid; }
-  /* Only one of these survives per panel now: the headline opens the panel, so a
-     label above it was naming a section of one. */
-  .sp-k { display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.14em;
-    text-transform:uppercase; color:var(--forest); margin:20px 0 9px; }
-  .sp-left h3 { font-family:var(--display); font-weight:700; font-size:clamp(20px,2.1vw,27px);
-    line-height:1.15; letter-spacing:-.015em; margin-bottom:10px; text-wrap:balance; }
-  .sp-left > p { font-size:15px; line-height:1.6; color:var(--ink-soft); max-width:60ch; }
-  .sp-list { list-style:none; margin:18px 0 0; padding:0; display:flex; flex-direction:column; gap:9px; }
-  .sp-list li { position:relative; padding-left:26px; font-size:14.5px; line-height:1.5; color:var(--ink); }
-  .sp-list li::before { content:''; position:absolute; left:0; top:.34em; width:15px; height:15px;
-    border-radius:50%; background:var(--lime-pale); border:1.5px solid var(--lime-soft); }
-  .sp-list li::after { content:''; position:absolute; left:5px; top:.6em; width:4px; height:7px;
-    border-right:2px solid var(--forest); border-bottom:2px solid var(--forest); transform:rotate(42deg); }
-
-  /* Two rows of two. The top pair is what the problem costs today and carries a
-     source link; the bottom pair is what we return and is marked as ours. Same
-     tile, different provenance — which is the distinction the whole page turns
-     on, so it is visible rather than implied. */
-  .sp-stats { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-top:22px; }
-  .sst { background:var(--cream); border:1px solid var(--line-2); border-radius:var(--r-sm); padding:15px 16px; }
-  .sst-f { display:block; font-family:var(--display); font-weight:700; font-size:clamp(19px,2vw,25px);
-    line-height:1; color:var(--forest); font-variant-numeric:tabular-nums; margin-bottom:6px; }
-  .sst-l { display:block; font-size:12px; line-height:1.4; color:var(--ink-soft); }
-  .sst-src { display:block; margin-top:8px; font-family:var(--mono); font-size:9.5px; line-height:1.4;
-    color:var(--ink-mute); text-decoration:underline; text-underline-offset:2px;
-    text-decoration-color:rgba(22,22,22,0.2); }
-  a.sst-src:hover { color:var(--forest); text-decoration-color:var(--forest); }
-  .sst-src.own { text-decoration:none; opacity:.66; font-style:italic; }
-
-  /* The query card. A testimonial would be the obvious thing here and we do not
-     have real ones, so this shows the actual shape of the interaction instead:
-     a question you ask the land, and what comes back. */
-  .sp-right { display:flex; flex-direction:column; gap:12px; }
-  .qcard { background:var(--forest); color:#EDEFE4; border-radius:var(--r-sm); padding:22px 22px 20px;
-    display:flex; flex-direction:column; gap:7px; }
-  .qc-k { font-family:var(--mono); font-size:9.5px; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--lime); }
-  .qc-k + .qc-k, .qc-q + .qc-k { margin-top:9px; }
-  .qc-q { font-family:var(--mono); font-size:12.5px; line-height:1.6; color:#FFFFFF;
-    background:rgba(255,255,255,0.08); border-radius:12px; padding:12px 13px; }
-  .qc-a { font-size:13.5px; line-height:1.5; color:rgba(237,239,228,0.78); }
-  .qc-cta { display:inline-flex; align-items:center; justify-content:center; gap:7px;
-    font-family:var(--display); font-weight:600; font-size:14px; padding:12px 18px;
-    border-radius:999px; border:1.5px solid var(--forest); color:var(--forest);
-    transition:background .18s ease, color .18s ease; }
-  .qc-cta:hover { background:var(--forest); color:var(--lime); }
-
-  @media (max-width:860px){
-    .spanel { grid-template-columns:1fr; gap:20px; padding:24px 22px; }
-  }
-  @media (max-width:640px){
-    .stabs { gap:6px; margin-bottom:16px; }
-    .stab { font-size:11px; padding:8px 12px; }
-    .spanel { padding:20px 18px; border-radius:var(--r); }
-    .sp-stats { grid-template-columns:1fr; }
-  }
+  .bento-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  @media (max-width:960px){ .bento-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .bento-grid{ grid-template-columns:1fr; } }
+  .scard { border-radius:var(--r); padding:24px; display:flex; flex-direction:column; min-height:300px; transition:transform .25s, box-shadow .25s; }
+  .scard:hover { transform:translateY(-6px); box-shadow:var(--shadow); }
+  .scard.lime { background:var(--lime); } .scard.peri { background:var(--peri); }
+  .scard.forest { background:var(--forest); color:#fff; } .scard.white { background:var(--white); border:1.5px solid var(--line); }
+  .scard-top { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; }
+  .aq-label { font-family:var(--mono); font-size:11px; }
+  .aq-label .pre { opacity:.6; font-weight:400; } .aq-label .noun { font-weight:600; }
+  .loc { font-family:var(--mono); font-size:10.5px; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,0.6); white-space:nowrap; }
+  .scard.white .loc, .scard.lime .loc { background:rgba(22,22,22,0.06); }
+  .scard.forest .loc, .scard.peri .loc { background:rgba(255,255,255,0.18); }
+  .aq-q { font-family:var(--mono); font-size:12.5px; line-height:1.5; background:rgba(255,255,255,0.55); border-radius:12px; padding:12px 13px; margin-bottom:16px; }
+  .scard.forest .aq-q, .scard.peri .aq-q { background:rgba(255,255,255,0.14); }
+  .scard.white .aq-q, .scard.lime .aq-q { background:rgba(22,22,22,0.05); }
+  .scard h3 { font-size:21px; font-weight:600; margin-bottom:8px; }
+  .scard p { font-size:14px; line-height:1.5; opacity:.9; margin-bottom:16px; }
+  .tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:auto; }
+  .tags span { font-family:var(--mono); font-size:11px; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,0.65); }
+  .scard.white .tags span, .scard.lime .tags span { background:rgba(22,22,22,0.06); }
+  .scard.forest .tags span, .scard.peri .tags span { background:rgba(255,255,255,0.18); }
 
   /* ---- THE INDUSTRY PROBLEM ----
      The one dark band on the page. The section states a cost the reader is
@@ -1072,246 +1022,91 @@
     <!-- ===================== SECTORS ===================== -->
     <section class="sec" id="sectors">
       <div class="sec-head reveal">
-        <div class="sec-eyebrow">02 &middot; Sectors</div>
+        <div class="sec-eyebrow">02 · Sectors</div>
         <h2 class="sec-title">Sectors we <span class="hp">power</span>.</h2>
-        <p class="sec-lead">One intelligence layer, built into any product. Every card is a real question a partner's agent can ask &mdash; from a single plot to a global supply chain.</p>
+        <p class="sec-lead">One intelligence layer, built into any product. Every card is a real question a partner's agent can ask — from a single plot to a global supply chain.</p>
       </div>
 
-      <div class="sectors reveal">
-        <div class="stabs" role="tablist" aria-label="Sectors">
-          <button class="stab on" role="tab" id="stab-ins" aria-controls="spanel-ins" aria-selected="true" tabindex="0">Insurance</button>
-          <button class="stab" role="tab" id="stab-lend" aria-controls="spanel-lend" aria-selected="false" tabindex="-1">Lending</button>
-          <button class="stab" role="tab" id="stab-dev" aria-controls="spanel-dev" aria-selected="false" tabindex="-1">Real estate development</button>
-          <button class="stab" role="tab" id="stab-carbon" aria-controls="spanel-carbon" aria-selected="false" tabindex="-1">Carbon &amp; reforestation</button>
-          <button class="stab" role="tab" id="stab-dc" aria-controls="spanel-dc" aria-selected="false" tabindex="-1">Data centres &amp; industrial</button>
-          <button class="stab" role="tab" id="stab-acq" aria-controls="spanel-acq" aria-selected="false" tabindex="-1">Land acquisition &amp; trusts</button>
-          <button class="stab" role="tab" id="stab-ag" aria-controls="spanel-ag" aria-selected="false" tabindex="-1">Agriculture &amp; food systems</button>
-          <button class="stab" role="tab" id="stab-adv" aria-controls="spanel-adv" aria-selected="false" tabindex="-1">Advisors &amp; feasibility</button>
-        </div>
-        <div class="spanel on" id="spanel-ins" role="tabpanel" aria-labelledby="stab-ins">
-          <div class="sp-left">
-            <h3>Diligence priced on an average, claims paid on a parcel</h3>
-            <p>A book is rated on postcode averages because parcel-level exposure was never assembled. The loss shows up twice: risks written that should have been declined, and good risks priced away to a competitor. Neither is visible until the claims arrive.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>Flood, wildfire, slope and subsidence scored per location, not per postcode</li>
-              <li>Thirty-eight years of observed surface water on every parcel</li>
-              <li>Whole books scored in one pass, with the outliers ranked to the top</li>
-              <li>Parametric triggers built on telemetry an adjuster can audit</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">$127B</span><span class="sst-l">insured natural-catastrophe losses, 2025</span><a class="sst-src" href="https://www.munichre.com/en/company/media-relations/media-information-and-corporate-news/media-information/2026/natural-disaster-figures-2025.html" target="_blank" rel="noopener">Munich Re &#8599;</a></div>
-                <div class="sst"><span class="sst-f">2 in 3</span><span class="sst-l">homeowners underinsured for wildfire, typically by 20%</span><a class="sst-src" href="https://uphelp.org/two-thirds-of-homeowners-underinsured-for-wildfire-loss/" target="_blank" rel="noopener">Insurance Information Institute, via United Policyholders &#8599;</a></div>
-                <div class="sst"><span class="sst-f">1 query</span><span class="sst-l">a whole book, same evidence on every location</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Cited</span><span class="sst-l">every score traced to the register behind it</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Score flood, wildfire and subsidence for these 1,200 insured locations, and flag where the zone and the observed record disagree.&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">A ranked book, disagreements first, each figure traced to the register it came from.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
-        <div class="spanel" id="spanel-lend" role="tabpanel" aria-labelledby="stab-lend" hidden>
-          <div class="sp-left">
-            <h3>Collateral nobody re-examined between origination and default</h3>
-            <p>Valuation data is not consistent between lenders or their supervisors, so the land under a loan is checked once and never again. Liens, easements and contamination that were missed at origination surface as a write-down, not as a finding.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>Loan maturity dates and amounts surfaced instantly</li>
-              <li>Liens, UCC filings and ownership chains resolved in one pass</li>
-              <li>Distress signals on the book: taxes, paydowns, transfers</li>
-              <li>A thousand filings screened on one standard, in a month</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">31%</span><span class="sst-l">of banks are CRE-concentrated &mdash; 1,374 of them</span><a class="sst-src" href="https://www.fdic.gov/analysis/2025-risk-review.pdf" target="_blank" rel="noopener">FDIC Risk Review 2025 &#8599;</a></div>
-                <div class="sst"><span class="sst-f">$116.4B</span><span class="sst-l">of commercial property already distressed, Q1 2025</span><a class="sst-src" href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends &#8599;</a></div>
-                <div class="sst"><span class="sst-f">Audit-trailed</span><span class="sst-l">every claim back to its recording office</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Portfolio-wide</span><span class="sst-l">not one file at a time</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Across this loan book, which parcels carry liens, easements or contamination the file never mentioned?&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">The exceptions only, with the recording office and document reference on each.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
-        <div class="spanel" id="spanel-dev" role="tabpanel" aria-labelledby="stab-dev" hidden>
-          <div class="sp-left">
-            <h3>The deal-killer that surfaces on day forty-five</h3>
-            <p>Overlays, setbacks and entitlement conditions are found after the money is committed, because the only way to find them is to commission the report. So hundreds of parcels are screened on instinct to choose the one that gets checked properly.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>Filter by zoning, overlays and land-use constraints</li>
-              <li>Buildable acres, slope and setbacks measured, not estimated</li>
-              <li>Highest and best use tested against what the code actually allows</li>
-              <li>Rejections recorded with their reason, so they stay rejected</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">$10&ndash;20K</span><span class="sst-l">buyer-paid diligence on one complex parcel, forfeited if it dies</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
-                <div class="sst"><span class="sst-f">Hundreds</span><span class="sst-l">of properties at the top of a funnel that ends in one deal</span><a class="sst-src" href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet &#8599;</a></div>
-                <div class="sst"><span class="sst-f">Minutes</span><span class="sst-l">for a screen that used to take weeks</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Every claim</span><span class="sst-l">cited to the record that carries it</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Of these 80 parcels, which allow 40 units an acre, sit outside the flood zone and have sewer within 500 feet?&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">The shortlist, plus the reason each of the other 71 was dropped.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
-        <div class="spanel" id="spanel-carbon" role="tabpanel" aria-labelledby="stab-carbon" hidden>
-          <div class="sp-left">
-            <h3>Credits fail audit for a choice made before planting</h3>
-            <p>Over-crediting traces to selection bias in control areas &mdash; which land was chosen, and what it was compared against. By the time an auditor disputes it, the project is years old and the baseline cannot be rebuilt.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>Land-cover change measured back thirty-eight years, not asserted</li>
-              <li>Control land matched on evidence, with the match explained</li>
-              <li>Tens of thousands of acres screened before a site is committed</li>
-              <li>A baseline an auditor can re-run rather than take on trust</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">~11&times;</span><span class="sst-l">over-crediting, attributed to selection bias in control areas</span><a class="sst-src" href="https://www.nature.com/articles/s41467-026-71552-3" target="_blank" rel="noopener">Nature Communications &#8599;</a></div>
-                <div class="sst"><span class="sst-f">78%</span><span class="sst-l">of the top 50 offset projects judged likely ineffective</span><a class="sst-src" href="https://carboncredits.com/study-finds-carbon-offsets-failing-to-deliver-real-climate-impact/" target="_blank" rel="noopener">Corporate Accountability review &#8599;</a></div>
-                <div class="sst"><span class="sst-f">10,000s</span><span class="sst-l">of acres screened before commitment</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Reproducible</span><span class="sst-l">the baseline re-runs on demand</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Across this 40,000-acre region, which parcels were not already regenerating, and what is a defensible control set?&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">Eligible parcels with their cover history, and matched controls with the matching explained.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
-        <div class="spanel" id="spanel-dc" role="tabpanel" aria-labelledby="stab-dc" hidden>
-          <div class="sp-left">
-            <h3>Eight approvals, eight agencies, one site you already bought</h3>
-            <p>Power, water, zoning, environmental review and grid interconnection each run on their own clock at their own authority. A site that fails one of them does not approve slowly, it gets withdrawn &mdash; after the land is under contract.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>Grid capacity, water, wetland, flood and protected land in one view</li>
-              <li>The authority that actually decides each approval, named</li>
-              <li>Candidate sites compared side by side on identical evidence</li>
-              <li>Utilities and GIS resolved without standing up a GIS team</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">$64B</span><span class="sst-l">of data centre projects blocked or delayed since 2023</span><a class="sst-src" href="https://www.datacenterwatch.org/report" target="_blank" rel="noopener">Data Center Watch &#8599;</a></div>
-                <div class="sst"><span class="sst-f">$70&ndash;105M</span><span class="sst-l">cost of a 12&ndash;18 month permit delay on a $1B project</span><a class="sst-src" href="https://www.globaldatacenterhub.com/p/permitting-zoning-and-environmental" target="_blank" rel="noopener">Global Data Center Hub &#8599;</a></div>
-                <div class="sst"><span class="sst-f">8 workstreams</span><span class="sst-l">resolved together, not sequentially</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Side by side</span><span class="sst-l">every candidate on one standard</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Compare these six candidate sites on grid capacity, water, wetland encroachment and who signs off.&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">One table, six sites, every constraint sourced and every deciding authority named.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
-        <div class="spanel" id="spanel-acq" role="tabpanel" aria-labelledby="stab-acq" hidden>
-          <div class="sp-left">
-            <h3>The screen is the job, and it has no tooling</h3>
-            <p>Acquisition teams and land trusts evaluate far more land than they will ever hold. That screening work carries the whole decision, and it runs on spreadsheets and calls to county offices because nothing is sold to support it.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>Off-market ownership, portfolios and contact paths surfaced</li>
-              <li>Adjacent ownership stitched into assemblage opportunities</li>
-              <li>Protected status, easements and conservation overlays flagged</li>
-              <li>A whole region ranked before anyone visits a site</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span><a class="sst-src" href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets &#8599;</a></div>
-                <div class="sst"><span class="sst-f">Hundreds</span><span class="sst-l">screened per deal closed, across the industry</span><a class="sst-src" href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet &#8599;</a></div>
-                <div class="sst"><span class="sst-f">1,000+</span><span class="sst-l">parcels a month is a normal screening load</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">One standard</span><span class="sst-l">applied to every parcel in a region</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Which parcels here are over 200 acres, unprotected, and adjacent to land we already hold?&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">The candidate set with owner, acreage, protection status and the neighbours worth approaching.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
-        <div class="spanel" id="spanel-ag" role="tabpanel" aria-labelledby="stab-ag" hidden>
-          <div class="sp-left">
-            <h3>Proving what land can do, one field at a time</h3>
-            <p>A sourcing change or a crop switch has to be justified field by field, and the evidence is scattered across soil records, registries and years of imagery. Assembling it by hand is why the answer arrives after the planting window.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>Live market insights and data-driven comps on every parcel</li>
-              <li>Six years of cropping history with green-up and harvest dates</li>
-              <li>Farmable acreage measured, not read off a drawn boundary</li>
-              <li>A region screened for suitability before acreage is committed</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span><a class="sst-src" href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets &#8599;</a></div>
-                <div class="sst"><span class="sst-f">30&ndash;60 days</span><span class="sst-l">is what one assembled land report takes today</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
-                <div class="sst"><span class="sst-f">6 years</span><span class="sst-l">of cropping history, dated, from orbit</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Per field</span><span class="sst-l">never a county average</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Which fields in our sourcing region have been cropped continuously for six years and can take this rotation?&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">Field-level history with dates, and the soil that has to support the change.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
-        <div class="spanel" id="spanel-adv" role="tabpanel" aria-labelledby="stab-adv" hidden>
-          <div class="sp-left">
-            <h3>Selling judgement, paying for the assembly</h3>
-            <p>Feasibility consultants, land architects and non-profits carry the full cost of gathering evidence on every proposal, won or lost. The fee pays for analysis; the hours go on collection.</p>
-            <span class="sp-k">What you can ask for instead</span>
-            <ul class="sp-list">
-              <li>The assembled, cited evidence as an API or a report</li>
-              <li>Comps, market rents and precedents alongside the constraints</li>
-              <li>The same standard on every parcel, so proposals compare</li>
-              <li>Ask, compare and check &mdash; rather than reading someone else's PDF</li>
-            </ul>
-            <div class="sp-stats">
-                <div class="sst"><span class="sst-f">$1&ndash;6K</span><span class="sst-l">per report is what the assembly costs today</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
-                <div class="sst"><span class="sst-f">30&ndash;60 days</span><span class="sst-l">is the turnaround that cost buys</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
-                <div class="sst"><span class="sst-f">Per query</span><span class="sst-l">priced by the question, not the report</span><span class="sst-src own">Pestren</span></div>
-                <div class="sst"><span class="sst-f">Client-ready</span><span class="sst-l">citations your proposal can carry</span><span class="sst-src own">Pestren</span></div>
-            </div>
-          </div>
-          <div class="sp-right">
-            <div class="qcard">
-              <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Give me the constraints, authorities and precedents for this site, with sources I can put in a client proposal.&rdquo;</p>
-              <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">A sourced constraint set you can hand a client, not a screenshot of a map.</p>
-            </div>
-            <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
-          </div>
-        </div>
+      <div class="bento-grid stagger">
+        <article class="scard lime">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Colombia</span></div>
+          <div class="aq-q">"Coffee at 4.57, -75.66 — irrigation this week, and early rust risk?"</div>
+          <h3>Growers &amp; precision farms</h3>
+          <p>Better results field by field: soil and irrigation management, yield maximization, pest and disease control, precision agriculture — grounded and actionable.</p>
+          <div class="tags"><span>Soil</span><span>Irrigation</span><span>Yield</span><span>Disease</span></div>
+        </article>
+
+        <article class="scard peri">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Build from scratch</span></div>
+          <div class="aq-q">"I have 0.5 ha and a small budget — what should I grow, and how do I start?"</div>
+          <h3>First-time &amp; family growers</h3>
+          <p>Forward-deployed agriculture: hand Pestren a plot and a budget and it plans the crop, the method, and the setup. A family member with no experience can start — and take over.</p>
+          <div class="tags"><span>Plan</span><span>Budget</span><span>How-to</span><span>Setup</span></div>
+        </article>
+
+        <article class="scard forest">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Verify crop, sowing window, and flood exposure for this parcel to settle a claim / underwrite a loan."</div>
+          <h3>Insurance, lending &amp; consultancies</h3>
+          <p>Query verifiable field data to write reports, settle claims, underwrite loans, value collateral, and make decisions — every figure sourced and audit-trailed.</p>
+          <div class="tags"><span>Crop verify</span><span>Flood</span><span>Yield risk</span><span>Collateral</span></div>
+        </article>
+
+        <article class="scard white">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Which fields need this input now — and where can we cut chemical use without losing yield?"</div>
+          <h3>Input, fertilizer &amp; chemical companies</h3>
+          <p>Put the right product on the right field at the right time, reduce chemical load, and map real demand — tied to verified crop, stage, and pressure.</p>
+          <div class="tags"><span>Targeting</span><span>Reduce-chem</span><span>Demand map</span><span>Stage</span></div>
+        </article>
+
+        <article class="scard lime">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Which regions have the crop, terrain, and drainage that fit this machine?"</div>
+          <h3>Equipment, tractor &amp; tooling companies</h3>
+          <p>Size markets and place machinery where ground conditions actually fit — parcel-level agronomy instead of guesswork.</p>
+          <div class="tags"><span>Acreage</span><span>Terrain</span><span>Suitability</span><span>Market</span></div>
+        </article>
+
+        <article class="scard peri">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global</span></div>
+          <div class="aq-q">"Give us risk polygons to fly and sourced field data to train and calibrate our models."</div>
+          <h3>Drone, robotics &amp; sensor builders</h3>
+          <p>The data and APIs to map, train, and structure higher-accuracy products — and deploy faster. Your detections flow back as ground truth.</p>
+          <div class="tags"><span>Risk polygons</span><span>Training data</span><span>Calibration</span><span>API</span></div>
+        </article>
+
+        <article class="scard forest">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Universities</span></div>
+          <div class="aq-q">"Assemble trial cohorts with matched weather-soil profiles for a pesticide-free study."</div>
+          <h3>Research &amp; education</h3>
+          <p>Students and agri-tech universities research and prototype faster on real, sourced, reproducible field data — from lab to field.</p>
+          <div class="tags"><span>Trial sites</span><span>Datasets</span><span>Reproducible</span><span>R&amp;D</span></div>
+        </article>
+
+        <article class="scard white">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Learning plots</span></div>
+          <div class="aq-q">"Turn this schoolyard plot into a season-long, measurable growing lesson."</div>
+          <h3>Schools, kids &amp; community</h3>
+          <p>A new way to engage kids: grow, measure, learn — turning schoolyards, campuses, and parks into productive learning plots that lift both produce and understanding.</p>
+          <div class="tags"><span>Learn</span><span>Measure</span><span>Grow</span><span>Community</span></div>
+        </article>
+
+        <article class="scard lime">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Agencies</span></div>
+          <div class="aq-q">"District crop map + climate-risk zones — model and test a drought-response policy."</div>
+          <h3>Government &amp; policy (incl. climate)</h3>
+          <p>Track and monitor at scale, design and implement policy on verifiable data, and — during climate hazards — analyze, model, and prototype response solutions.</p>
+          <div class="tags"><span>Crop map</span><span>Policy</span><span>Climate risk</span><span>Monitoring</span></div>
+        </article>
+
+        <article class="scard peri">
+          <div class="scard-top"><span class="aq-label"><span class="pre">❝ built with</span> <span class="noun">pestren</span></span><span class="loc">Global supply</span></div>
+          <div class="aq-q">"Monitor our sourced estates and inventory — and run our farmer-support program."</div>
+          <h3>Corporate sourcing &amp; sustainability</h3>
+          <p>Global food and CPG buyers monitor sourced produce and inventories, maintain supply, and run sustainability and grower-support programs on real field data.</p>
+          <div class="tags"><span>Sourcing</span><span>Inventory</span><span>Sustainability</span><span>Support</span></div>
+        </article>
       </div>
     </section>
 
@@ -2035,44 +1830,6 @@
     window.addEventListener('resize', movePill, { passive:true });
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(movePill); // re-measure after webfont swap
     set(0); requestAnimationFrame(movePill); start();  // rAF: measure after layout settles
-  })();
-
-  // 1b) sector tabs
-  (function(){
-    const list = document.querySelector('.stabs');
-    if(!list) return;
-    const tabs = Array.from(list.querySelectorAll('.stab'));
-
-    function show(i){
-      tabs.forEach((t, idx) => {
-        const on = idx === i;
-        const panel = document.getElementById(t.getAttribute('aria-controls'));
-        t.classList.toggle('on', on);
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-        // Roving tabindex: only the selected tab is in the tab order, so Tab
-        // moves PAST the set rather than through eight buttons, and the arrow
-        // keys below move within it. That is the expected behaviour for a
-        // tablist and it is the part hand-rolled tabs usually miss.
-        t.tabIndex = on ? 0 : -1;
-        if(panel){ panel.classList.toggle('on', on); panel.hidden = !on; }
-      });
-    }
-
-    tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
-
-    list.addEventListener('keydown', (e) => {
-      const i = tabs.indexOf(document.activeElement);
-      if(i < 0) return;
-      let next = null;
-      if(e.key === 'ArrowRight') next = (i + 1) % tabs.length;
-      else if(e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
-      else if(e.key === 'Home') next = 0;
-      else if(e.key === 'End') next = tabs.length - 1;
-      if(next === null) return;
-      e.preventDefault();
-      show(next);
-      tabs[next].focus();
-    });
   })();
 
   // 2) animate the stat bar in on load
