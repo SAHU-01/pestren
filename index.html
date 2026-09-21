@@ -262,9 +262,10 @@
   .spanel { display:none; grid-template-columns:1.25fr 0.75fr; gap:26px;
     background:var(--white); border:1.5px solid var(--line); border-radius:var(--r-lg); padding:30px 32px; }
   .spanel.on { display:grid; }
+  /* Only one of these survives per panel now: the headline opens the panel, so a
+     label above it was naming a section of one. */
   .sp-k { display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.14em;
-    text-transform:uppercase; color:var(--ink-mute); margin-bottom:9px; }
-  .sp-k2 { margin-top:20px; color:var(--forest); }
+    text-transform:uppercase; color:var(--forest); margin:20px 0 9px; }
   .sp-left h3 { font-family:var(--display); font-weight:700; font-size:clamp(20px,2.1vw,27px);
     line-height:1.15; letter-spacing:-.015em; margin-bottom:10px; text-wrap:balance; }
   .sp-left > p { font-size:15px; line-height:1.6; color:var(--ink-soft); max-width:60ch; }
@@ -1089,10 +1090,9 @@
         </div>
         <div class="spanel on" id="spanel-ins" role="tabpanel" aria-labelledby="stab-ins">
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>Diligence priced on an average, claims paid on a parcel</h3>
             <p>A book is rated on postcode averages because parcel-level exposure was never assembled. The loss shows up twice: risks written that should have been declined, and good risks priced away to a competitor. Neither is visible until the claims arrive.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Flood, wildfire, slope and subsidence scored per location, not per postcode</li>
               <li>Thirty-eight years of observed surface water on every parcel</li>
@@ -1118,10 +1118,9 @@
         </div>
         <div class="spanel" id="spanel-lend" role="tabpanel" aria-labelledby="stab-lend" hidden>
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>Collateral nobody re-examined between origination and default</h3>
             <p>Valuation data is not consistent between lenders or their supervisors, so the land under a loan is checked once and never again. Liens, easements and contamination that were missed at origination surface as a write-down, not as a finding.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Loan maturity dates and amounts surfaced instantly</li>
               <li>Liens, UCC filings and ownership chains resolved in one pass</li>
@@ -1147,10 +1146,9 @@
         </div>
         <div class="spanel" id="spanel-dev" role="tabpanel" aria-labelledby="stab-dev" hidden>
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>The deal-killer that surfaces on day forty-five</h3>
             <p>Overlays, setbacks and entitlement conditions are found after the money is committed, because the only way to find them is to commission the report. So hundreds of parcels are screened on instinct to choose the one that gets checked properly.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Filter by zoning, overlays and land-use constraints</li>
               <li>Buildable acres, slope and setbacks measured, not estimated</li>
@@ -1176,10 +1174,9 @@
         </div>
         <div class="spanel" id="spanel-carbon" role="tabpanel" aria-labelledby="stab-carbon" hidden>
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>Credits fail audit for a choice made before planting</h3>
             <p>Over-crediting traces to selection bias in control areas &mdash; which land was chosen, and what it was compared against. By the time an auditor disputes it, the project is years old and the baseline cannot be rebuilt.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Land-cover change measured back thirty-eight years, not asserted</li>
               <li>Control land matched on evidence, with the match explained</li>
@@ -1205,10 +1202,9 @@
         </div>
         <div class="spanel" id="spanel-dc" role="tabpanel" aria-labelledby="stab-dc" hidden>
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>Eight approvals, eight agencies, one site you already bought</h3>
             <p>Power, water, zoning, environmental review and grid interconnection each run on their own clock at their own authority. A site that fails one of them does not approve slowly, it gets withdrawn &mdash; after the land is under contract.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Grid capacity, water, wetland, flood and protected land in one view</li>
               <li>The authority that actually decides each approval, named</li>
@@ -1234,10 +1230,9 @@
         </div>
         <div class="spanel" id="spanel-acq" role="tabpanel" aria-labelledby="stab-acq" hidden>
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>The screen is the job, and it has no tooling</h3>
             <p>Acquisition teams and land trusts evaluate far more land than they will ever hold. That screening work carries the whole decision, and it runs on spreadsheets and calls to county offices because nothing is sold to support it.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Off-market ownership, portfolios and contact paths surfaced</li>
               <li>Adjacent ownership stitched into assemblage opportunities</li>
@@ -1263,10 +1258,9 @@
         </div>
         <div class="spanel" id="spanel-ag" role="tabpanel" aria-labelledby="stab-ag" hidden>
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>Proving what land can do, one field at a time</h3>
             <p>A sourcing change or a crop switch has to be justified field by field, and the evidence is scattered across soil records, registries and years of imagery. Assembling it by hand is why the answer arrives after the planting window.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Live market insights and data-driven comps on every parcel</li>
               <li>Six years of cropping history with green-up and harvest dates</li>
@@ -1292,10 +1286,9 @@
         </div>
         <div class="spanel" id="spanel-adv" role="tabpanel" aria-labelledby="stab-adv" hidden>
           <div class="sp-left">
-            <span class="sp-k">Where the diligence loses money</span>
             <h3>Selling judgement, paying for the assembly</h3>
             <p>Feasibility consultants, land architects and non-profits carry the full cost of gathering evidence on every proposal, won or lost. The fee pays for analysis; the hours go on collection.</p>
-            <span class="sp-k sp-k2">What you can ask for instead</span>
+            <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>The assembled, cited evidence as an API or a report</li>
               <li>Comps, market rents and precedents alongside the constraints</li>
