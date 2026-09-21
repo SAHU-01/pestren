@@ -278,6 +278,11 @@
 
   /* Named policy lines, not our feature names. An insurer should find their own
      product on the card the same way the citation lets a reader find a number. */
+  /* Spans both columns, for the same reason the stats row does: the tags are a
+     single list, and the left column was wrapping one or two of them onto a
+     second line while the space beside the query card sat empty. */
+  .sp-tags { grid-column:1 / -1; }
+  .sp-tags .sp-k { margin-top:0; }
   .ptags { display:flex; flex-wrap:wrap; gap:7px; margin-top:2px; }
   .ptags span { font-family:var(--mono); font-size:10.5px; padding:5px 10px; border-radius:999px;
     background:var(--lime-pale); border:1px solid var(--lime-soft); color:var(--forest); white-space:nowrap; }
@@ -386,7 +391,7 @@
     .sec-problem { padding:34px 20px; border-radius:var(--r); }
   }
   .sec-title { font-size:clamp(28px,4vw,48px); font-weight:700; max-width:900px; }
-  .sec-lead { margin-top:16px; font-size:clamp(15px,1.4vw,18px); color:var(--ink-soft); max-width:620px; }
+  .sec-lead { margin-top:16px; font-size:clamp(15px,1.4vw,18px); color:var(--ink-soft); max-width:900px; }
   .sec-head { margin-bottom:38px; }
 
   /* ===================== WITHOUT / WITH ===================== */
@@ -426,7 +431,7 @@
   /* scroll-pinned: section is tall, inner content sticks and each of the 4
      endpoints activates one-after-another as you scroll through it */
   .sec-int { padding:0; }
-  .int-scroll { position:relative; height:280vh; }
+  .int-scroll { position:relative; height:350vh; }
   .int-sticky { position:sticky; top:0; min-height:100vh; display:flex; flex-direction:column;
     justify-content:center; padding:72px 0; }
   @media (max-width:920px){
@@ -450,8 +455,11 @@
   .int-ic { width:38px; height:38px; border-radius:12px; background:var(--page); display:grid; place-items:center; flex-shrink:0; }
   .int-opt.active .int-ic { background:rgba(22,22,22,0.1); }
   .int-ic svg { width:18px; height:18px; stroke:var(--forest); }
-  .int-opt .ot { font-weight:600; font-size:14.5px; }
-  .int-opt .oe { font-family:var(--mono); font-size:12px; color:var(--forest); margin-top:2px; }
+  /* the label and the endpoint are two lines, not one run-on string */
+  .int-opt > span:last-child { display:flex; flex-direction:column; gap:3px; min-width:0; }
+  .int-opt .ot { display:block; font-weight:600; font-size:14.5px; line-height:1.25; }
+  .int-opt .oe { display:block; font-family:var(--mono); font-size:11.5px; color:var(--forest);
+    line-height:1.3; overflow-wrap:anywhere; }
   @media (max-width:920px){ .int-opt{ min-width:250px; } }
 
   .int-detail { background:var(--white); border:1.5px solid var(--line); border-radius:var(--r-lg); overflow:hidden; }
@@ -465,6 +473,7 @@
   .mbadge { font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:0.08em; padding:5px 11px; border-radius:999px; }
   .m-post { background:var(--lime); color:var(--forest); }
   .m-mcp { background:var(--peri-light); color:#2b3d78; }
+  .m-app { background:var(--cream); color:var(--forest); box-shadow:inset 0 0 0 1px var(--line-2); }
   .m-chat { background:#ffd7e8; color:#a1265f; }
   .endpoint { font-family:var(--mono); font-size:19px; font-weight:600; }
   @media (max-width:480px){ .endpoint{ font-size:15px; } }
@@ -885,6 +894,7 @@
       <a class="nav-pill active" href="#compare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Platform</a>
       <a class="nav-pill" href="#sectors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M3 6h18M3 18h18"/></svg>Sectors</a>
       <a class="nav-pill" href="#integrate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2v6M15 2v6M7 8h10v4a5 5 0 0 1-10 0V8ZM12 17v5"/></svg>Integrate</a>
+      <a class="nav-pill" href="#privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Privacy</a>
       <a class="nav-pill" href="#benchmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l-3 5h6L5 8ZM19 8l-3 5h6l-3-5Z"/></svg>Benchmark</a>
       <!-- Docs hidden for now — re-enable when ready -->
       <!-- <a class="nav-pill" href="docs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"/><path d="M14 4v5h5"/></svg>Docs</a> -->
@@ -1095,7 +1105,7 @@
           <button class="stab" role="tab" id="stab-dc" aria-controls="spanel-dc" aria-selected="false" tabindex="-1">Data centres &amp; industrial</button>
           <button class="stab" role="tab" id="stab-acq" aria-controls="spanel-acq" aria-selected="false" tabindex="-1">Land acquisition &amp; trusts</button>
           <button class="stab" role="tab" id="stab-ag" aria-controls="spanel-ag" aria-selected="false" tabindex="-1">Agriculture &amp; food systems</button>
-          <button class="stab" role="tab" id="stab-adv" aria-controls="spanel-adv" aria-selected="false" tabindex="-1">Advisors &amp; feasibility</button>
+          <button class="stab" role="tab" id="stab-adv" aria-controls="spanel-adv" aria-selected="false" tabindex="-1">Advisors &amp; consultants</button>
         </div>
         <div class="spanel on" id="spanel-ins" role="tabpanel" aria-labelledby="stab-ins">
           <div class="sp-left">
@@ -1109,8 +1119,6 @@
               <li>Re-run the whole book at renewal and see only what changed</li>
               <li>Count how many policies sit in one flood cell or one fire shed</li>
             </ul>
-            <span class="sp-k">Policies that turn on land facts</span>
-            <div class="ptags"><span>Title</span><span>Property &amp; hazard</span><span>Environmental liability</span><span>Crop &amp; parametric</span><span>Inherent defects</span><span>Political risk</span><span>Native title</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
@@ -1120,6 +1128,10 @@
               <p class="qc-a">One row per address, problems ranked first, and the register behind every answer.</p>
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
+          </div>
+          <div class="sp-tags">
+            <span class="sp-k">Policies that turn on land facts</span>
+            <div class="ptags"><span>Title</span><span>Property &amp; hazard</span><span>Environmental liability</span><span>Crop &amp; parametric</span><span>Inherent defects</span><span>Political risk</span><span>Native title</span></div>
           </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">36%</span><span class="sst-l">of transactions need extensive, non-routine title clearance</span><a class="sst-src" href="https://www.alta.org/media/pdf/240506-ALTA-Title-Insurance-Curative-Work-Study-Report.pdf" target="_blank" rel="noopener">ALTA curative work study &#8599;</a></div>
@@ -1140,8 +1152,6 @@
               <li>Timber, water and mineral rights valued alongside the soil</li>
               <li>Liens, UCC filings and ownership chains resolved in one pass</li>
             </ul>
-            <span class="sp-k">Loans that turn on land facts</span>
-            <div class="ptags"><span>Operating</span><span>Transition</span><span>Farm ownership</span><span>Bridge</span><span>Equipment</span><span>Conservation easement</span><span>Commercial mortgage</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
@@ -1151,6 +1161,10 @@
               <p class="qc-a">The share, the acre count it rests on, and the season-by-season evidence behind both.</p>
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
+          </div>
+          <div class="sp-tags">
+            <span class="sp-k">Loans that turn on land facts</span>
+            <div class="ptags"><span>Operating</span><span>Transition</span><span>Farm ownership</span><span>Bridge</span><span>Equipment</span><span>Conservation easement</span><span>Commercial mortgage</span></div>
           </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">3 years</span><span class="sst-l">managed organically before certification, with no organic premium in between</span><a class="sst-src" href="https://www.ams.usda.gov/sites/default/files/media/Transition%20to%20Organic%20Factsheet.pdf" target="_blank" rel="noopener">USDA AMS &#8599;</a></div>
@@ -1166,11 +1180,12 @@
             <ul class="sp-list">
               <li>Filter by zoning, overlays and land-use constraints</li>
               <li>Buildable acres, slope and setbacks measured, not estimated</li>
+              <li>Distance to sewer, power, frontage and rail, measured for every parcel</li>
+              <li>What sits next door: contamination, floodplain, easements, protected ground</li>
               <li>Highest and best use tested against what the code allows</li>
+              <li>Re-screened when the zoning map is amended, so a stale pass gets caught</li>
               <li>Rejections recorded with their reason, so they stay rejected</li>
             </ul>
-            <span class="sp-k">What the report has to clear</span>
-            <div class="ptags"><span>Zoning</span><span>Overlays</span><span>Setbacks</span><span>Wetlands</span><span>Flood</span><span>Utilities</span><span>Access</span><span>Entitlement</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
@@ -1180,6 +1195,10 @@
               <p class="qc-a">The shortlist, plus the reason each of the other 71 was dropped.</p>
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
+          </div>
+          <div class="sp-tags">
+            <span class="sp-k">What the report has to clear</span>
+            <div class="ptags"><span>Zoning</span><span>Overlays</span><span>Setbacks</span><span>Easements</span><span>Wetlands</span><span>Flood</span><span>Contamination</span><span>Utilities</span><span>Access</span><span>Entitlement</span></div>
           </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">$10&ndash;20K</span><span class="sst-l">buyer-paid diligence on one complex parcel, forfeited if it dies</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
@@ -1196,10 +1215,9 @@
               <li>Land-cover change measured back decades, not asserted</li>
               <li>Control land matched on evidence, with the match explained</li>
               <li>Tens of thousands of acres screened before a site is committed</li>
+              <li>Credit yield as a number the chosen site can deliver, not a hypothesis</li>
               <li>A baseline an auditor can re-run rather than take on trust</li>
             </ul>
-            <span class="sp-k">What an auditor will test</span>
-            <div class="ptags"><span>Additionality</span><span>Baseline</span><span>Leakage</span><span>Permanence</span><span>Land eligibility</span><span>Control match</span><span>Tenure</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
@@ -1209,6 +1227,10 @@
               <p class="qc-a">Eligible parcels with their cover history, and matched controls with the matching explained.</p>
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
+          </div>
+          <div class="sp-tags">
+            <span class="sp-k">What an auditor will test</span>
+            <div class="ptags"><span>Additionality</span><span>Baseline</span><span>Leakage</span><span>Permanence</span><span>Land eligibility</span><span>Control match</span><span>Tenure</span></div>
           </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">~11&times;</span><span class="sst-l">over-crediting, attributed to selection bias in control areas</span><a class="sst-src" href="https://www.nature.com/articles/s41467-026-71552-3" target="_blank" rel="noopener">Nature Communications &#8599;</a></div>
@@ -1227,8 +1249,6 @@
               <li>Candidate sites compared side by side on identical evidence</li>
               <li>Utilities and GIS resolved without standing up a GIS team</li>
             </ul>
-            <span class="sp-k">Approvals that gate the site</span>
-            <div class="ptags"><span>Grid interconnection</span><span>Water</span><span>Zoning</span><span>Environmental review</span><span>Wetland</span><span>Air</span><span>Fire</span><span>Building</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
@@ -1238,6 +1258,10 @@
               <p class="qc-a">One table, six sites, every constraint sourced and every deciding authority named.</p>
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
+          </div>
+          <div class="sp-tags">
+            <span class="sp-k">Approvals that gate the site</span>
+            <div class="ptags"><span>Grid interconnection</span><span>Water</span><span>Zoning</span><span>Environmental review</span><span>Wetland</span><span>Air</span><span>Fire</span><span>Building</span></div>
           </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">$64B</span><span class="sst-l">of data centre projects blocked or delayed since 2023</span><a class="sst-src" href="https://www.datacenterwatch.org/report" target="_blank" rel="noopener">Data Center Watch &#8599;</a></div>
@@ -1256,8 +1280,6 @@
               <li>Protected status, easements and conservation overlays flagged</li>
               <li>A whole region ranked before anyone visits a site</li>
             </ul>
-            <span class="sp-k">What a screen has to resolve</span>
-            <div class="ptags"><span>Ownership</span><span>Acreage</span><span>Easements</span><span>Protection status</span><span>Adjacency</span><span>Comparable sales</span><span>Access</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
@@ -1268,6 +1290,10 @@
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
           </div>
+          <div class="sp-tags">
+            <span class="sp-k">What a screen has to resolve</span>
+            <div class="ptags"><span>Ownership</span><span>Acreage</span><span>Easements</span><span>Protection status</span><span>Adjacency</span><span>Comparable sales</span><span>Access</span></div>
+          </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span><a class="sst-src" href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets &#8599;</a></div>
                 <div class="sst"><span class="sst-f">Hundreds</span><span class="sst-l">screened per deal closed, across the industry</span><a class="sst-src" href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet &#8599;</a></div>
@@ -1277,25 +1303,30 @@
         <div class="spanel" id="spanel-ag" role="tabpanel" aria-labelledby="stab-ag" hidden>
           <div class="sp-left">
             <h3>Proving what land can do, one field at a time.</h3>
-            <p>The evidence is scattered, so the answer arrives after the planting window has closed.</p>
+            <p>Nobody says what a switch costs in the early years, how long it runs, or how often it works.</p>
             <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
               <li>Live market insights and data-driven comps on every parcel</li>
-              <li>Six years of cropping history with green-up and harvest dates</li>
+              <li>What regenerative did to yield on comparable fields, season by season</li>
+              <li>How long the dip ran, how often it recovered, what the switch commits you to</li>
+              <li>Supply risk read across a sourcing region before the season, not after it</li>
+              <li>Six years of cropping history</li>
               <li>Farmable acreage measured, not read off a drawn boundary</li>
               <li>A region screened for suitability before acreage is committed</li>
             </ul>
-            <span class="sp-k">What has to be proven per field</span>
-            <div class="ptags"><span>Soil</span><span>Water rights</span><span>Cropping history</span><span>Yield</span><span>Farmable acreage</span><span>Irrigation</span><span>Certification</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
               <span class="qc-k">You ask</span>
-              <p class="qc-q">&ldquo;Which fields here have been cropped for six years straight, and can take this rotation?&rdquo;</p>
+              <p class="qc-q">&ldquo;With a 60% drought risk this season, which of these fields can still carry a rice crop?&rdquo;</p>
               <span class="qc-k">We answer, cited</span>
-              <p class="qc-a">Field-level history with dates, and the soil that has to support the change.</p>
+              <p class="qc-a">The fields that held through past dry years, with the water source and soil behind each one.</p>
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
+          </div>
+          <div class="sp-tags">
+            <span class="sp-k">What has to be proven per field</span>
+            <div class="ptags"><span>Soil</span><span>Water rights</span><span>Cropping history</span><span>Transition</span><span>Yield</span><span>Farmable acreage</span><span>Irrigation</span><span>Certification</span></div>
           </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">$9.94B</span><span class="sst-l">spent a year on property valuation services</span><a class="sst-src" href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets &#8599;</a></div>
@@ -1305,17 +1336,17 @@
         </div>
         <div class="spanel" id="spanel-adv" role="tabpanel" aria-labelledby="stab-adv" hidden>
           <div class="sp-left">
-            <h3>Selling judgement, paying for the assembly.</h3>
-            <p>The fee pays for analysis. The hours go on collection, on every proposal, won or lost.</p>
+            <h3>The proposal is unpaid. The land work behind it is not.</h3>
+            <p>Every pre-assignment draft carries the same GIS and diligence, and most never turn into a fee.</p>
             <span class="sp-k">What you can ask for instead</span>
             <ul class="sp-list">
+              <li>Hundreds of acres screened in minutes, before the work is even priced</li>
+              <li>Cited evidence that goes straight into the draft, sources attached</li>
               <li>The assembled, cited evidence as an API or a report</li>
               <li>Comps, market rents and precedents alongside the constraints</li>
               <li>The same standard on every parcel, so proposals compare</li>
               <li>Ask, compare and check rather than reading someone else's PDF</li>
             </ul>
-            <span class="sp-k">What a proposal has to carry</span>
-            <div class="ptags"><span>Constraints</span><span>Authorities</span><span>Precedents</span><span>Comps</span><span>Citations</span><span>Method</span><span>Limits</span></div>
           </div>
           <div class="sp-right">
             <div class="qcard">
@@ -1325,6 +1356,10 @@
               <p class="qc-a">A sourced constraint set you can hand a client, not a screenshot of a map.</p>
             </div>
             <a class="qc-cta" href="https://interface.pestren.com" target="_blank" rel="noopener">Ask it yourself &rarr;</a>
+          </div>
+          <div class="sp-tags">
+            <span class="sp-k">What a proposal has to carry</span>
+            <div class="ptags"><span>Constraints</span><span>Authorities</span><span>Precedents</span><span>Comps</span><span>Citations</span><span>Method</span><span>Limits</span></div>
           </div>
           <div class="sp-stats">
                 <div class="sst"><span class="sst-f">$1&ndash;6K</span><span class="sst-l">per report is what the assembly costs today</span><a class="sst-src" href="https://seriouslandcapital.com/who-pays-for-due-diligence-on-a-land-deal/" target="_blank" rel="noopener">Serious Land Capital &#8599;</a></div>
@@ -1341,8 +1376,8 @@
       <div class="int-sticky">
       <div class="sec-head reveal">
         <div class="sec-eyebrow">03 · Integrate</div>
-        <h2 class="sec-title">Plug into <span class="hp">any LLM</span>.</h2>
-        <p class="sec-lead">One layer, four ways in. Pick an endpoint, drop in a key, and start pulling grounded, cited field intelligence into any model — GPT, Claude, Gemini, Llama, or your own.</p>
+        <h2 class="sec-title">Plug into <span class="hp">any system</span>.</h2>
+        <p class="sec-lead">One layer, four ways in — API, MCP, the platform, or data files. The API is two calls: ask a question across a set of parcels, or fetch the fields behind them.</p>
       </div>
 
       <div class="int-layout reveal">
@@ -1350,19 +1385,23 @@
           <span class="int-rail" id="intRail"></span>
           <button class="int-opt active" data-int="0">
             <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V6a4 4 0 0 1 4-4h9a4 4 0 0 1 4 4Z"/></svg></span>
-            <span><span class="ot">Cited answer</span><span class="oe">/v1/ask</span></span>
+            <span><span class="ot">API &middot; ask</span><span class="oe">/v1/ask</span></span>
           </button>
           <button class="int-opt" data-int="1">
-            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-            <span><span class="ot">Raw fields</span><span class="oe">/v1/fetch</span></span>
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h9"/><circle cx="18" cy="17" r="3"/></svg></span>
+            <span><span class="ot">API &middot; fetch</span><span class="oe">/v1/fetch</span></span>
           </button>
           <button class="int-opt" data-int="2">
-            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
-            <span><span class="ot">Drop-in Skills</span><span class="oe">skills/</span></span>
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 9h8M8 13h5"/></svg></span>
+            <span><span class="ot">MCP</span><span class="oe">pestren-mcp</span></span>
           </button>
           <button class="int-opt" data-int="3">
-            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 9h8M8 13h5"/></svg></span>
-            <span><span class="ot">Native to my agent</span><span class="oe">pestren-mcp</span></span>
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+            <span><span class="ot">Platform</span><span class="oe">interface.pestren.com</span></span>
+          </button>
+          <button class="int-opt" data-int="4">
+            <span class="int-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
+            <span><span class="ot">Data files</span><span class="oe">exports/ &middot; skills/</span></span>
           </button>
         </div>
 
@@ -1402,9 +1441,47 @@
     </section>
 
     <!-- ===================== BENCHMARK & TRUST ===================== -->
+    <section class="sec" id="privacy">
+      <div class="sec-head reveal">
+        <div class="sec-eyebrow">04 &middot; Privacy &amp; security</div>
+        <h2 class="sec-title">We cite the public record. <span class="hp">Your work on it stays yours</span>.</h2>
+        <p class="sec-lead">Every answer names a source you can open yourself. What you asked, which parcels you screened, and the client discussion around them are not part of anyone else's answer, and are never used to train a model.</p>
+      </div>
+
+      <div class="trust-grid stagger">
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>Your data stays yours</h4>
+          <p>Questions, coordinates, uploaded boundaries and documents are never used to train models, and never sold on.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>What gets cited is public record</h4>
+          <p>Registers, surveys, and satellite passes &mdash; FAO, national agencies, ESA Sentinel, NASA, SoilGrids and live weather. Your own parcels never become a source in anyone else's answer.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z"/></svg></span>Client work stays in your account</h4>
+          <p>The parcels you screen, the reports you assemble, and the discussion around them are visible to your account only.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="8" cy="15" r="3"/><path d="M10.2 12.8 20 3m-3.4 3.4 2 2m-4.6-.6 2 2"/></svg></span>Access is by key, and revocable</h4>
+          <p>Every call is authenticated with a token you issue and can revoke from your dashboard. Nothing reads without it.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M20 6 9 17l-5-5"/></svg></span>Confidence tiers</h4>
+          <p>Every fact is tagged <code>literature-only</code>, <code>field-verified</code>, or <code>lab-confirmed</code>. You always see which, and what it rests on.</p>
+        </div>
+        <div class="trust-card">
+          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2 5 2-1.5-7.5"/></svg></span>Certification, honestly</h4>
+          <p>We are not audited or certified yet. Independent attestation and a formal data processing agreement come with the enterprise tier &mdash; ask what we can commit to in writing today.</p>
+        </div>
+      </div>
+
+      <p class="prob-src reveal">Security questions, or anything you need in writing for a client &mdash; <a href="mailto:core@pestren.com">core@pestren.com</a></p>
+    </section>
+
+    <!-- ===================== BENCHMARK ===================== -->
     <section class="sec" id="benchmark">
       <div class="sec-head reveal">
-        <div class="sec-eyebrow">04 · Benchmark</div>
+        <div class="sec-eyebrow">05 · Benchmark</div>
         <h2 class="sec-title">Don't take our word for it. <span class="hp">Benchmark it</span>.</h2>
         <p class="sec-lead">Run any farm question at any coordinate and score Pestren against every other model on the axes that actually matter — grounded, cited, fresh, and actionable.</p>
       </div>
@@ -1434,38 +1511,13 @@
         </div>
       </div>
 
-      <div class="trust-grid stagger">
-        <div class="trust-card">
-          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z"/></svg></span>Where the data comes from</h4>
-          <p>Global authoritative sources: FAO, national agriculture agencies, ESA Sentinel, NASA, SoilGrids, and live weather — combined with a growing field-verification network. Every answer names its sources.</p>
-        </div>
-        <div class="trust-card">
-          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>How fresh</h4>
-          <p>Weather daily, satellite on its revisit cycle, risk weekly; each value carries its own <code>timestamp</code>.</p>
-        </div>
-        <div class="trust-card">
-          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M20 6 9 17l-5-5"/></svg></span>Confidence tiers</h4>
-          <p>Every fact is tagged <code>literature-only</code>, <code>field-verified</code>, or <code>lab-confirmed</code>. You always see which.</p>
-        </div>
-        <div class="trust-card">
-          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3c2.5 2.5 4 5.6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.6-4-9s1.5-6.5 4-9Z"/></svg></span>Coverage</h4>
-          <p>Any crop, any geography; verification depth grows region by region.</p>
-        </div>
-        <div class="trust-card">
-          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>Privacy</h4>
-          <p>Your questions and coordinates are never used to train models.</p>
-        </div>
-        <div class="trust-card">
-          <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 3v18M8 7h6a3 3 0 0 1 0 6H8m0 0h7"/></svg></span>Pricing</h4>
-          <p>Free tier + metered API; volume plans for enterprise; grower access kept low-friction.</p>
-        </div>
-      </div>
     </section>
+
 
     <!-- ===================== VIBE CHECK (RADIAL) ===================== -->
     <section class="sec" id="vibe">
       <div class="sec-head reveal" style="text-align:center;max-width:660px;margin-left:auto;margin-right:auto;">
-        <div class="sec-eyebrow" style="justify-content:center;">05 · Vibe check</div>
+        <div class="sec-eyebrow" style="justify-content:center;">06 · Vibe check</div>
         <h2 class="sec-title" style="margin-left:auto;margin-right:auto;">What's your vibe on <span class="hp">ungrounded answers</span>?</h2>
         <p class="sec-lead" style="margin-left:auto;margin-right:auto;">Pause and see which vibe matches your energy after knowing about Pestren and share your thoughts.</p>
       </div>
@@ -1521,7 +1573,7 @@
     <!-- ===================== FAQ ===================== -->
     <section class="sec" id="faq">
       <div class="sec-head reveal" style="text-align:center;max-width:660px;margin-left:auto;margin-right:auto;">
-        <div class="sec-eyebrow" style="justify-content:center;">06 · FAQ</div>
+        <div class="sec-eyebrow" style="justify-content:center;">07 · FAQ</div>
         <h2 class="sec-title" style="margin-left:auto;margin-right:auto;">Questions, <span class="hp">answered</span>.</h2>
         <p class="sec-lead" style="margin-left:auto;margin-right:auto;">The things partners and growers ask us most — starting with where the intelligence actually comes from.</p>
       </div>
@@ -1591,6 +1643,7 @@
         <a href="#compare">Platform</a>
         <a href="#sectors">Sectors</a>
         <a href="#integrate">Integrate</a>
+        <a href="#privacy">Privacy</a>
         <a href="#benchmark">Benchmark</a>
         <a href="#vibe">Vibe check</a>
         <a href="#faq">FAQ</a>
@@ -1609,6 +1662,7 @@
   <a href="#compare">Platform</a>
   <a href="#sectors">Sectors</a>
   <a href="#integrate">Integrate</a>
+  <a href="#privacy">Privacy</a>
   <a href="#benchmark">Benchmark</a>
   <a href="#faq">FAQ</a>
   <!-- <a href="docs.html">Docs</a> -->
@@ -1672,7 +1726,7 @@
         navPills.forEach(p => p.classList.toggle('active', p.getAttribute('href') === href));
       }
     }), { rootMargin: '-45% 0px -45% 0px' });
-    ['compare','sectors','integrate','benchmark'].forEach(id => { const s = document.getElementById(id); if (s) spy.observe(s); });
+    ['compare','sectors','integrate','privacy','benchmark'].forEach(id => { const s = document.getElementById(id); if (s) spy.observe(s); });
   }
 
   // toast
@@ -1690,30 +1744,40 @@
 
   // integrate
   const D = [
-    { method:'POST', mc:'m-post', ep:'/v1/ask', summary:'Natural language in, cited answer + action out.',
-      body:'Ask about any crop, pest, or field, anywhere. A planner picks the right agri-fields, fetches them with provenance, and synthesizes a grounded answer that ends in an action. Every claim carries a citation you can open.',
-      returns:'answer + citations + action', best:'agents & apps that reason in language', file:'request.sh',
+    { method:'POST', mc:'m-post', ep:'/v1/ask', summary:'A question across a whole set, answered in order.',
+      body:'Ask across a set, not a point. Rank twelve properties by wildfire risk, or shortlist the ones clearing a threshold. The answer comes back ordered, a citation and a reason on every line.',
+      returns:'ranked answer + citations', best:'screening, shortlisting, ranking', file:'request.sh',
       code:`curl -X POST https://api.pestren.com/v1/ask \\
   -H <span class="t-str">"Authorization: Bearer $PESTREN_TOKEN"</span> \\
-  -d '{<span class="t-key">"lat"</span>:<span class="t-num">4.5700</span>,<span class="t-key">"lng"</span>:<span class="t-num">-75.6600</span>,<span class="t-key">"crop"</span>:<span class="t-str">"coffee"</span>,
-       <span class="t-key">"question"</span>:<span class="t-str">"Irrigation and rust risk this week?"</span>}'` },
-    { method:'POST', mc:'m-post', ep:'/v1/fetch', summary:'Exact fields at any coordinate.',
-      body:'Skip the language layer. Ask for named fields at a point or polygon anywhere on earth and get structured values back, each with its own source, timestamp, and confidence tier.',
+  -d '{<span class="t-key">"parcels"</span>:[<span class="t-str">"06037-2219-004"</span>,<span class="t-str">"06037-2219-011"</span>,<span class="t-str">"06037-2220-007"</span>],
+       <span class="t-key">"question"</span>:<span class="t-str">"Rank these by wildfire hazard, lowest risk first."</span>}'` },
+    { method:'POST', mc:'m-post', ep:'/v1/fetch', summary:'Named fields for a parcel, or every parcel that matches.',
+      body:'Everything on one parcel — crop history, county, flood reports filed — or only the parcels meeting a criteria set. No language layer. Each value carries its source, date and tier.',
       returns:'fields + per-field provenance', best:'pipelines, scoring, training data', file:'request.sh',
       code:`curl -X POST https://api.pestren.com/v1/fetch \\
   -H <span class="t-str">"Authorization: Bearer $PESTREN_TOKEN"</span> \\
-  -d '{<span class="t-key">"lat"</span>:<span class="t-num">4.5700</span>,<span class="t-key">"lng"</span>:<span class="t-num">-75.6600</span>,
-       <span class="t-key">"fields"</span>:[<span class="t-str">"crop"</span>,<span class="t-str">"soil"</span>,<span class="t-str">"rainfall_7d"</span>,<span class="t-str">"ndvi"</span>,<span class="t-str">"risk"</span>,<span class="t-str">"field_polygon"</span>]}'` },
-    { method:'SKILL', mc:'m-skill', ep:'skills/', summary:'Drop-in skill files any agent can load.',
-      body:'Reusable skill files any agent can load — crop agronomy and cross-crop practices, each with stages, thresholds, and sources baked in. Works with Claude/GPT skills and custom stacks.',
-      returns:'crop + practice skill files', best:'Claude/GPT skills, custom stacks', file:'skills/',
-      code:`skills/
-  <span class="t-key">crop.&lt;name&gt;.skill.md</span>      <span class="t-com"># agronomy, stages, thresholds, sources</span>
-  <span class="t-key">practice.irrigation.md</span>    <span class="t-com"># method skills, reusable across crops</span>` },
+  -d '{<span class="t-key">"parcels"</span>:[<span class="t-str">"06037-2219-004"</span>],
+       <span class="t-key">"fields"</span>:[<span class="t-str">"crop_history"</span>,<span class="t-str">"county"</span>,<span class="t-str">"flood_history"</span>,<span class="t-str">"soil"</span>]}'` },
     { method:'MCP', mc:'m-mcp', ep:'pestren-mcp', summary:'Same primitives, native to your agent.',
-      body:'Drop Pestren into any MCP-aware model. Two tools: pestren_ask and pestren_fetch. Zero install — uvx fetches the package on demand. Citations flow through like any other tool call.',
+      body:'Drop Pestren into any MCP-aware model. Two tools, pestren_ask and pestren_fetch. Zero install — uvx pulls the package on demand. Citations flow through like any other tool call.',
       returns:'pestren_ask + pestren_fetch', best:'any MCP-aware model', file:'mcp.config.json',
-      code:`{ <span class="t-key">"mcpServers"</span>: { <span class="t-key">"pestren"</span>: { <span class="t-key">"command"</span>: <span class="t-str">"uvx"</span>, <span class="t-key">"args"</span>: [<span class="t-str">"pestren-mcp"</span>] } } }` }
+      code:`{ <span class="t-key">"mcpServers"</span>: { <span class="t-key">"pestren"</span>: { <span class="t-key">"command"</span>: <span class="t-str">"uvx"</span>, <span class="t-key">"args"</span>: [<span class="t-str">"pestren-mcp"</span>] } } }` },
+    { method:'WEB', mc:'m-app', ep:'interface.pestren.com', summary:'The whole thing, without writing any code.',
+      body:'Ask in the browser, screen a list, compare parcels side by side, open the source behind any line. The same evidence the API returns, in a report you can hand to a client.',
+      returns:'cited reports + comparisons', best:'teams that do not build', file:'interface.pestren.com',
+      code:`<span class="t-com">ask</span>     <span class="t-str">"Which of these 80 parcels allow 40 units an acre?"</span>
+<span class="t-com">get</span>     a cited shortlist, and the reason each one was dropped
+<span class="t-com">open</span>    the source behind any line
+<span class="t-com">share</span>   the report, citations attached`},
+    { method:'FILES', mc:'m-skill', ep:'exports/', summary:'Take it away as a spreadsheet, a GIS layer, or JSON.',
+      body:'A spreadsheet the team carries on the site visit, a GeoJSON layer for the GIS, JSON with provenance for the pipeline. Same evidence, same citations, in whatever file the next person opens.',
+      returns:'XLSX, CSV, GeoJSON, JSON', best:'site visits, GIS, team handover', file:'exports/',
+      code:`exports/
+  <span class="t-key">parcels.xlsx</span>           <span class="t-com"># a row per parcel, every field, source in the cell</span>
+  <span class="t-key">boundaries.geojson</span>     <span class="t-com"># ready for QGIS or ArcGIS</span>
+  <span class="t-key">parcel.&lt;id&gt;.json</span>       <span class="t-com"># fields + per-field provenance</span>
+skills/
+  <span class="t-key">crop.&lt;name&gt;.skill.md</span>   <span class="t-com"># agronomy, stages, thresholds, sources</span>` }
   ];
   const sel = document.getElementById('intSel');
   const rail = document.getElementById('intRail');
