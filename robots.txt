@@ -1,0 +1,36 @@
+# pestren.com
+# Everything here is public marketing copy. Crawl it.
+
+User-agent: *
+Allow: /
+
+# Answer engines and AI crawlers are welcome too. The whole point of this
+# site is that Pestren's answers carry citations, so being cited is the goal.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://pestren.com/sitemap.xml
