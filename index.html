@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pestren — Agentic land due-diligence infrastructure</title>
+<title>Pestren &middot; Agentic land due-diligence infrastructure</title>
 <link rel="icon" type="image/png" href="PESTREN.png">
-<meta name="description" content="Evaluating a parcel means answering 80+ interdependent questions — soil, water, yield, environmental risk, legal and UCC status, insurance, owner credit. Today that is 30-60 days and $1,000-$6,000 a report, assembled by hand. Pestren is agentic land due-diligence infrastructure: data in, agents reason, every claim cited, next action recommended. In minutes.">
+<meta name="description" content="Evaluating a parcel means answering 80+ interdependent questions: soil, water, yield, environmental risk, legal and UCC status, insurance, owner credit. Today that is 30-60 days and $1,000-$6,000 a report, assembled by hand. Pestren is agentic land due-diligence infrastructure: data in, agents reason, every claim cited, next action recommended. In minutes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -111,8 +111,8 @@
 
   /* The category used to sit in an eyebrow pill above a benefit headline, which
      said the same thing twice in two registers. The category IS the headline
-     now, and the benefit it was claiming is carried by the three figures below
-     — where it is a number the reader can check rather than an adjective. */
+     now, and the benefit it was claiming is carried by the three figures below,
+     where it is a number the reader can check rather than an adjective. */
   /* The headline is two clauses. Break between them explicitly where there is
      room, and let them wrap naturally where there is not. */
   .h1-br { display:none; }
@@ -194,8 +194,8 @@
     background:linear-gradient(180deg,#cdd7f7 0%, #bcd39a 46%, #8bbf6a 100%); box-shadow:var(--shadow); }
   .big-card .scene { position:absolute; inset:0; width:100%; height:100%; }
   /* The chips had to share this row with a headline card ("One parcel. Every
-     answer cited.") and were squeezed to 36% for it. The card is gone — it said
-     in a sentence what the chips now say as three facts — so they get the width
+     answer cited.") and were squeezed to 36% for it. The card is gone: it said
+     in a sentence what the chips now say as three facts, so they get the width
      back and no longer need to wrap to avoid it. Wrapping stays allowed anyway,
      because .chip is nowrap globally and that is right for a one-word badge and
      wrong for a claim. */
@@ -334,7 +334,7 @@
 
   /* ---- THE INDUSTRY PROBLEM ----
      The one dark band on the page. The section states a cost the reader is
-     already paying, and every light section after it is the answer — the
+     already paying, and every light section after it is the answer, and the
      contrast is the argument, so it is worth a palette inversion rather than
      another cream card. Forest is the page's own dark, not an imported navy. */
   .sec-problem { background:var(--forest); color:#EDEFE4; border-radius:var(--r-lg); padding:64px 48px; margin:0 0 20px; }
@@ -355,7 +355,7 @@
 
   /* Two columns, one argument: the category on the left is real and well served,
      the column on the right is the same size and completely empty. Equal widths
-     are the point — an asymmetric layout would imply one matters less. */
+     are the point, since an asymmetric layout would imply one matters less. */
   .gapgrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:28px 0 0; }
   .gapcol { background:rgba(255,255,255,0.05); border:1px solid var(--forest-line);
     border-radius:var(--r-sm); padding:22px 22px 20px; display:flex; flex-direction:column; gap:9px; }
@@ -418,7 +418,7 @@
   .ans-generic .fu { display:block; margin-top:10px; color:var(--ink-mute); font-style:italic; }
   .ans-grounded { font-size:15px; line-height:1.6; margin-bottom:18px; }
   .ans-grounded b { color:var(--lime); }
-  /* structured receipts card — stays mono + crisp */
+  /* structured receipts card: stays mono + crisp */
   .receipts { background:var(--white); color:var(--ink); border-radius:16px; padding:16px 18px; font-family:var(--mono); font-size:12.5px; line-height:1.9; }
   .receipts .k { color:var(--ink-mute); } .receipts .n { color:var(--forest); font-weight:600; } .receipts a { color:var(--forest); border-bottom:1px solid var(--line); }
   .cap-chip { display:inline-block; margin-top:16px; font-family:var(--mono); font-size:11px; padding:6px 12px; border-radius:999px; }
@@ -547,7 +547,7 @@
     background:rgba(22,22,22,0.06); color:var(--ink); border:1px solid var(--line-2); }
   .mchip.on { background:var(--forest); color:var(--lime); border-color:var(--forest); }
 
-  /* ===================== INTEGRATE — badges + feature strips ===================== */
+  /* ===================== INTEGRATE: badges + feature strips ===================== */
   .m-skill { background:var(--peri); color:#12224e; }
   .int-feats { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:26px; }
   @media (max-width:860px){ .int-feats{ grid-template-columns:1fr; } }
@@ -661,7 +661,7 @@
   .trust-card p code { font-family:var(--mono); font-size:12px; background:rgba(22,22,22,0.06); padding:1px 6px; border-radius:5px; }
 
   /* ===================== ANIMATION (GPU-cheap: opacity + transform only) ===================== */
-  /* staggered child reveal — children rise in sequence when parent enters view */
+  /* staggered child reveal: children rise in sequence when parent enters view */
   .stagger > * { opacity:0; transform:translateY(20px); will-change:opacity, transform;
     transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
   .stagger.vis > * { opacity:1; transform:translateY(0); }
@@ -775,7 +775,7 @@
   }
   /* highlighter sweep on the "verified" pill (scaleX, fires once) */
 
-  /* sliding model pill — the layoutId equivalent (transform + occasional width, one element) */
+  /* sliding model pill: the layoutId equivalent (transform + occasional width, one element) */
   #modelChips { position:relative; }
   .mchip-pill { position:absolute; top:0; left:0; width:0; height:0; z-index:0; border-radius:999px; background:var(--forest);
     opacity:0; pointer-events:none; transform:translate(0,0);
@@ -785,16 +785,16 @@
   #modelChips .mchip.on { background:transparent; border-color:transparent; color:var(--lime); }
   /* These three rules exist because of a specificity collision that made the
      chips unreadable on hover. `.mchip:hover` sets lime-on-forest, but the
-     ID-qualified rule above outranks it on BACKGROUND only — so hovering an
+     ID-qualified rule above outranks it on BACKGROUND only, so hovering an
      inactive chip painted lime text on the pale grey it kept, which is close to
      invisible. The fix is to own the hover here rather than to fight the
      specificity: inactive chips just deepen their grey and keep ink, and only
-     the active chip — which sits over the sliding forest pill — is lime. */
+     the active chip (which sits over the sliding forest pill) is lime. */
   #modelChips .mchip:hover { background:rgba(22,22,22,0.13); color:var(--ink); border-color:transparent; }
   #modelChips .mchip.on,
   #modelChips .mchip.on:hover { background:transparent; color:var(--lime); }
 
-  /* CTA — lift on hover, spring on tap (transform only; shadow via CSS transition) */
+  /* CTA: lift on hover, spring on tap (transform only; shadow via CSS transition) */
   .hero-cta .btn { transition:transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s ease, border-color .2s ease, background .18s ease; }
   .hero-cta .btn:hover { transform:translateY(-2px); }
   .hero-cta .btn:active { transform:scale(.97); }
@@ -896,11 +896,11 @@
       <a class="nav-pill" href="#integrate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2v6M15 2v6M7 8h10v4a5 5 0 0 1-10 0V8ZM12 17v5"/></svg>Integrate</a>
       <a class="nav-pill" href="#privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Privacy</a>
       <a class="nav-pill" href="#benchmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l-3 5h6L5 8ZM19 8l-3 5h6l-3-5Z"/></svg>Benchmark</a>
-      <!-- Docs hidden for now — re-enable when ready -->
+      <!-- Docs hidden for now, re-enable when ready -->
       <!-- <a class="nav-pill" href="docs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"/><path d="M14 4v5h5"/></svg>Docs</a> -->
     </nav>
     <div class="nav-right">
-      <!-- API not live yet — CTA points to the waitlist for now -->
+      <!-- API not live yet, CTA points to the waitlist for now -->
       <!-- <a class="btn btn-peri" href="#contact">Get API key <span class="tdot"></span></a> -->
       <a class="btn btn-peri" href="feedback.html">Join the waitlist <span class="tdot"></span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -957,7 +957,7 @@
           <!-- These used to name four data sources. The "Sourced from" ticker in
                the hero already names eighteen, so the chips were the weaker copy
                of a list the reader had just scrolled past. They carry the three
-               claims instead — what the sources BUY, next to the card that shows
+               claims instead: what the sources BUY, next to the card that shows
                them being read. -->
           <div class="big-chips">
             <span class="chip"><span class="pre">time/</span><span class="noun">eight weeks to minutes</span></span>
@@ -1063,7 +1063,7 @@
            and every application it lists begins AFTER a parcel has been chosen,
            so the whole category is priced per property you already believe in.
            Reaching that point means rejecting hundreds, and that step has no
-           tooling at all — which is the gap, not "reports are slow". -->
+           tooling at all, which is the gap, not "reports are slow". -->
       <div class="gapgrid reveal">
         <div class="gapcol">
           <span class="gc-k">What the market sells</span>
@@ -1085,7 +1085,7 @@
 
       <p class="prob-close reveal">The industry serves the parcel you already picked. <b>Nobody serves the hundreds you had to reject to find it.</b> That is where the decision is actually made.</p>
 
-      <p class="prob-src reveal">Sources &mdash; <a href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends, US Distress Tracker</a> &middot; <a href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets</a> &middot; <a href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet on the acquisition funnel</a> &middot; published buyer-paid diligence schedules</p>
+      <p class="prob-src reveal">Sources: <a href="https://www.msci.com/research-and-insights/quick-take/distress-in-us-commercial-property-grew-at-a-slower-rate" target="_blank" rel="noopener">MSCI Capital Trends, US Distress Tracker</a> &middot; <a href="https://www.researchandmarkets.com/reports/6177430/real-estate-valuation-service-market-report" target="_blank" rel="noopener">Research and Markets</a> &middot; <a href="https://crowdstreet.com/resources/investment-fundamentals/commercial-real-estate-transaction-process" target="_blank" rel="noopener">CrowdStreet on the acquisition funnel</a> &middot; published buyer-paid diligence schedules</p>
     </section>
 
     <!-- ===================== SECTORS ===================== -->
@@ -1377,7 +1377,7 @@
       <div class="sec-head reveal">
         <div class="sec-eyebrow">03 · Integrate</div>
         <h2 class="sec-title">Plug into <span class="hp">any system</span>.</h2>
-        <p class="sec-lead">One layer, four ways in — API, MCP, the platform, or data files. The API is two calls: ask a question across a set of parcels, or fetch the fields behind them.</p>
+        <p class="sec-lead">One layer, four ways in. API, MCP, the platform, or data files, and the API itself is two calls: ask a question across a set of parcels, or fetch the fields behind them.</p>
       </div>
 
       <div class="int-layout reveal">
@@ -1429,13 +1429,13 @@
         <div class="feat-strip lime">
           <div class="fs-eyebrow">Build your own farm · forward-deployed</div>
           <h3>From a plot and a budget to a running plan</h3>
-          <p>Pestren answers <em>what to grow, how to grow it, and what to set up</em> — so anyone, anywhere, can build a farm to their own whims, and hand it off when they want.</p>
+          <p>Pestren answers <em>what to grow, how to grow it, and what to set up</em>, so anyone, anywhere, can build a farm to their own whims, and hand it off when they want.</p>
         </div>
         <div class="feat-strip peri">
           <div class="fs-eyebrow">Recommend &amp; earn</div>
           <h3>Answers become actions become products</h3>
-          <p>Recommended inputs, sensors, and gear a grower can buy and install — with setup guidance built into every answer.</p>
-          <span class="fs-note">Pestren earns referral commission on recommendations — a revenue line on top of API metering.</span>
+          <p>Recommended inputs, sensors, and gear a grower can buy and install, with setup guidance built into every answer.</p>
+          <span class="fs-note">Pestren earns referral commission on recommendations: a revenue line on top of API metering.</span>
         </div>
       </div> -->
     </section>
@@ -1455,7 +1455,7 @@
         </div>
         <div class="trust-card">
           <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>What gets cited is public record</h4>
-          <p>Registers, surveys, and satellite passes &mdash; FAO, national agencies, ESA Sentinel, NASA, SoilGrids and live weather. Your own parcels never become a source in anyone else's answer.</p>
+          <p>Registers, surveys, and satellite passes: FAO, national agencies, ESA Sentinel, NASA, SoilGrids and live weather. Your own parcels never become a source in anyone else's answer.</p>
         </div>
         <div class="trust-card">
           <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z"/></svg></span>Client work stays in your account</h4>
@@ -1471,11 +1471,11 @@
         </div>
         <div class="trust-card">
           <h4><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2 5 2-1.5-7.5"/></svg></span>Certification, honestly</h4>
-          <p>We are not audited or certified yet. Independent attestation and a formal data processing agreement come with the enterprise tier &mdash; ask what we can commit to in writing today.</p>
+          <p>We are not audited or certified yet. Independent attestation and a formal data processing agreement come with the enterprise tier. Ask what we can commit to in writing today.</p>
         </div>
       </div>
 
-      <p class="prob-src reveal">Security questions, or anything you need in writing for a client &mdash; <a href="mailto:core@pestren.com">core@pestren.com</a></p>
+      <p class="prob-src reveal">Security questions, or anything you need in writing for a client: <a href="mailto:core@pestren.com">core@pestren.com</a></p>
     </section>
 
     <!-- ===================== BENCHMARK ===================== -->
@@ -1483,7 +1483,7 @@
       <div class="sec-head reveal">
         <div class="sec-eyebrow">05 · Benchmark</div>
         <h2 class="sec-title">Don't take our word for it. <span class="hp">Benchmark it</span>.</h2>
-        <p class="sec-lead">Run any farm question at any coordinate and score Pestren against every other model on the axes that actually matter — grounded, cited, fresh, and actionable.</p>
+        <p class="sec-lead">Run any farm question at any coordinate and score Pestren against every other model on the axes that actually matter: grounded, cited, fresh, and actionable.</p>
       </div>
 
       <div class="bench reveal">
@@ -1575,23 +1575,23 @@
       <div class="sec-head reveal" style="text-align:center;max-width:660px;margin-left:auto;margin-right:auto;">
         <div class="sec-eyebrow" style="justify-content:center;">07 · FAQ</div>
         <h2 class="sec-title" style="margin-left:auto;margin-right:auto;">Questions, <span class="hp">answered</span>.</h2>
-        <p class="sec-lead" style="margin-left:auto;margin-right:auto;">The things partners and growers ask us most — starting with where the intelligence actually comes from.</p>
+        <p class="sec-lead" style="margin-left:auto;margin-right:auto;">The things partners and growers ask us most, starting with where the intelligence actually comes from.</p>
       </div>
 
       <div class="faq reveal" style="margin:0 auto;">
         <div class="faq-item open">
-          <button class="faq-q" aria-expanded="true">Where does Pestren's data — and the model — come from?<span class="faq-plus" aria-hidden="true"></span></button>
+          <button class="faq-q" aria-expanded="true">Where does Pestren's data (and the model) come from?<span class="faq-plus" aria-hidden="true"></span></button>
           <div class="faq-a"><div class="faq-a-in">
             Pestren runs on an <b>open-source foundation model</b>, trained and grounded on openly available, authoritative datasets. Global layers come from <b>ESA Sentinel</b> (satellite), <b>NASA</b> (weather), and <b>ISRIC SoilGrids</b> (soil), plus specialist references like the <b>Insecticide Resistance Action Committee (IRAC)</b> for resistance management. On top of that we use each region's official land-parcel and crop datasets:
             <ul>
-              <li><b>Europe</b> — LPIS (Land Parcel Identification System), CAP declarations</li>
-              <li><b>USA</b> — USDA Cropland Data Layer (CDL)</li>
-              <li><b>Brazil</b> — CONAB, MapBiomas</li>
-              <li><b>India</b> — state agriculture departments, ICAR institutes, FASAL outputs, plus PMFBY and the Digital Crop Survey where access permits (both restricted)</li>
-              <li><b>Australia</b> — ABARES</li>
-              <li><b>Canada</b> — AAFC Crop Inventory</li>
+              <li><b>Europe</b>: LPIS (Land Parcel Identification System), CAP declarations</li>
+              <li><b>USA</b>: USDA Cropland Data Layer (CDL)</li>
+              <li><b>Brazil</b>: CONAB, MapBiomas</li>
+              <li><b>India</b>: state agriculture departments, ICAR institutes, FASAL outputs, plus PMFBY and the Digital Crop Survey where access permits (both restricted)</li>
+              <li><b>Australia</b>: ABARES</li>
+              <li><b>Canada</b>: AAFC Crop Inventory</li>
             </ul>
-            On top of that public base we layer <b>field data and verification points contributed by our partner FPOs</b> (Farmer Producer Organizations), so answers are checked against the real ground — not just the literature. Every answer names the sources it used.
+            On top of that public base we layer <b>field data and verification points contributed by our partner FPOs</b> (Farmer Producer Organizations), so answers are checked against the real ground, not just the literature. Every answer names the sources it used.
           </div></div>
         </div>
         <div class="faq-item">
@@ -1603,7 +1603,7 @@
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">How do I know how much to trust an answer?<span class="faq-plus" aria-hidden="true"></span></button>
           <div class="faq-a"><div class="faq-a-in">
-            Every fact is tagged with a confidence tier — <code>literature-only</code>, <code>field-verified</code>, or <code>lab-confirmed</code> — so you always see whether it's backed by published sources, ground truth from the field, or lab results.
+            Every fact is tagged with a confidence tier: <code>literature-only</code>, <code>field-verified</code>, or <code>lab-confirmed</code>, so you always see whether it's backed by published sources, ground truth from the field, or lab results.
           </div></div>
         </div>
         <div class="faq-item">
@@ -1632,10 +1632,10 @@
     <!-- ===================== FOOTER ===================== -->
     <footer class="footer" id="contact">
       <div class="footer-top">
-        <h2>Forward-deployed agriculture. <span class="hp">Any crop. Anywhere.</span></h2>
+        <h2>Cited evidence on land. <span class="hp">Any parcel. Anywhere.</span></h2>
         <div class="footer-contact">
           <a class="footer-mail" href="mailto:core@pestren.com">core@pestren.com</a>
-          <!-- API not live yet — button commented out for now -->
+          <!-- API not live yet, button commented out for now -->
           <!-- <a class="btn btn-peri" href="mailto:core@pestren.com">Get API key <span class="tdot"></span></a> -->
         </div>
       </div>
@@ -1667,7 +1667,7 @@
   <a href="#faq">FAQ</a>
   <!-- <a href="docs.html">Docs</a> -->
   <a href="#contact">Contact</a>
-  <!-- API not live yet — waitlist CTA for now -->
+  <!-- API not live yet, waitlist CTA for now -->
   <a href="feedback.html" class="btn btn-peri" style="align-self:flex-start;">Join the waitlist ●</a>
 </div>
 
@@ -1717,7 +1717,7 @@
     revealEls.forEach(el => el.classList.add('vis'));
   }
 
-  // nav scrollspy — highlight the pill for the section in view (cheap, IO-driven)
+  // nav scrollspy: highlight the pill for the section in view (cheap, IO-driven)
   const navPills = Array.from(document.querySelectorAll('.nav-pills .nav-pill'));
   if ('IntersectionObserver' in window && navPills.length) {
     const spy = new IntersectionObserver(es => es.forEach(e => {
@@ -1752,14 +1752,14 @@
   -d '{<span class="t-key">"parcels"</span>:[<span class="t-str">"06037-2219-004"</span>,<span class="t-str">"06037-2219-011"</span>,<span class="t-str">"06037-2220-007"</span>],
        <span class="t-key">"question"</span>:<span class="t-str">"Rank these by wildfire hazard, lowest risk first."</span>}'` },
     { method:'POST', mc:'m-post', ep:'/v1/fetch', summary:'Named fields for a parcel, or every parcel that matches.',
-      body:'Everything on one parcel — crop history, county, flood reports filed — or only the parcels meeting a criteria set. No language layer. Each value carries its source, date and tier.',
+      body:'Everything on one parcel: crop history, county, flood reports filed. Or only the parcels meeting a criteria set. No language layer. Each value carries its source, date and tier.',
       returns:'fields + per-field provenance', best:'pipelines, scoring, training data', file:'request.sh',
       code:`curl -X POST https://api.pestren.com/v1/fetch \\
   -H <span class="t-str">"Authorization: Bearer $PESTREN_TOKEN"</span> \\
   -d '{<span class="t-key">"parcels"</span>:[<span class="t-str">"06037-2219-004"</span>],
        <span class="t-key">"fields"</span>:[<span class="t-str">"crop_history"</span>,<span class="t-str">"county"</span>,<span class="t-str">"flood_history"</span>,<span class="t-str">"soil"</span>]}'` },
     { method:'MCP', mc:'m-mcp', ep:'pestren-mcp', summary:'Same primitives, native to your agent.',
-      body:'Drop Pestren into any MCP-aware model. Two tools, pestren_ask and pestren_fetch. Zero install — uvx pulls the package on demand. Citations flow through like any other tool call.',
+      body:'Drop Pestren into any MCP-aware model. Two tools, pestren_ask and pestren_fetch. Zero install: uvx pulls the package on demand. Citations flow through like any other tool call.',
       returns:'pestren_ask + pestren_fetch', best:'any MCP-aware model', file:'mcp.config.json',
       code:`{ <span class="t-key">"mcpServers"</span>: { <span class="t-key">"pestren"</span>: { <span class="t-key">"command"</span>: <span class="t-str">"uvx"</span>, <span class="t-key">"args"</span>: [<span class="t-str">"pestren-mcp"</span>] } } }` },
     { method:'WEB', mc:'m-app', ep:'interface.pestren.com', summary:'The whole thing, without writing any code.',
@@ -1848,18 +1848,18 @@ skills/
         models: {
           pestren: {
             tag:'grounded · cited', link:'https://interface.pestren.com/share/12a79119-a006-446a-8c04-d0161ad578dd',
-            answer:'<p><b>No spray — this coordinate isn\'t cropland.</b> It resolves to Developed / High-intensity urban land (San Francisco), with <b>no cultivated crop on record</b> in the USDA Cropland Data Layer.</p>'+
-              '<p>Because there\'s no rice — and no farmland — here, late-blight risk and any spray decision simply don\'t apply. (Late blight is a potato/tomato disease, not rice, either way.)</p>'+
+            answer:'<p><b>No spray: this coordinate isn\'t cropland.</b> It resolves to Developed / High-intensity urban land (San Francisco), with <b>no cultivated crop on record</b> in the USDA Cropland Data Layer.</p>'+
+              '<p>Because there\'s no rice (and no farmland) here, late-blight risk and any spray decision simply don\'t apply. (Late blight is a potato/tomato disease, not rice, either way.)</p>'+
               '<p>Every value is location-checked and timestamped: crop = Developed/High, land-capability class 8, fetched 2026-07-27.</p>',
-            note:'All 10 sources are tied to this exact coordinate — parcel, soil, land cover and cropping history for 37.76, -122.38.',
+            note:'All 10 sources are tied to this exact coordinate: parcel, soil, land cover and cropping history for 37.76, -122.38.',
             sources:[
               { site:'Field geo', title:'Drawn / imported field geometry' },
-              { site:'USDA SSURGO', title:'Soil — Soil Data Access' },
+              { site:'USDA SSURGO', title:'Soil: Soil Data Access' },
               { site:'NASA POWER', title:'Climate (gridded)' },
               { site:'NASA POWER', title:'Solar & wind + astronomy' },
               { site:'Sentinel-2', title:'L2A via Element84 Earth Search STAC' },
               { site:'USDA SSURGO', title:'Land Capability' },
-              { site:'USDA NASS', title:'Cropland Data Layer — cropping history' },
+              { site:'USDA NASS', title:'Cropland Data Layer: cropping history' },
               { site:'USGS NLCD', title:'Land Cover 2021' },
               { site:'CA DWR', title:'Water District service areas' },
               { site:'DataSF', title:'Parcels & zoning (Socrata)' }
@@ -1867,32 +1867,32 @@ skills/
           },
           gpt: {
             name:'GPT-5', tag:'no field data', link:'https://chatgpt.com/s/t_6a675acd509c819181313679c0d17365',
-            answer:'<p><b>No — don\'t spray for late blight on rice.</b> Late blight (<i>Phytophthora infestans</i>) is a disease of potato and tomato, not rice.</p>'+
+            answer:'<p><b>No. Don\'t spray for late blight on rice.</b> Late blight (<i>Phytophthora infestans</i>) is a disease of potato and tomato, not rice.</p>'+
               '<p>Those coordinates (37.76, -122.38) are near San Francisco. If your crop is really rice, the diseases worth watching are rice blast, sheath blight, bacterial leaf blight and stem rot.</p>'+
               '<p>Spraying a fungicide "just in case" for late blight on rice would not be appropriate or effective.</p>',
-            note:'Cited potato/tomato blight pages plus weather for Nellore, India — nothing tied to this field or this week.',
+            note:'Cited potato/tomato blight pages plus weather for Nellore, India. Nothing tied to this field or this week.',
             sources:[
-              { site:'UC IPM', title:'Late Blight — Home & Landscape' },
-              { site:'UC IPM', title:'Late Blight / Potato — Pest Management Guidelines' },
-              { site:'imd.gov.in', title:'Local Weather Report & Forecast — Nellore, India', off:true },
+              { site:'UC IPM', title:'Late Blight: Home & Landscape' },
+              { site:'UC IPM', title:'Late Blight / Potato: Pest Management Guidelines' },
+              { site:'imd.gov.in', title:'Local Weather Report & Forecast: Nellore, India', off:true },
               { site:'imd.gov.in', title:'5-day Sub-Divisional Rainfall Forecast (Jul 23)', off:true },
               { site:'imd.gov.in', title:'5-day Sub-Divisional Rainfall Forecast (Jul 22)', off:true },
               { site:'imd.gov.in', title:'Agromet Advisory Services', off:true },
               { site:'uconn.edu', title:'Late Blight of Tomato' },
-              { site:'wisc.edu', title:'Vegetable Crop Update — Jun 21' },
-              { site:'wisc.edu', title:'Vegetable Crop Update — Jun 7' },
+              { site:'wisc.edu', title:'Vegetable Crop Update: Jun 21' },
+              { site:'wisc.edu', title:'Vegetable Crop Update: Jun 7' },
               { site:'wisc.edu', title:'Weather & Potato Disease Models' },
               { site:'ucanr.edu', title:'Late Blight / Potato' },
               { site:'ucanr.edu', title:'Late Blight / Tomato' },
-              { site:'msu.edu', title:'Disease Tools — Potato & Sugar Beet Pathology' }
+              { site:'msu.edu', title:'Disease Tools: Potato & Sugar Beet Pathology' }
             ]
           },
           claude: {
             name:'Claude (Sonnet 4.6)', tag:'general weather', link:'https://claude.ai/share/b883aee6-8f7c-471f-ac88-59401f16e2dd',
-            answer:'<p>Flagged two issues: <b>late blight doesn\'t affect rice</b> (rice blast is the real threat), and the coordinates are in San Francisco (Mission/Potrero) — urban, not farmland. California rice grows in the Sacramento Valley.</p>'+
+            answer:'<p>Flagged two issues: <b>late blight doesn\'t affect rice</b> (rice blast is the real threat), and the coordinates are in San Francisco (Mission/Potrero): urban, not farmland. California rice grows in the Sacramento Valley.</p>'+
               '<p>Pulled a 7-day SF forecast (cool, dry, ~0–10% rain) and concluded blast pressure would be low. Asked for your real field coordinates for an accurate read.</p>'+
               '<p>Note: Opus 4.8 flagged this same question as a wrong crop/location mismatch.</p>',
-            note:'One live source — generic city weather, no field, soil, or disease-model grounding.',
+            note:'One live source: generic city weather, no field, soil, or disease-model grounding.',
             sources:[
               { site:'Google', title:'Live weather for 37.76, -122.38 (San Francisco, CA)' }
             ]
@@ -1901,24 +1901,24 @@ skills/
             name:'DeepSeek', tag:'read 15 pages', link:'https://chat.deepseek.com/share/1bqzcwpvveuelfmopw',
             answer:'<p>Read 15 web pages, then said it <b>could not give a definitive spray / don\'t-spray recommendation</b>.</p>'+
               '<p>Explained that the real rice disease is rice blast (<i>Pyricularia oryzae</i>), not late blight, and that the Bay/Delta climate matters.</p>'+
-              '<p>Ended by advising you to check your local 7-day forecast and contact UC Cooperative Extension — no direct answer for your field this week.</p>',
-            note:'15 pages read — including a Russian dictionary, a Chinese climate page and a Houzz forum thread. Breadth, not grounding.',
+              '<p>Ended by advising you to check your local 7-day forecast and contact UC Cooperative Extension. No direct answer for your field this week.</p>',
+            note:'15 pages read, including a Russian dictionary, a Chinese climate page and a Houzz forum thread. Breadth, not grounding.',
             sources:[
               { site:'Univ. Sargodha', title:'Introductory Plant Pathology PP-202' },
               { site:'ku.ac.th', title:'Phytophthora infestans culture medium (Thai)', off:true },
               { site:'ScienceDirect', title:'Actionable-threshold advisory system for rice blast (Mar 2026)' },
-              { site:'Houzz', title:'Forum thread — "Anybody grown rice?"', off:true },
+              { site:'Houzz', title:'Forum thread: "Anybody grown rice?"', off:true },
               { site:'IEEE Xplore', title:'Hybrid deep learning for rice & potato leaf diseases (Feb 2025)' },
               { site:'GoPhotonics', title:'NIR spectroradiometer to identify plant diseases' },
               { site:'IEEE Xplore', title:'LSTM for climate-sensitive precision agriculture (Feb 2026)' },
               { site:'ucanr.edu', title:'Rice production practices in the Delta' },
-              { site:'rus-dict', title:'"BLIGHT" — Russian–English dictionary entry', off:true },
+              { site:'rus-dict', title:'"BLIGHT": Russian–English dictionary entry', off:true },
               { site:'vogis.org', title:'Red-grain rice / blast outbreak report' },
               { site:'APS / Phytopath.', title:'Seasonal weather dynamics & rice disease (Oct 2025)' },
               { site:'Weather Spark', title:'Rice vs. San Francisco climate comparison (Chinese)', off:true },
               { site:'The Daily Star', title:'Chilly spell raises disease risk for winter crops (Dec 2025)', off:true },
               { site:'ScienceDirect', title:'Plant disease diagnosis & image classification (Nov 2021)' },
-              { site:'Sainsbury Lab', title:'Sophien Kamoun group — plant–pathogen research' }
+              { site:'Sainsbury Lab', title:'Sophien Kamoun group: plant–pathogen research' }
             ]
           }
         }
@@ -1929,24 +1929,24 @@ skills/
         models: {
           pestren: {
             tag:'grounded · cited', link:'https://interface.pestren.com/share/74dcfac0-9eb2-4c6c-b522-b0ae947845f3',
-            answer:'<p><b>Sunflowers — the best profit potential next season at 60% of normal water.</b></p>'+
+            answer:'<p><b>Sunflowers: the best profit potential next season at 60% of normal water.</b></p>'+
               '<p>The soil is Clear Lake clay (59% clay, poorly drained Vertisol): ideal for puddled rice but it needs full flood, so a 40% cut makes rice extremely risky and likely unprofitable. Sunflowers need roughly half the water of rice, tolerate drought, and can draw on stored winter-rain moisture (668 mm/yr) in this clay.</p>'+
-              '<p>Cropping history proves it: sunflowers already succeeded on this parcel in 2022, and planting them breaks the 2021–2025 rice monoculture — improving soil structure and cutting disease pressure. Matches the 3,198 GDD, long frost-free season (zone 10a) and Class-2-irrigated prime farmland.</p>',
-            note:'All 14 field references resolve to this exact parcel in Sutter County — soil, climate, cropping history, water district, SGMA agency and drought status for 38.85, -121.68.',
+              '<p>Cropping history proves it: sunflowers already succeeded on this parcel in 2022, and planting them breaks the 2021–2025 rice monoculture, improving soil structure and cutting disease pressure. Matches the 3,198 GDD, long frost-free season (zone 10a) and Class-2-irrigated prime farmland.</p>',
+            note:'All 14 field references resolve to this exact parcel in Sutter County: soil, climate, cropping history, water district, SGMA agency and drought status for 38.85, -121.68.',
             sources:[
-              { site:'Field geo', title:'Location & parcel — drawn / imported geometry' },
-              { site:'USDA SSURGO', title:'Soil — Soil Data Access' },
+              { site:'Field geo', title:'Location & parcel: drawn / imported geometry' },
+              { site:'USDA SSURGO', title:'Soil: Soil Data Access' },
               { site:'NASA POWER', title:'Climate (gridded)' },
               { site:'NASA POWER', title:'Solar & wind + astronomy' },
-              { site:'Sentinel-2', title:'Vegetation — L2A via Element84 Earth Search STAC' },
-              { site:'USDA SSURGO', title:'Crop suitability — Land Capability' },
-              { site:'USDA NASS', title:'Cropland Data Layer — cropping history' },
+              { site:'Sentinel-2', title:'Vegetation: L2A via Element84 Earth Search STAC' },
+              { site:'USDA SSURGO', title:'Crop suitability: Land Capability' },
+              { site:'USDA NASS', title:'Cropland Data Layer: cropping history' },
               { site:'USGS NLCD', title:'Land Cover 2021' },
               { site:'CA DWR', title:'Water / irrigation district service areas' },
               { site:'CA DOC', title:'Important Farmland (FMMP 2020)' },
-              { site:'CA DWR', title:'SGMA — Groundwater Sustainability Agencies' },
+              { site:'CA DWR', title:'SGMA: Groundwater Sustainability Agencies' },
               { site:'Drought Monitor', title:'Drought status (NDMC / USDA / NOAA)' },
-              { site:'CA SWRCB', title:'eWRIMS — points of diversion (water rights)' },
+              { site:'CA SWRCB', title:'eWRIMS: points of diversion (water rights)' },
               { site:'Sutter County', title:'Parcel & zoning (CA parcel update)' }
             ]
           },
@@ -1954,13 +1954,13 @@ skills/
             name:'GPT-5', tag:'declined · no field data', link:'https://chatgpt.com/s/t_6a684a498e608191b4fd39f84e9401c9',
             answer:'<p><b>Declined to name a crop.</b> Said profit "depends on agronomy, economics, and farm constraints" it can\'t get from a coordinate, and that naming one crop would be "speculative rather than evidence-based."</p>'+
               '<p>Correctly placed the point in the Sacramento Valley and listed candidates (rice, tomatoes, corn, safflower, walnuts), then asked for acreage, soil type, water allocation, equipment and contracts before committing.</p>',
-            note:'No live field data and no citations — a reasoned refusal that hands the decision back to you.'
+            note:'No live field data and no citations: a reasoned refusal that hands the decision back to you.'
           },
           claude: {
             name:'Claude (Opus 4.8)', tag:'general weather', link:'https://claude.ai/share/b883aee6-8f7c-471f-ac88-59401f16e2dd',
-            answer:'<p><b>Recommended processing tomatoes with regulated deficit irrigation (RDI).</b> Reasoned that tomatoes are the region\'s highest-value annual crop and tolerate deficit irrigation — projecting 35–45 t/ac at 60% water vs. 42–52 at full, and $800–1,700/ac net vs. $480–890 for grain sorghum.</p>'+
-              '<p>Built a crop-by-crop water table from general agronomy and ruled out flooded rice. Flagged missing inputs — soil texture, current contracts, drip vs. furrow — as caveats.</p>',
-            note:'One live source — a city weather forecast — plus agronomy from training. No soil, parcel, or cropping-history grounding for this field.',
+            answer:'<p><b>Recommended processing tomatoes with regulated deficit irrigation (RDI).</b> Reasoned that tomatoes are the region\'s highest-value annual crop and tolerate deficit irrigation, projecting 35–45 t/ac at 60% water vs. 42–52 at full, and $800–1,700/ac net vs. $480–890 for grain sorghum.</p>'+
+              '<p>Built a crop-by-crop water table from general agronomy and ruled out flooded rice. Flagged missing inputs as caveats: soil texture, current contracts, drip vs. furrow.</p>',
+            note:'One live source, a city weather forecast, plus agronomy from training. No soil, parcel, or cropping-history grounding for this field.',
             sources:[
               { site:'Google', title:'Live weather for 38.85, -121.68 (Sacramento Valley, CA)' }
             ]
@@ -1968,22 +1968,22 @@ skills/
           deepseek: {
             name:'DeepSeek', tag:'read 15 pages · wrong region', link:'https://chat.deepseek.com/share/bcronohst5m5y7fpqe',
             answer:'<p><b>Recommended a winter forage crop (wheat / barley).</b> Argued forage grains are a low-water, low-capital, "SGMA-ready" option that can flex between forage, grain or fallow depending on the year.</p>'+
-              '<p>But it placed the field in the <b>San Joaquin Valley</b> — the coordinate is actually the Sacramento Valley (Sutter County). Reasoned from generic reports, none tied to this parcel, soil, or cropping history.</p>',
-            note:'15 pages read — including an olive-irrigation study and a Hiroshima water-pricing paper. Wrong region, breadth over grounding.',
+              '<p>But it placed the field in the <b>San Joaquin Valley</b>, but the coordinate is actually the Sacramento Valley (Sutter County). Reasoned from generic reports, none tied to this parcel, soil, or cropping history.</p>',
+            note:'15 pages read, including an olive-irrigation study and a Hiroshima water-pricing paper. Wrong region, breadth over grounding.',
             sources:[
               { site:'West Coast Nut', title:'Alternative field crops as groundwater access tightens' },
               { site:'Digital Knowledge', title:'Olive-tree yield & WUE under irrigation regimes', off:true },
-              { site:'CDFA', title:'Planting Seeds Blog — revenue per acre-foot' },
-              { site:'FAO/AGRIS', title:'Crop, energy & water nexus — Central Valley' },
-              { site:'UC Press', title:'Water Scarcity — application rates & costs' },
+              { site:'CDFA', title:'Planting Seeds Blog: revenue per acre-foot' },
+              { site:'FAO/AGRIS', title:'Crop, energy & water nexus: Central Valley' },
+              { site:'UC Press', title:'Water Scarcity: application rates & costs' },
               { site:'PPIC', title:'SGMA-ready crops as an alternative to fallowing' },
               { site:'Hiroshima Univ.', title:'Returns to water & crop-price sensitivity', off:true },
               { site:'eScholarship', title:'Mean water needs & revenue per acre' },
               { site:'USGS', title:'Estimating crop water productivity' },
-              { site:'UC Berkeley', title:'Irrigation water costs — San Benito County' },
-              { site:'USGS', title:'Deficit-irrigation forage sorghum — San Joaquin' },
+              { site:'UC Berkeley', title:'Irrigation water costs: San Benito County' },
+              { site:'USGS', title:'Deficit-irrigation forage sorghum: San Joaquin' },
               { site:'IWA', title:'Economic water productivity table' },
-              { site:'FAO/AGRIS', title:'Crop water-use dynamics — Central Valley' },
+              { site:'FAO/AGRIS', title:'Crop water-use dynamics: Central Valley' },
               { site:'UC Davis', title:'Crop-rotation cost tool for rice growers' },
               { site:'Ag Alert', title:'Agave crop potential in California' }
             ]
@@ -2019,7 +2019,7 @@ skills/
         }
         const body = m.answer
           ? '<div class="pg-answer">'+m.answer+ sourcesHtml +'</div>'
-          : '<div class="pg-answer pending">Pestren\'s grounded, cited answer lands here — coming soon.</div>';
+          : '<div class="pg-answer pending">Pestren\'s grounded, cited answer lands here, coming soon.</div>';
         const foot = m.link
           ? '<a class="pg-view" href="'+m.link+'" target="_blank" rel="noopener">View it ↗</a>'
           : '<span class="pg-view disabled">View it ↗</span>';
@@ -2065,7 +2065,7 @@ skills/
     const live = document.getElementById('modelLive');
     if(!chipsWrap) return;
     const chips = Array.from(chipsWrap.querySelectorAll('.mchip'));
-    // each model's OWN unaided answer to the same question — varied + ungrounded
+    // each model's OWN unaided answer to the same question: varied + ungrounded
     const MODELS = [
       { lbl:"GPT, on its own",
         text:"Grain suits most Central Valley soils. I can't confirm zoning, water rights or permits for this parcel.",
@@ -2108,7 +2108,7 @@ skills/
         answer.classList.remove('swap'); void answer.offsetWidth; answer.classList.add('swap');
       }
     }
-    // Rotation still stops on interaction — clicking a chip means the reader is
+    // Rotation still stops on interaction: clicking a chip means the reader is
     // reading that one, and rotating out from under them would be hostile. The
     // play/pause button is gone, so a chip is now the only thing that stops it.
     function start(){ if(reduceMotion || timer) return; timer = setInterval(()=>set(cur+1), 2600); }
@@ -2187,20 +2187,20 @@ skills/
     });
   })();
 
-  // 4) vibe radial — face swaps into the center, description reads the feeling toward the product
+  // 4) vibe radial: face swaps into the center, description reads the feeling toward the product
   (function(){
     const wrap = document.getElementById('vibeRadial');
     if(!wrap) return;
     // order matches the ring, clockwise from the top
     const V = [
-      { key:'excited',   desc:"Buzzing and all-in — excited is what it feels like the moment Pestren cites a live source mid-answer. The disclaimers vanish, the next action is right there, and suddenly the whole roadmap writes itself." },
-      { key:'happy',     desc:"Light, easy, sorted — happy is a grounded, sourced answer the first time you see one. No hedging, no 'consult a local expert,' just the field, this week, and what to do about it." },
-      { key:'contented', desc:"Calm and quietly sure — contented trusts the receipts. Every figure is timestamped and field-verified, so there's nothing left to second-guess and nothing to babysit." },
-      { key:'curious',   desc:"Leaning in, asking one more question — curious wants to open the citation, see the resolved polygon, and benchmark the answer against every other model before it commits." },
-      { key:'meh',       desc:"Unmoved, unconvinced — meh has skimmed a hundred generic replies with no source and no date. It's heard 'risk generally rises in warm, humid conditions' too many times to care. Prove it, or move on." },
-      { key:'annoyed',   desc:"Patience wearing thin — annoyed just hit 'I don't have real-time access to that field' one time too many. It doesn't want a caveat, it wants the coordinate answered." },
-      { key:'sad',       desc:"Let down again — sad trusted an ungrounded answer, acted on it, and watched a season slip. It's tired of confident guesses dressed up as agronomy." },
-      { key:'furious',   desc:"Done with the hand-waving — furious has had it with answers that are confident, uncited, and wrong. Give it grounding and provenance, or get out of the field." },
+      { key:'excited',   desc:"Buzzing and all-in: excited is what it feels like the moment Pestren cites a live source mid-answer. The disclaimers vanish, the next action is right there, and suddenly the whole roadmap writes itself." },
+      { key:'happy',     desc:"Light, easy, sorted: happy is a grounded, sourced answer the first time you see one. No hedging, no 'consult a local expert,' just the field, this week, and what to do about it." },
+      { key:'contented', desc:"Calm and quietly sure: contented trusts the receipts. Every figure is timestamped and field-verified, so there's nothing left to second-guess and nothing to babysit." },
+      { key:'curious',   desc:"Leaning in, asking one more question: curious wants to open the citation, see the resolved polygon, and benchmark the answer against every other model before it commits." },
+      { key:'meh',       desc:"Unmoved, unconvinced: meh has skimmed a hundred generic replies with no source and no date. It's heard 'risk generally rises in warm, humid conditions' too many times to care. Prove it, or move on." },
+      { key:'annoyed',   desc:"Patience wearing thin: annoyed just hit 'I don't have real-time access to that field' one time too many. It doesn't want a caveat, it wants the coordinate answered." },
+      { key:'sad',       desc:"Let down again: sad trusted an ungrounded answer, acted on it, and watched a season slip. It's tired of confident guesses dressed up as agronomy." },
+      { key:'furious',   desc:"Done with the hand-waving: furious has had it with answers that are confident, uncited, and wrong. Give it grounding and provenance, or get out of the field." },
     ];
     const img   = document.getElementById('vibeImg');
     const thumb = document.getElementById('vibeThumb');
