@@ -328,6 +328,101 @@
     .spanel { padding:20px 18px; border-radius:var(--r); }
   }
 
+  /* ---- THE INDUSTRY PROBLEM ----
+     The one dark band on the page. The section states a cost the reader is
+     already paying, and every light section after it is the answer — the
+     contrast is the argument, so it is worth a palette inversion rather than
+     another cream card. Forest is the page's own dark, not an imported navy. */
+  .sec-problem { background:var(--forest); color:#EDEFE4; border-radius:var(--r-lg); padding:64px 48px; margin:0 0 20px; }
+  .sec-problem .sec-title { color:#FFFFFF; }
+  .sec-problem .hp { border-color:var(--lime); background:rgba(222,242,75,0.14); color:var(--lime); }
+  .sec-eyebrow.warn { color:var(--amber); }
+  .sec-eyebrow.warn::before { background:var(--amber); }
+
+  .prob-stats { list-style:none; margin:34px 0 0; padding:0;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .prob-stats li { background:rgba(255,255,255,0.05); border:1px solid var(--forest-line);
+    border-radius:var(--r-sm); padding:22px 22px 20px; display:flex; flex-direction:column; gap:7px; }
+  .ps-fig { font-family:var(--display); font-weight:700; font-size:clamp(28px,3.1vw,40px);
+    line-height:1; color:var(--lime); font-variant-numeric:tabular-nums; }
+  .prob-stats li.warn .ps-fig { color:var(--amber); }
+  .ps-lbl { font-size:14.5px; color:#EDEFE4; font-weight:500; }
+  .ps-src { font-family:var(--mono); font-size:11px; line-height:1.5; color:rgba(237,239,228,0.52); }
+
+  /* Two columns, one argument: the category on the left is real and well served,
+     the column on the right is the same size and completely empty. Equal widths
+     are the point — an asymmetric layout would imply one matters less. */
+  .gapgrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:28px 0 0; }
+  .gapcol { background:rgba(255,255,255,0.05); border:1px solid var(--forest-line);
+    border-radius:var(--r-sm); padding:22px 22px 20px; display:flex; flex-direction:column; gap:9px; }
+  /* Dashed, because this column describes something that does not exist yet. */
+  .gc-gap { border-style:dashed; border-color:rgba(222,242,75,0.42); background:rgba(222,242,75,0.05); }
+  .gc-k { font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:rgba(237,239,228,0.5); }
+  .gc-gap .gc-k { color:var(--lime); }
+  .gc-h { font-family:var(--display); font-weight:700; font-size:clamp(17px,1.7vw,21px);
+    line-height:1.2; color:#FFFFFF; text-wrap:balance; }
+  .gc-list { list-style:none; margin:2px 0 0; padding:0; display:flex; flex-direction:column; gap:5px; }
+  .gc-list li { font-family:var(--mono); font-size:11.5px; line-height:1.5; color:rgba(237,239,228,0.66); }
+  .gc-gap .gc-list li { color:var(--lime); }
+  .gc-note { margin-top:4px; font-size:13.5px; line-height:1.5; color:rgba(237,239,228,0.62); }
+
+  /* The section's punchline. It closes the argument the three figures open, so
+     it is set larger than body copy and centred against them rather than run on
+     as another paragraph. */
+  .prob-close { margin:38px auto 0; max-width:60ch; text-align:center;
+    font-family:var(--display); font-weight:600; font-size:clamp(17px,1.7vw,21px);
+    line-height:1.4; color:rgba(237,239,228,0.82); text-wrap:balance; }
+  .prob-close b { color:var(--lime); font-weight:700; }
+  .prob-src { margin:24px 0 0; text-align:center; font-family:var(--mono); font-size:11px; color:rgba(237,239,228,0.46); }
+  .prob-src a { color:rgba(237,239,228,0.72); text-decoration:underline; text-underline-offset:2px; }
+  .prob-src a:hover { color:var(--lime); }
+
+  @media (max-width:860px){
+    .sec-problem { padding:44px 26px; }
+    .prob-stats { grid-template-columns:1fr; gap:12px; }
+    .gapgrid { grid-template-columns:1fr; gap:12px; }
+  }
+  @media (max-width:640px){
+    .sec-problem { padding:34px 20px; border-radius:var(--r); }
+  }
+  .sec-title { font-size:clamp(28px,4vw,48px); font-weight:700; max-width:900px; }
+  .sec-lead { margin-top:16px; font-size:clamp(15px,1.4vw,18px); color:var(--ink-soft); max-width:620px; }
+  .sec-head { margin-bottom:38px; }
+
+  /* ===================== WITHOUT / WITH ===================== */
+  .proof-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:860px){ .proof-grid{ grid-template-columns:1fr; } }
+  .proof { border-radius:var(--r-lg); padding:30px; }
+  .proof.without { background:var(--white); border:1.5px solid var(--line); }
+  .proof.with { background:var(--forest); color:#fff; }
+  .proof-tag { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px;
+    text-transform:uppercase; letter-spacing:0.12em; padding:6px 12px; border-radius:999px; margin-bottom:18px; }
+  .proof.without .proof-tag { background:var(--page); color:var(--ink-soft); }
+  .proof.with .proof-tag { background:rgba(222,242,75,0.16); color:var(--lime); }
+  .proof-top { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .live { font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--pink);
+    display:inline-flex; align-items:center; gap:7px; }
+  .live .dot { width:8px; height:8px; border-radius:50%; background:var(--pink); box-shadow:0 0 0 0 rgba(255,111,169,.5); animation:pulse 1.8s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,111,169,.5);} 70%{box-shadow:0 0 0 8px rgba(255,111,169,0);} 100%{box-shadow:0 0 0 0 rgba(255,111,169,0);} }
+  .ask, .call { font-family:var(--mono); font-size:12.5px; line-height:1.5; border-radius:14px; padding:13px 15px; margin-bottom:16px; }
+  .ask { background:var(--page); color:var(--ink-soft); }
+  .ask .who { color:var(--ink); font-weight:600; }
+  .call { background:rgba(255,255,255,0.06); border:1px solid var(--forest-line); }
+  .call .fn { color:#d9b6ea; } .call .str { color:var(--lime); }
+  .ans-generic { color:var(--ink-soft); font-size:15px; line-height:1.6; border-left:3px solid var(--line); padding-left:15px; }
+  .ans-generic .fu { display:block; margin-top:10px; color:var(--ink-mute); font-style:italic; }
+  .ans-grounded { font-size:15px; line-height:1.6; margin-bottom:18px; }
+  .ans-grounded b { color:var(--lime); }
+  /* structured receipts card — stays mono + crisp */
+  .receipts { background:var(--white); color:var(--ink); border-radius:16px; padding:16px 18px; font-family:var(--mono); font-size:12.5px; line-height:1.9; }
+  .receipts .k { color:var(--ink-mute); } .receipts .n { color:var(--forest); font-weight:600; } .receipts a { color:var(--forest); border-bottom:1px solid var(--line); }
+  .cap-chip { display:inline-block; margin-top:16px; font-family:var(--mono); font-size:11px; padding:6px 12px; border-radius:999px; }
+  .proof.without .cap-chip { background:var(--page); color:var(--ink-mute); }
+  .proof.with .cap-chip { background:rgba(222,242,75,0.16); color:var(--lime); }
+
+  /* ===================== SECTORS BENTO ===================== */
+
   /* ===================== INTEGRATE ===================== */
   /* scroll-pinned: section is tall, inner content sticks and each of the 4
      endpoints activates one-after-another as you scroll through it */
