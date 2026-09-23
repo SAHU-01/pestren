@@ -14,32 +14,32 @@ citation on every line.
 
 ## What Pestren answers
 
-- [Insurance](https://pestren.com/#sectors): flood and fire history per address, contamination before you quote, exposure stacked in one cell, a book re-run at renewal
-- [Lending](https://pestren.com/#sectors): productive acreage measured rather than read off a deed, regenerative practice verified season by season, liens and ownership chains resolved
-- [Real estate development](https://pestren.com/#sectors): zoning, overlays, buildable acres, setbacks, proximity to sewer, power, frontage and rail, and what sits next door
-- [Carbon and reforestation](https://pestren.com/#sectors): land-cover change measured back decades, control land matched on evidence, credit yield as a number the site can deliver
-- [Data centres and industrial](https://pestren.com/#sectors): siting screened against power, water, and ground conditions
-- [Land acquisition and trusts](https://pestren.com/#sectors): tenure, rights, and title facts across a portfolio
-- [Agriculture and food systems](https://pestren.com/#sectors): what a regenerative switch costs and how long it runs, six years of cropping history, supply risk across a sourcing region
-- [Advisors and consultants](https://pestren.com/#sectors): hundreds of acres screened in minutes, cited evidence that goes straight into an unpaid pre-assignment draft
+- [Insurance](https://www.pestren.com/#sectors): flood and fire history per address, contamination before you quote, exposure stacked in one cell, a book re-run at renewal
+- [Lending](https://www.pestren.com/#sectors): productive acreage measured rather than read off a deed, regenerative practice verified season by season, liens and ownership chains resolved
+- [Real estate development](https://www.pestren.com/#sectors): zoning, overlays, buildable acres, setbacks, proximity to sewer, power, frontage and rail, and what sits next door
+- [Carbon and reforestation](https://www.pestren.com/#sectors): land-cover change measured back decades, control land matched on evidence, credit yield as a number the site can deliver
+- [Data centres and industrial](https://www.pestren.com/#sectors): siting screened against power, water, and ground conditions
+- [Land acquisition and trusts](https://www.pestren.com/#sectors): tenure, rights, and title facts across a portfolio
+- [Agriculture and food systems](https://www.pestren.com/#sectors): what a regenerative switch costs and how long it runs, six years of cropping history, supply risk across a sourcing region
+- [Advisors and consultants](https://www.pestren.com/#sectors): hundreds of acres screened in minutes, cited evidence that goes straight into an unpaid pre-assignment draft
 
 ## Integration
 
-- [API](https://pestren.com/#integrate): `POST /v1/ask` for a cited answer ranked across a set of parcels, `POST /v1/fetch` for named fields at a point or polygon, each value with its own source, timestamp and confidence tier
-- [MCP](https://pestren.com/#integrate): `pestren-mcp`, two tools (`pestren_ask`, `pestren_fetch`), zero install via uvx, native to any MCP-aware model
+- [API](https://www.pestren.com/#integrate): `POST /v1/ask` for a cited answer ranked across a set of parcels, `POST /v1/fetch` for named fields at a point or polygon, each value with its own source, timestamp and confidence tier
+- [MCP](https://www.pestren.com/#integrate): `pestren-mcp`, two tools (`pestren_ask`, `pestren_fetch`), zero install via uvx, native to any MCP-aware model
 - [Platform](https://interface.pestren.com): ask in the browser, screen and compare parcels, open the source behind any line
-- [Data files](https://pestren.com/#integrate): XLSX for a site visit, GeoJSON for the GIS, JSON with provenance for a pipeline, drop-in skill files
+- [Data files](https://www.pestren.com/#integrate): XLSX for a site visit, GeoJSON for the GIS, JSON with provenance for a pipeline, drop-in skill files
 
 ## Evidence and privacy
 
-- [Where the data comes from](https://pestren.com/#sectors): public registers and authoritative sources, including USDA CDL and SSURGO, EU LPIS and CAP declarations, CONAB and MapBiomas, ABARES, AAFC, ESA Sentinel, NASA, SoilGrids, FAO, and live weather
-- [Confidence tiers](https://pestren.com/#privacy): every fact tagged `literature-only`, `field-verified`, or `lab-confirmed`
-- [Privacy and security](https://pestren.com/#privacy): questions, coordinates and uploads are never used to train models; client work stays in your account; Pestren is not independently audited or certified yet
-- [Benchmark](https://pestren.com/#benchmark): run any question at any coordinate and score Pestren against other models on grounded, cited, fresh, and actionable
+- [Where the data comes from](https://www.pestren.com/#sectors): public registers and authoritative sources, including USDA CDL and SSURGO, EU LPIS and CAP declarations, CONAB and MapBiomas, ABARES, AAFC, ESA Sentinel, NASA, SoilGrids, FAO, and live weather
+- [Confidence tiers](https://www.pestren.com/#privacy): every fact tagged `literature-only`, `field-verified`, or `lab-confirmed`
+- [Privacy and security](https://www.pestren.com/#privacy): questions, coordinates and uploads are never used to train models; client work stays in your account; Pestren is not independently audited or certified yet
+- [Benchmark](https://www.pestren.com/#benchmark): run any question at any coordinate and score Pestren against other models on grounded, cited, fresh, and actionable
 
 ## Optional
 
-- [Docs](https://pestren.com/docs): API reference, field catalog, errors, MCP setup
-- [Pilot plan](https://pestren.com/pilot)
-- [Terms of use and privacy notice](https://pestren.com/terms)
+- [Docs](https://www.pestren.com/docs): API reference, field catalog, errors, MCP setup
+- [Pilot plan](https://www.pestren.com/pilot)
+- [Terms of use and privacy notice](https://www.pestren.com/terms)
 - Contact: core@pestren.com

@@ -1,4 +1,4 @@
-# pestren.com
+# www.pestren.com
 # Everything here is public marketing copy. Crawl it.
 
 User-agent: *
@@ -6,31 +6,63 @@ Allow: /
 
 # Answer engines and AI crawlers are welcome too. The whole point of this
 # site is that Pestren's answers carry citations, so being cited is the goal.
-User-agent: GPTBot
-Allow: /
-
+# Search/answer crawlers (fetch a page to cite it in a reply)
 User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: Claude-User
 Allow: /
 
-User-agent: Claude-User
+User-agent: Claude-SearchBot
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
 
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Training / index crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
 User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
 
+User-agent: Bingbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://pestren.com/sitemap.xml
+# Structured summary for language models:
+# https://www.pestren.com/llms.txt
+
+Sitemap: https://www.pestren.com/sitemap.xml

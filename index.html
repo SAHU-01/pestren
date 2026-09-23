@@ -6,6 +6,125 @@
 <title>Pestren &middot; Agentic land due-diligence infrastructure</title>
 <link rel="icon" type="image/png" href="PESTREN.png">
 <meta name="description" content="Evaluating a parcel means answering 80+ interdependent questions: soil, water, yield, environmental risk, legal and UCC status, insurance, owner credit. Today that is 30-60 days and $1,000-$6,000 a report, assembled by hand. Pestren is agentic land due-diligence infrastructure: data in, agents reason, every claim cited, next action recommended. In minutes.">
+<link rel="canonical" href="https://www.pestren.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pestren">
+<meta property="og:url" content="https://www.pestren.com/">
+<meta property="og:title" content="Pestren · Agentic land due-diligence infrastructure">
+<meta property="og:description" content="Ask a question about any parcel on earth and get a grounded, cited answer back, with a source you can open behind every claim. Available as an API, an MCP server, a web platform, and downloadable data files.">
+<meta property="og:image" content="https://www.pestren.com/PESTREN.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pestren · Agentic land due-diligence infrastructure">
+<meta name="twitter:description" content="Ask a question about any parcel on earth and get a grounded, cited answer back, with a source you can open behind every claim. Available as an API, an MCP server, a web platform, and downloadable data files.">
+<meta name="twitter:image" content="https://www.pestren.com/PESTREN.png">
+<link rel="alternate" type="text/plain" href="https://www.pestren.com/llms.txt" title="llms.txt">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.pestren.com/#organization",
+  "name": "Pestren",
+  "url": "https://www.pestren.com/",
+  "logo": "https://www.pestren.com/PESTREN.png",
+  "email": "core@pestren.com",
+  "description": "Agentic land due-diligence infrastructure. Ask a question about any parcel on earth and get a grounded, cited answer back, with a source you can open behind every claim."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.pestren.com/#website",
+  "url": "https://www.pestren.com/",
+  "name": "Pestren",
+  "publisher": {
+    "@id": "https://www.pestren.com/#organization"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Pestren",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, API, MCP",
+  "url": "https://www.pestren.com/",
+  "publisher": {
+    "@id": "https://www.pestren.com/#organization"
+  },
+  "description": "Parcel-level land due diligence with a citation on every line: soil, water, yield, zoning, flood and fire history, land-cover change, tenure and rights. Delivered as an API, an MCP server, a web platform, and downloadable XLSX/GeoJSON/JSON files.",
+  "featureList": [
+    "POST /v1/ask - cited answer ranked across a set of parcels",
+    "POST /v1/fetch - named fields at a point or polygon, each value with source, timestamp and confidence tier",
+    "pestren-mcp server exposing pestren_ask and pestren_fetch",
+    "Confidence tiers: literature-only, field-verified, lab-confirmed",
+    "Exports as XLSX, GeoJSON and provenance-tagged JSON"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "description": "Free tier plus a metered API, with volume plans for enterprise."
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where does Pestren's data (and the model) come from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pestren runs on an open-source foundation model, trained and grounded on openly available, authoritative datasets. Global layers come from ESA Sentinel (satellite), NASA (weather), and ISRIC SoilGrids (soil), plus specialist references like the Insecticide Resistance Action Committee (IRAC) for resistance management. On top of that we use each region's official land-parcel and crop datasets: • Europe: LPIS (Land Parcel Identification System), CAP declarations; • USA: USDA Cropland Data Layer (CDL); • Brazil: CONAB, MapBiomas; • India: state agriculture departments, ICAR institutes, FASAL outputs, plus PMFBY and the Digital Crop Survey where access permits (both restricted); • Australia: ABARES; • Canada: AAFC Crop Inventory; On top of that public base we layer field data and verification points contributed by our partner FPOs (Farmer Producer Organizations), so answers are checked against the real ground, not just the literature. Every answer names the sources it used."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How fresh is the information?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weather updates daily, satellite refreshes on its revisit cycle, and risk is scored weekly. Every value carries its own timestamp so you always know how recent it is."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I know how much to trust an answer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every fact is tagged with a confidence tier: literature-only, field-verified, or lab-confirmed, so you always see whether it's backed by published sources, ground truth from the field, or lab results."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you use my questions or farm data to train models?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Your questions and coordinates are never used to train models. Field data contributed through FPO partnerships is used only with consent, to improve verification coverage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which crops and regions do you cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our vision is simple: any crop, any geography. At launch, Pestren supports farms growing food crops across the United States and India. We're already expanding our coverage and plan to add more countries and continents beginning next quarter."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A free tier plus a metered API, with volume plans for enterprise. Grower access is kept low-friction on purpose."
+      }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
