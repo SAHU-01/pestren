@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pestren &middot; Cookie Policy</title>
+<link rel="icon" type="image/png" href="/PESTREN.png">
+<meta name="description" content="Every cookie Pestren sets, what it does and how long it lives. There are no advertising, analytics or tracking cookies anywhere in the product.">
+<link rel="canonical" href="https://www.pestren.com/cookies">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pestren">
+<meta property="og:url" content="https://www.pestren.com/cookies">
+<meta property="og:title" content="Pestren &middot; Cookie Policy">
+<meta property="og:description" content="Every cookie Pestren sets, what it does and how long it lives. There are no advertising, analytics or tracking cookies anywhere in the product.">
+<meta property="og:image" content="https://www.pestren.com/PESTREN.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pestren &middot; Cookie Policy">
+<meta name="twitter:description" content="Every cookie Pestren sets, what it does and how long it lives. There are no advertising, analytics or tracking cookies anywhere in the product.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/legal.css">
+</head>
+<body>
+<div class="shell">
+<nav class="lgnav">
+  <a class="logo" href="/"><img src="/PESTREN.png" alt="">Pestren</a>
+  <div class="lgnav-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies" aria-current="page">Cookies</a><a href="/refunds">Refunds</a><a href="/">Home</a><a href="/docs">Docs</a></div>
+</nav>
+<main class="doc">
+<header class="doc-head">
+  <p class="kicker">Document 03</p>
+  <h1>Cookie Policy</h1>
+  <p class="standfirst">Every cookie Pestren sets, itemised. There is no consent wall on this site because there is nothing here to consent to &mdash; the list below is the whole of it.</p>
+  <p class="doc-meta">Effective 23 September 2026 &middot; Version 1.0 &middot; Read alongside the Privacy Policy</p>
+</header>
+<section class="cl" id="s1">
+<h2><span class="num">1</span>Why there is no cookie banner</h2>
+
+<p>There are <strong>no advertising, analytics or tracking cookies anywhere in Pestren</strong>. Our page-view analytics (Vercel Web Analytics) is cookieless and builds no cross-site profile of you.</p>
+<p>That leaves only <strong>strictly necessary</strong> cookies &mdash; the ones without which sign-in and the invite gate cannot function. Under the ePrivacy Directive and the DPDP Act, strictly necessary cookies require <strong>disclosure, not consent</strong>. So this page exists instead of an Accept/Reject dialog, which here would be theatre: there would be nothing to reject.</p>
+<p>If we ever add a third-party analytics or advertising tool, this page will be replaced by a real consent manager and you will be asked before anything is set.</p>
+</section>
+<section class="cl" id="s2">
+<h2><span class="num">2</span>The cookies we set</h2>
+<div class="tscroll"><table><thead><tr><th>Cookie</th><th>Set by</th><th>Purpose</th><th>Life</th></tr></thead><tbody><tr><td><code>__session</code></td><td>Clerk</td><td>Keeps you signed in across page loads</td><td>Session</td></tr><tr><td><code>__client_uat</code></td><td>Clerk</td><td>Tells the app whether a signed-in session exists, so it does not flash a signed-out state</td><td>7 days</td></tr><tr><td><code>pestren_gate</code></td><td>Pestren</td><td>Remembers that your invite code was verified. httpOnly and signed, so it cannot be read or forged in the browser.</td><td>Session</td></tr></tbody></table></div><p>None of these are shared with an advertiser, a data broker or any party other than the processor that sets them. Clerk&rsquo;s role is described in <a href="/privacy#s3">Privacy &sect;3.2</a> and <a href="/privacy#s5">&sect;5</a>.</p>
+</section>
+<section class="cl" id="s3">
+<h2><span class="num">3</span>Not cookies, but disclosed anyway</h2>
+<p>Cookies are not the only thing stored in your browser, and it would be a thin kind of honesty to itemise the cookies and stay quiet about the rest. Pestren also uses:</p><div class="tscroll"><table><thead><tr><th>Store</th><th>What it holds</th><th>Why</th></tr></thead><tbody><tr><td><strong>localStorage</strong></td><td>Your field boundaries, Assistant chat history and invite code</td><td>So the workspace survives a reload and works offline. Your chat history lives here and not on our servers.</td></tr><tr><td><strong>sessionStorage</strong></td><td>A per-tab cache of query results</td><td>So reopening a panel does not re-fetch data you already loaded.</td></tr></tbody></table></div><p>Both are cleared when you clear site data for this domain, which also signs you out and removes locally held fields that have not been synced.</p>
+</section>
+<section class="cl" id="s4">
+<h2><span class="num">4</span>Controlling cookies</h2>
+
+<p>You can block or delete cookies in your browser settings. Blocking the three above will sign you out and prevent the invite gate from remembering you, so the application will not be usable &mdash; they are load-bearing, which is precisely what makes them strictly necessary.</p>
+<p>Questions about anything on this page: <a href="mailto:core@pestren.com">core@pestren.com</a>.</p>
+</section>
+</main>
+<footer class="lgfoot">
+  <div class="lgfoot-links">
+    <a href="/">Home</a><a href="/docs">Docs</a><a href="/pilot">Pilot</a>
+    <a href="/privacy">Privacy</a><a href="/terms">Terms</a>
+    <a href="/cookies">Cookies</a><a href="/refunds">Refunds</a>
+  </div>
+  <div class="lgfoot-bottom">
+    Pestren &middot; Ankita Sahu, sole proprietor, India<br>
+    <a href="mailto:core@pestren.com">core@pestren.com</a> &middot; &copy; 2026 Pestren<br>
+    Drafted from an audit of what the product actually collects, not from a template.
+    Not a substitute for review by a qualified lawyer.
+  </div>
+</footer>
+</div>
+</body>
+</html>

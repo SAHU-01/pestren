@@ -1,0 +1,102 @@
+/* ============================================================
+   Pestren legal documents — shared stylesheet.
+
+   The four documents are static HTML with no build step, so the styling lives
+   in one file rather than being pasted into each page. Palette is lifted
+   directly from index.html so a policy page does not read as a different site.
+   ============================================================ */
+
+:root {
+  --lime:#DEF24B; --lime-pale:#F3F7CB;
+  --peri:#93A8F4; --peri-pale:#E6EAFD;
+  --forest:#173F2E; --forest-line:rgba(255,255,255,0.12);
+  --ink:#161616; --ink-soft:#54544c; --ink-mute:#8a8a80;
+  --page:#EFF0E9; --white:#ffffff; --cream:#F6F6F0;
+  --amber:#F2A94B;
+  --line:rgba(22,22,22,0.10); --line-2:rgba(22,22,22,0.06);
+  --display:'Fredoka', system-ui, sans-serif;
+  --body:'Poppins', system-ui, sans-serif;
+  --mono:'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  --shadow-sm: 0 8px 22px rgba(22,22,22,0.08);
+  --measure: 68ch;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:var(--body); color:var(--ink); background:var(--page);
+  font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+::selection { background:var(--lime); color:var(--ink); }
+a { color:inherit; }
+
+.shell {
+  max-width:900px; margin:16px auto; background:var(--white);
+  border-radius:40px; box-shadow:0 30px 80px rgba(22,22,22,0.08);
+  overflow:clip;
+}
+@media (max-width:640px){ .shell{ margin:8px; border-radius:28px; } }
+
+/* ---------- top bar ---------- */
+.lgnav {
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:20px 34px; border-bottom:1px solid var(--line-2); flex-wrap:wrap;
+}
+@media (max-width:640px){ .lgnav{ padding:16px 20px; } }
+.lgnav .logo { display:flex; align-items:center; gap:9px; font-family:var(--display); font-weight:700; font-size:20px; text-decoration:none; }
+.lgnav .logo img { width:34px; height:34px; border-radius:10px; object-fit:cover; }
+.lgnav-links { display:flex; gap:18px; flex-wrap:wrap; font-size:13.5px; }
+.lgnav-links a { color:var(--ink-soft); text-decoration:none; }
+.lgnav-links a:hover, .lgnav-links a[aria-current="page"] { color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--peri); }
+
+/* ---------- document ---------- */
+.doc { padding:56px 34px 64px; }
+@media (max-width:640px){ .doc{ padding:36px 20px 44px; } }
+
+.doc-head { border-bottom:2px solid var(--ink); padding-bottom:22px; margin-bottom:36px; }
+.kicker { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); }
+.doc-head h1 { font-family:var(--display); font-weight:600; font-size:clamp(30px,5vw,46px); line-height:1.05; letter-spacing:-0.015em; margin:12px 0 14px; }
+.standfirst { max-width:var(--measure); color:var(--ink-soft); font-size:16.5px; }
+.doc-meta { margin-top:20px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); }
+
+.cl { margin-top:40px; padding-top:30px; border-top:1px solid var(--line-2); }
+.cl:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+.cl h2 { font-family:var(--display); font-weight:600; font-size:20px; letter-spacing:-0.01em; margin-bottom:12px; max-width:var(--measure); }
+.cl h3 { font-family:var(--body); font-weight:600; font-size:16px; margin:26px 0 8px; max-width:var(--measure); }
+.num { font-family:var(--mono); font-size:.72em; font-weight:400; color:var(--forest); margin-right:.7em; }
+
+.cl p, .cl li { max-width:var(--measure); color:var(--ink-soft); }
+.cl p { margin-bottom:16px; }
+.cl ul, .cl ol { margin:0 0 16px 0; padding-left:22px; }
+.cl li { margin-bottom:8px; }
+.cl strong, .cl b { color:var(--ink); font-weight:600; }
+.cl a { color:var(--ink); text-decoration:underline; text-decoration-color:var(--peri); text-underline-offset:2px; }
+.cl a:hover { text-decoration-color:var(--forest); }
+.cl code { font-family:var(--mono); font-size:.85em; background:var(--cream); border:1px solid var(--line-2); border-radius:4px; padding:.08em .38em; }
+
+/* callout for the clauses a reader must not skim */
+.flag { background:#FDF3E3; border:1px solid #E5C98F; border-radius:12px; padding:18px 20px; margin:0 0 20px; max-width:var(--measure); }
+.flag p { color:#6B4A12; margin-bottom:10px; }
+.flag p:last-child { margin-bottom:0; }
+.flag strong { color:#4A3208; }
+.flag-label { font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#96702A; display:block; margin-bottom:8px; }
+
+/* tables scroll inside themselves; the page never scrolls sideways */
+.tscroll { overflow-x:auto; border:1px solid var(--line); border-radius:12px; margin:0 0 20px; }
+table { border-collapse:collapse; width:100%; min-width:560px; font-size:14px; }
+th, td { text-align:left; vertical-align:top; padding:10px 13px; border-bottom:1px solid var(--line-2); }
+thead th { background:var(--cream); font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); font-weight:500; }
+tbody tr:last-child td { border-bottom:none; }
+td { color:var(--ink-soft); }
+td strong { color:var(--ink); font-weight:600; }
+
+/* ---------- foot ---------- */
+.lgfoot { background:var(--forest); color:#fff; padding:34px; }
+@media (max-width:640px){ .lgfoot{ padding:26px 20px; } }
+.lgfoot-links { display:flex; gap:20px; flex-wrap:wrap; font-size:14px; padding-bottom:18px; border-bottom:1px solid var(--forest-line); }
+.lgfoot-links a { opacity:.82; text-decoration:none; }
+.lgfoot-links a:hover { opacity:1; color:var(--lime); }
+.lgfoot-bottom { margin-top:16px; font-family:var(--mono); font-size:11px; opacity:.6; line-height:1.8; }
+.lgfoot-bottom a { color:var(--lime); text-decoration:none; }
+
+:focus-visible { outline:2px solid var(--peri); outline-offset:2px; border-radius:3px; }

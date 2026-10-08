@@ -34,12 +34,15 @@ citation on every line.
 
 - [Where the data comes from](https://www.pestren.com/#sectors): public registers and authoritative sources, including USDA CDL and SSURGO, EU LPIS and CAP declarations, CONAB and MapBiomas, ABARES, AAFC, ESA Sentinel, NASA, SoilGrids, FAO, and live weather
 - [Confidence tiers](https://www.pestren.com/#privacy): every fact tagged `literature-only`, `field-verified`, or `lab-confirmed`
-- [Privacy and security](https://www.pestren.com/#privacy): questions, coordinates and uploads are never used to train models; client work stays in your account; Pestren is not independently audited or certified yet
+- [Privacy and security](https://www.pestren.com/#privacy): we do not train models on your questions, coordinates or uploads and contractually prohibit our providers from doing so; client work stays in your account; Pestren is not independently audited or certified yet
+- [Privacy Policy](https://www.pestren.com/privacy): what is collected, where it is stored, every processor and its country, retention periods, and your rights under India's DPDP Act 2023
 - [Benchmark](https://www.pestren.com/#benchmark): run any question at any coordinate and score Pestren against other models on grounded, cited, fresh, and actionable
 
 ## Optional
 
 - [Docs](https://www.pestren.com/docs): API reference, field catalog, errors, MCP setup
 - [Pilot plan](https://www.pestren.com/pilot)
-- [Terms of use and privacy notice](https://www.pestren.com/terms)
+- [Terms and conditions](https://www.pestren.com/terms): what Pestren is, what it explicitly is not, acceptable use, ownership of your data, liability, governing law
+- [Cookie policy](https://www.pestren.com/cookies): every cookie set, itemised; no advertising, analytics or tracking cookies anywhere
+- [Refund and cancellation policy](https://www.pestren.com/refunds): pricing, when a refund is given without argument, how to cancel
 - Contact: core@pestren.com
