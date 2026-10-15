@@ -44,5 +44,6 @@ citation on every line.
 - [Pilot plan](https://www.pestren.com/pilot)
 - [Terms and conditions](https://www.pestren.com/terms): what Pestren is, what it explicitly is not, acceptable use, ownership of your data, liability, governing law
 - [Cookie policy](https://www.pestren.com/cookies): every cookie set, itemised; no advertising, analytics or tracking cookies anywhere
-- [Refund and cancellation policy](https://www.pestren.com/refunds): pricing, when a refund is given without argument, how to cancel
+- [Refund and cancellation policy](https://www.pestren.com/refunds): plan prices, the two-day trial, automatic renewal, when a refund is given without argument, how to cancel
+- [Refund calculator](https://www.pestren.com/refund-calculator): the refund rule applied to your own usage, with every line of the arithmetic shown
 - Contact: core@pestren.com

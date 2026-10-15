@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pestren &middot; Refund calculator</title>
+<link rel="icon" type="image/png" href="/PESTREN.png">
+<meta name="description" content="Work out exactly what a Pestren refund comes to, using the same rule the Refund &amp; Cancellation Policy sets out.">
+<link rel="canonical" href="https://www.pestren.com/refund-calculator">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pestren">
+<meta property="og:url" content="https://www.pestren.com/refund-calculator">
+<meta property="og:title" content="Pestren &middot; Refund calculator">
+<meta property="og:description" content="Work out exactly what a Pestren refund comes to, using the same rule the Refund &amp; Cancellation Policy sets out.">
+<meta property="og:image" content="https://www.pestren.com/PESTREN.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pestren &middot; Refund calculator">
+<meta name="twitter:description" content="Work out exactly what a Pestren refund comes to, using the same rule the Refund &amp; Cancellation Policy sets out.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/legal.css">
+</head>
+<body>
+<div class="shell">
+<nav class="lgnav">
+  <a class="logo" href="/"><img src="/PESTREN.png" alt="">Pestren</a>
+  <div class="lgnav-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a><a href="/refunds">Refunds</a><a href="/">Home</a><a href="/docs">Docs</a></div>
+</nav>
+<main class="doc">
+<header class="doc-head">
+  <p class="kicker">Document 04 &middot; Annex</p>
+  <h1>Refund calculator</h1>
+  <p class="standfirst">The refund rule, applied to your own numbers. Same arithmetic we use, shown step by step, so nothing about a refund has to be taken on trust.</p>
+  <p class="doc-meta">Effective 23 September 2026 &middot; Version 1.0 &middot; Annex to the Refund &amp; Cancellation Policy</p>
+</header>
+<section class="cl" id="s1">
+<p>This is a working tool, not a quote. It applies <a href="/refunds">the policy</a> exactly as written &mdash; if the two ever disagree, the policy governs and we will fix the calculator.</p>
+
+<div class="calc">
+  <div class="calc-grid">
+    <label>
+      <span>Plan</span>
+      <select id="plan">
+        <option value="starter">Starter</option>
+        <option value="professional" selected>Professional</option>
+        <option value="enterprise">Enterprise</option>
+      </select>
+    </label>
+    <label>
+      <span>Billing</span>
+      <select id="period">
+        <option value="month" selected>Monthly</option>
+        <option value="year">Annual</option>
+      </select>
+    </label>
+    <label id="seats-field" hidden>
+      <span>Seats</span>
+      <input id="seats" type="number" min="1" max="100" step="1" value="1">
+    </label>
+    <label>
+      <span>Days since your first charge</span>
+      <input id="days" type="number" min="0" step="1" value="1">
+    </label>
+    <label id="months-field" hidden>
+      <span>Month you are cancelling in (1&ndash;12)</span>
+      <input id="months" type="number" min="1" max="12" step="1" value="1">
+    </label>
+  </div>
+
+  <h3>What you used this month</h3>
+  <p class="hint">Counted cumulatively across the month &mdash; distinct land analysed, not what is in your workspace right now. Deleting a field does not un-spend the report. Whichever measure you have consumed most of decides the refund.</p>
+  <div class="calc-grid">
+    <label>
+      <span id="reports-label">Reports generated</span>
+      <input id="reports" type="number" min="0" step="1" value="0">
+    </label>
+    <label>
+      <span id="fields-label">Fields analysed</span>
+      <input id="fields" type="number" min="0" step="1" value="0">
+    </label>
+    <label>
+      <span id="hectares-label">Hectares analysed</span>
+      <input id="hectares" type="number" min="0" step="0.1" value="0">
+    </label>
+    <label>
+      <span id="calls-label">Assistant questions</span>
+      <input id="calls" type="number" min="0" step="1" value="0">
+    </label>
+  </div>
+
+  <div class="out">
+    <div class="out-top">
+      <span>Estimated refund</span>
+      <span class="out-total" id="total">$0.00</span>
+    </div>
+    <p class="out-lede" id="lede"></p>
+    <table class="out-measures">
+      <thead><tr><th>Measure</th><th>Used</th><th>Allowance</th><th>Share</th></tr></thead>
+      <tbody id="measures"></tbody>
+    </table>
+    <dl class="out-rows" id="rows"></dl>
+    <ul class="out-why" id="why"></ul>
+  </div>
+</div>
+
+<p>Estimates only. Tax that Paddle added at checkout is refunded with the amount it was charged on. Nothing here limits the full-refund cases in the policy &mdash; a report that failed to generate, a duplicate charge, a charge you did not authorise, or a region we turned out not to cover &mdash; which are refunded in full whatever this says.</p>
+<p><strong>This number is not the last word.</strong> If it looks wrong, email <a href="mailto:core@pestren.com">core@pestren.com</a> or ask for a refund call &mdash; a person will review your account independently of this formula. Asking never reduces what it already offered.</p>
+</section>
+</main>
+<footer class="lgfoot">
+  <div class="lgfoot-links">
+    <a href="/">Home</a><a href="/docs">Docs</a><a href="/pilot">Pilot</a>
+    <a href="/privacy">Privacy</a><a href="/terms">Terms</a>
+    <a href="/cookies">Cookies</a><a href="/refunds">Refunds</a>
+  </div>
+  <div class="lgfoot-bottom">
+    Pestren &middot; Ankita Sahu, sole proprietor, India<br>
+    F-21, B-6, Phase-1, Metrocity Apartment, Nayapalli, Bhubaneswar, Odisha 751012, India<br>
+    <a href="mailto:core@pestren.com">core@pestren.com</a> &middot; &copy; 2026 Pestren<br>
+    The arithmetic on this page is the same rule the Refund &amp; Cancellation Policy states.
+    Where the two differ, the policy governs.
+  </div>
+</footer>
+</div>
+<script>
+/* The refund rule, ported line for line from the app so the published policy,
+   the product and this page cannot disagree. Change the rule in
+   pestren_interface/lib/legal/refundPolicy.ts and here together, or not at all. */
+(function () {
+  "use strict";
+
+  /* How long after the FIRST charge a refund can be claimed. */
+  var REFUND_WINDOW_DAYS = 7;
+  /* True = unused annual months come back whenever you cancel. */
+  var ANNUAL_UNUSED_MONTHS_ALWAYS_REFUNDABLE = true;
+
+  var ENTERPRISE_SCALE = 4;
+
+  var REFUND_TERMS = {
+    starter: {
+      key: "starter", name: "Starter", monthlyPriceUsd: 10, annualPriceUsd: 100,
+      perSeat: false, minSeats: 1,
+      allowance: { reports: 1, fields: 1, hectares: 4, assistantCalls: 200 }
+    },
+    professional: {
+      key: "professional", name: "Professional", monthlyPriceUsd: 100, annualPriceUsd: 1000,
+      perSeat: false, minSeats: 1,
+      allowance: { reports: 25, fields: 25, hectares: 100, assistantCalls: 1500 }
+    },
+    enterprise: {
+      key: "enterprise", name: "Enterprise", monthlyPriceUsd: 200, annualPriceUsd: 2000,
+      perSeat: true, minSeats: 4,
+      allowance: { reports: 25 * ENTERPRISE_SCALE, fields: 100, hectares: 500, assistantCalls: 5000 }
+    }
+  };
+
+  function round2(n) { return Math.round(n * 100) / 100; }
+
+  function usd(n) {
+    return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+  }
+
+  function share(used, allowed) {
+    if (allowed <= 0) { return used > 0 ? 1 : 0; }
+    return Math.max(0, used) / allowed;
+  }
+
+  function computeRefund(input) {
+    var terms = REFUND_TERMS[input.plan];
+    var seats = terms.perSeat
+      ? Math.max(terms.minSeats, input.seats === undefined ? terms.minSeats : input.seats)
+      : 1;
+    var a = terms.allowance;
+
+    var withinWindow =
+      input.daysSinceFirstCharge === undefined ||
+      input.daysSinceFirstCharge <= REFUND_WINDOW_DAYS;
+
+    var measures = [
+      { label: "Reports generated", used: input.usage.reports, allowed: a.reports, share: share(input.usage.reports, a.reports) },
+      { label: "Fields analysed", used: input.usage.fields, allowed: a.fields, share: share(input.usage.fields, a.fields) },
+      { label: "Hectares analysed", used: input.usage.hectares, allowed: a.hectares, share: share(input.usage.hectares, a.hectares) },
+      { label: "Assistant questions", used: input.usage.assistantCalls, allowed: a.assistantCalls, share: share(input.usage.assistantCalls, a.assistantCalls) }
+    ];
+
+    /* The most-consumed measure governs. */
+    var governing = measures.reduce(function (hi, m) { return m.share > hi.share ? m : hi; }, measures[0]);
+    var shareUsed = Math.min(1, Math.max(0, governing.share));
+
+    /* Carried unrounded and rounded only where money is stated. */
+    var monthlyRaw =
+      (input.period === "year" ? terms.annualPriceUsd / 12 : terms.monthlyPriceUsd) * seats;
+
+    var elapsed = input.period === "year" ? Math.min(12, Math.max(1, input.monthsElapsed || 1)) : 1;
+
+    /* Unused ANNUAL months are unearned revenue, not a dissatisfaction refund,
+       so they survive the window closing. */
+    var annualMonthsRefundable =
+      input.period === "year" && (ANNUAL_UNUSED_MONTHS_ALWAYS_REFUNDABLE || withinWindow);
+    var unusedMonths = annualMonthsRefundable ? 12 - elapsed : 0;
+
+    var currentMonthRefundRaw = withinWindow ? monthlyRaw * (1 - shareUsed) : 0;
+
+    var reasons = [];
+    if (!withinWindow) {
+      reasons.push("The " + REFUND_WINDOW_DAYS + "-day window after your first charge has closed, so the month you are in is not refunded.");
+    } else {
+      reasons.push(shareUsed >= 1
+        ? governing.label + " reached " + Math.round(governing.share * 100) + "% of the month's allowance, so none of that month comes back."
+        : "You used " + Math.round(shareUsed * 100) + "% of the month — the highest measure was " + governing.label.toLowerCase() + " at " + governing.used + " of " + governing.allowed + ". The other " + (100 - Math.round(shareUsed * 100)) + "% is refunded.");
+    }
+    if (input.period === "year") {
+      reasons.push(unusedMonths > 0
+        ? unusedMonths + " month" + (unusedMonths === 1 ? "" : "s") + " of the year were paid for and never started. Those come back in full whatever your usage was."
+        : "You are in the final month of the year, so there are no unused months to refund.");
+    }
+    if (terms.perSeat && seats > 1) {
+      reasons.push("Amounts are multiplied by " + seats + " seats. Allowances are per subscription, so seats do not change the share used.");
+    }
+
+    return {
+      withinWindow: withinWindow,
+      measures: measures,
+      governing: governing,
+      shareUsed: shareUsed,
+      monthlyEquivalent: round2(monthlyRaw),
+      currentMonthPaid: round2(monthlyRaw),
+      currentMonthRefund: round2(currentMonthRefundRaw),
+      unusedMonths: unusedMonths,
+      unusedMonthsAmount: round2(unusedMonths * monthlyRaw),
+      total: round2(unusedMonths * monthlyRaw + currentMonthRefundRaw),
+      reasons: reasons
+    };
+  }
+
+  var el = function (id) { return document.getElementById(id); };
+  var controls = ["plan", "period", "seats", "days", "months", "reports", "fields", "hectares", "calls"];
+
+  function row(dl, key, value, strong) {
+    var wrap = document.createElement("div");
+    if (strong) { wrap.className = "strong"; }
+    var dt = document.createElement("dt");
+    dt.textContent = key;
+    var dd = document.createElement("dd");
+    dd.textContent = value;
+    wrap.appendChild(dt);
+    wrap.appendChild(dd);
+    dl.appendChild(wrap);
+  }
+
+  function cell(tr, text, cls) {
+    var td = document.createElement("td");
+    td.textContent = text;
+    if (cls) { td.className = cls; }
+    tr.appendChild(td);
+  }
+
+  function render() {
+    var plan = el("plan").value;
+    var period = el("period").value;
+    var terms = REFUND_TERMS[plan];
+
+    el("seats-field").hidden = !terms.perSeat;
+    el("months-field").hidden = period !== "year";
+
+    el("period").options[0].text = "Monthly — " + usd(terms.monthlyPriceUsd);
+    el("period").options[1].text = "Annual — " + usd(terms.annualPriceUsd);
+    el("reports-label").textContent = "Reports generated (of " + terms.allowance.reports + ")";
+    el("fields-label").textContent = "Fields analysed (of " + terms.allowance.fields + ")";
+    el("hectares-label").textContent = "Hectares analysed (of " + terms.allowance.hectares + ")";
+    el("calls-label").textContent = "Assistant questions (of " + terms.allowance.assistantCalls + ")";
+
+    var result = computeRefund({
+      plan: plan,
+      period: period,
+      seats: Math.max(1, Number(el("seats").value) || 1),
+      monthsElapsed: Number(el("months").value) || 1,
+      daysSinceFirstCharge: Math.max(0, Number(el("days").value) || 0),
+      usage: {
+        reports: Math.max(0, Number(el("reports").value) || 0),
+        fields: Math.max(0, Number(el("fields").value) || 0),
+        hectares: Math.max(0, Number(el("hectares").value) || 0),
+        assistantCalls: Math.max(0, Number(el("calls").value) || 0)
+      }
+    });
+
+    el("total").textContent = usd(result.total);
+    el("lede").textContent = !result.withinWindow
+      ? "Past the " + REFUND_WINDOW_DAYS + "-day window — the month you are in is not refundable"
+      : "You used " + Math.round(result.shareUsed * 100) + "% of this month, so " + (100 - Math.round(result.shareUsed * 100)) + "% comes back";
+
+    var body = el("measures");
+    body.textContent = "";
+    result.measures.forEach(function (m) {
+      var governs = m.label === result.governing.label;
+      var tr = document.createElement("tr");
+      if (governs) { tr.className = "governs"; }
+      var first = document.createElement("td");
+      first.appendChild(document.createTextNode(m.label));
+      if (governs) {
+        var tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = "governs";
+        first.appendChild(tag);
+      }
+      tr.appendChild(first);
+      cell(tr, String(m.used), "n");
+      cell(tr, String(m.allowed), "n");
+      cell(tr, Math.round(m.share * 100) + "%", "n");
+      body.appendChild(tr);
+    });
+
+    var rows = el("rows");
+    rows.textContent = "";
+    row(rows, "Month you are in, paid", usd(result.currentMonthPaid));
+    row(rows, "Share used (" + Math.round(result.shareUsed * 100) + "%)", "−" + usd(round2(result.currentMonthPaid * result.shareUsed)));
+    row(rows, "Current month refunded", usd(result.currentMonthRefund));
+    row(rows, "Unused whole months (" + result.unusedMonths + " × " + usd(result.monthlyEquivalent) + ")", usd(result.unusedMonthsAmount));
+    row(rows, "Total", usd(result.total), true);
+
+    var why = el("why");
+    why.textContent = "";
+    result.reasons.forEach(function (reason) {
+      var li = document.createElement("li");
+      li.textContent = "— " + reason;
+      why.appendChild(li);
+    });
+  }
+
+  controls.forEach(function (id) {
+    el(id).addEventListener("input", render);
+    el(id).addEventListener("change", render);
+  });
+  render();
+})();
+</script>
+</body>
+</html>
