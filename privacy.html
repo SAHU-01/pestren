@@ -33,7 +33,7 @@
   <p class="kicker">Document 01</p>
   <h1>Privacy Policy</h1>
   <p class="standfirst">Written from an audit of what this codebase actually collects &mdash; every claim below is traceable to a table, a route or a line of source, not to a template.</p>
-  <p class="doc-meta">Effective 23 September 2026 &middot; Version 1.0 &middot; Governed by the Digital Personal Data Protection Act, 2023 (India)</p>
+  <p class="doc-meta">Effective 15 October 2026 &middot; Version 1.1 &middot; Governed by the Digital Personal Data Protection Act, 2023 (India)</p>
 </header>
 <section class="cl" id="s1">
 <h2><span class="num">1</span>Who we are</h2>
@@ -78,7 +78,8 @@
 <li><strong>The question you typed.</strong> This is your own text &mdash; if you type an address, a name or a private note into the question box, it is transmitted.</li>
 <li><strong>The land report for the parcel you selected</strong>, assembled from public datasets (soil surveys, climate records, cadastral and land-cover data, hazard maps).</li>
 </ul>
-<p>Your email address, account identifier, IP address and the contents of your account are <strong>not</strong> sent. We do not train models on your data, and we contractually prohibit our providers from doing so. Your questions are kept in your own browser&rsquo;s storage, not on our servers, unless you publish a chat (&sect;3.6).</p>
+<p>Your email address, account identifier, IP address and the contents of your account are <strong>not</strong> sent to the model. We do not train models on your data, and we contractually prohibit our providers from doing so. Your questions are kept in your own browser&rsquo;s storage, not on our servers, unless you publish a chat (&sect;3.6).</p>
+<p><strong>One hop in between, for metering.</strong> The question goes to our own server before it reaches the model, and on that internal hop we attach your account identifier &mdash; because every plan has an allowance of questions and we have to know whose to count against. That identifier is used to increment a counter and nothing else: it is not forwarded to DeepSeek, not stored beside the question, and the question itself is not retained on our servers. We note it because it is a hop your data takes, and a policy that described a direct journey would be describing something that no longer happens.</p>
 
 <h3><span class="num">3.5</span>If you are an invited tester</h3>
 <p>We store your invite code, the IP address it was first redeemed from, and an append-only log of each action taken on it &mdash; the action type, the IP, a short excerpt of the action (up to 300 characters, which may include the question you asked) and the time. The IP binding exists so a single code cannot be forwarded to a group and used by thirty people; it is a quota control, not an identity check.</p>
