@@ -40,7 +40,6 @@ citation on every line.
 
 ## Optional
 
-- [Docs](https://www.pestren.com/docs): API reference, field catalog, errors, MCP setup
 - [Pilot plan](https://www.pestren.com/pilot)
 - [Terms and conditions](https://www.pestren.com/terms): what Pestren is, what it explicitly is not, acceptable use, ownership of your data, liability, governing law
 - [Cookie policy](https://www.pestren.com/cookies): every cookie set, itemised; no advertising, analytics or tracking cookies anywhere
