@@ -45,14 +45,14 @@
       <select id="plan">
         <option value="starter">Starter</option>
         <option value="professional" selected>Professional</option>
-        <option value="enterprise">Enterprise</option>
+        <!-- Enterprise is coming soon: <option value="enterprise">Enterprise</option> -->
       </select>
     </label>
     <label>
       <span>Billing</span>
       <select id="period">
         <option value="month" selected>Monthly</option>
-        <option value="year">Annual</option>
+        <!-- ANNUAL OFF SALE — restore with the annual plans: <option value="year">Annual</option> -->
       </select>
     </label>
     <label id="seats-field" hidden>
@@ -265,7 +265,8 @@
     el("months-field").hidden = period !== "year";
 
     el("period").options[0].text = "Monthly — " + usd(terms.monthlyPriceUsd);
-    el("period").options[1].text = "Annual — " + usd(terms.annualPriceUsd);
+    /* ANNUAL OFF SALE: the Annual option is commented out above. */
+    if (el("period").options[1]) el("period").options[1].text = "Annual — " + usd(terms.annualPriceUsd);
     el("reports-label").textContent = "Reports generated (of " + terms.allowance.reports + ")";
     el("fields-label").textContent = "Fields analysed (of " + terms.allowance.fields + ")";
     el("hectares-label").textContent = "Hectares analysed (of " + terms.allowance.hectares + ")";
